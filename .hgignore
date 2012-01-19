@@ -1,0 +1,5 @@
+syntax: glob
+.venv
+*.pyc
+*.pyo
+
