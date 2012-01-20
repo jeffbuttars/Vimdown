@@ -48,9 +48,25 @@ allow backspacing over everything in insert mode
 
 
 if has("vms")
-set nobackup		" do not keep a backup file, use versions instead
+
+
+
+<div class="vimdown_vim">
+<div class="highlight"><pre><span class="c">  &quot;set nobackup		&quot; do not keep a backup file, use versions instead</span>
+</pre></div>
+</div>
+
+
 else
-set backup		" keep a backup file
+
+
+
+<div class="vimdown_vim">
+<div class="highlight"><pre><span class="c">  &quot;set backup		&quot; keep a backup file</span>
+</pre></div>
+</div>
+
+
 endif
 
 
@@ -63,27 +79,19 @@ endif
 </div>
 
 
-set ruler		" show the cursor position all the time
-Set up a custom status line. Like setting ruler, but we add the buffer number and filetype to the status
-set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %P
-set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %{&textwidth}\ %P
+set ruler		" show the cursor position all the time  
+Set up a custom status line. Like setting ruler, but we add the buffer number and filetype to the status  
+set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %P  
+set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %{&textwidth}\ %P  
 
 
 
 <div class="vimdown_vim">
 <div class="highlight"><pre><span class="k">set</span> <span class="nb">switchbuf</span><span class="p">=</span>useopen
-</pre></div>
-</div>
 
+<span class="k">set</span> <span class="nb">laststatus</span><span class="p">=</span><span class="m">2</span> <span class="c">&quot; last window will always have a status line</span>
 
-last window will always have a status line
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">laststatus</span><span class="p">=</span><span class="m">2</span>
-
-<span class="k">set</span> <span class="nb">showcmd</span>		<span class="c">&quot; display incomplete commands</span>
+<span class="k">set</span> <span class="nb">showcmd</span>	<span class="c">&quot; display incomplete commands</span>
 </pre></div>
 </div>
 
@@ -168,55 +176,27 @@ Only do this part when compiled with support for autocommands.
 
 <div class="vimdown_vim">
 <div class="highlight"><pre><span class="k">if</span> has<span class="p">(</span><span class="s2">&quot;autocmd&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
 
+<span class="c">  &quot; Enable file type detection.</span>
+<span class="c">  &quot; Use the default filetype settings, so that mail gets &#39;tw&#39; set to 72,</span>
+<span class="c">  &quot; &#39;cindent&#39; is on in C files, etc.</span>
+<span class="c">  &quot; Also load indent files, to automatically do language-dependent indenting.</span>
+  <span class="k">filetype</span> plugin indent <span class="k">on</span>
 
- Enable file type detection.
- Use the default filetype settings, so that mail gets 'tw' set to 72,
- 'cindent' is on in C files, etc.
- Also load indent files, to automatically do language-dependent indenting.
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>  <span class="k">filetype</span> plugin indent <span class="k">on</span>
-</pre></div>
-</div>
-
-
- Put these in an autocmd group, so that we can delete them easily.
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>  augroup vimrcEx
+<span class="c">  &quot; Put these in an autocmd group, so that we can delete them easily.</span>
+  augroup vimrcEx
   au<span class="p">!</span>
-</pre></div>
-</div>
 
+<span class="c">  &quot; For all text files set &#39;textwidth&#39; to 78 characters.</span>
+<span class="c">  &quot;autocmd FileType text,txt,mkd setlocal textwidth=78</span>
+  autocmd <span class="nb">FileType</span> text<span class="p">,</span>txt <span class="k">setlocal</span> <span class="nb">textwidth</span><span class="p">=</span><span class="m">78</span>
 
- For all text files set 'textwidth' to 78 characters.
-autocmd FileType text,txt,mkd setlocal textwidth=78
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>  autocmd <span class="nb">FileType</span> text<span class="p">,</span>txt <span class="k">setlocal</span> <span class="nb">textwidth</span><span class="p">=</span><span class="m">78</span>
-</pre></div>
-</div>
-
-
- When editing a file, always jump to the last known cursor position.
- Don't do it when the position is invalid or when inside an event handler
- (happens when dropping a file on gvim).
- Also don't do it when the mark is in the first line, that is the default
- position when opening a file.
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>  autocmd <span class="nb">BufReadPost</span> *
+<span class="c">  &quot; When editing a file, always jump to the last known cursor position.</span>
+<span class="c">  &quot; Don&#39;t do it when the position is invalid or when inside an event handler</span>
+<span class="c">  &quot; (happens when dropping a file on gvim).</span>
+<span class="c">  &quot; Also don&#39;t do it when the mark is in the first line, that is the default</span>
+<span class="c">  &quot; position when opening a file.</span>
+  autocmd <span class="nb">BufReadPost</span> *
     \ <span class="k">if</span> line<span class="p">(</span><span class="s2">&quot;&#39;\&quot;&quot;</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">1</span> &amp;&amp; line<span class="p">(</span><span class="s2">&quot;&#39;\&quot;&quot;</span><span class="p">)</span> <span class="p">&lt;=</span> line<span class="p">(</span><span class="s2">&quot;$&quot;</span><span class="p">)</span> <span class="p">|</span>
     \   exe <span class="c">&quot;normal! g`\&quot;&quot; |</span>
     \ <span class="k">endif</span>
@@ -236,8 +216,16 @@ Convenient command to see the difference between the current buffer and the
 file it was loaded from, thus the changes you made.
 Only define it when not defined already.
 if !exists(":DiffOrig")
-command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-\ | wincmd p | diffthis
+
+
+
+<div class="vimdown_vim">
+<div class="highlight"><pre><span class="c">  &quot;command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis</span>
+<span class="c">		  &quot;\ | wincmd p | diffthis</span>
+</pre></div>
+</div>
+
+
 endif
 
 
@@ -424,16 +412,8 @@ We're extra friendly for django
 autocmd <span class="nb">BufRead</span> *.djml <span class="k">set</span> <span class="nb">ft</span><span class="p">=</span>html.htmldjango 	<span class="c">&quot; For SnipMate</span>
 
 autocmd <span class="nb">FileType</span> mkd <span class="k">set</span> <span class="nb">ft</span><span class="p">=</span>mkd.html 	<span class="c">&quot; For SnipMate, I want to use HTML</span>
-</pre></div>
-</div>
-
-
- snippets with my markdown
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>autocmd <span class="nb">BufRead</span> *.<span class="k">go</span> <span class="k">set</span> <span class="nb">ft</span><span class="p">=</span><span class="k">go</span> 	<span class="c">&quot; For SnipMate</span>
+<span class="c">										&quot; snippets with my markdown</span>
+autocmd <span class="nb">BufRead</span> *.<span class="k">go</span> <span class="k">set</span> <span class="nb">ft</span><span class="p">=</span><span class="k">go</span> 	<span class="c">&quot; For SnipMate</span>
 </pre></div>
 </div>
 
@@ -815,32 +795,16 @@ colo jellybeans
 <div class="vimdown_vim">
 <div class="highlight"><pre>	
 	<span class="k">if</span> $TERM_META <span class="p">=~</span> <span class="s1">&#39;white&#39;</span>
-</pre></div>
-</div>
-
-
-colo github 
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>		<span class="k">let</span> g:lucius_style <span class="p">=</span> <span class="c">&quot;light&quot;</span>
+<span class="c">		&quot;colo github </span>
+		<span class="k">let</span> g:lucius_style <span class="p">=</span> <span class="c">&quot;light&quot;</span>
 		<span class="k">colo</span> lucius 
 	<span class="k">else</span>
-</pre></div>
-</div>
-
-
-colo molokai 
-colo wombat256 
-colo jellybeans 
-colo 256-grayvim
-colo mywombat256 
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>		<span class="k">let</span> g:lucius_style <span class="p">=</span> <span class="c">&quot;dark&quot;</span>
+<span class="c">		&quot;colo molokai </span>
+<span class="c">		&quot;colo wombat256 </span>
+<span class="c">		&quot;colo jellybeans </span>
+<span class="c">		&quot;colo 256-grayvim</span>
+<span class="c">		&quot;colo mywombat256 </span>
+		<span class="k">let</span> g:lucius_style <span class="p">=</span> <span class="c">&quot;dark&quot;</span>
 		<span class="k">colo</span> lucius 
 	<span class="k">endif</span>
 <span class="k">endif</span>
@@ -974,110 +938,38 @@ helper function to toggle hex mode
 
 <div class="vimdown_vim">
 <div class="highlight"><pre><span class="k">function</span><span class="p">!</span> ToggleHex<span class="p">()</span>
-</pre></div>
-</div>
-
-
- hex mode should be considered a read-only operation
- save values for modified and read-only for restoration later,
- and clear the read-only flag for now
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>  <span class="k">let</span> <span class="k">l</span>:<span class="nb">modified</span><span class="p">=</span>&amp;<span class="k">mod</span>
+<span class="c">  &quot; hex mode should be considered a read-only operation</span>
+<span class="c">  &quot; save values for modified and read-only for restoration later,</span>
+<span class="c">  &quot; and clear the read-only flag for now</span>
+  <span class="k">let</span> <span class="k">l</span>:<span class="nb">modified</span><span class="p">=</span>&amp;<span class="k">mod</span>
   <span class="k">let</span> <span class="k">l</span>:oldreadonly<span class="p">=</span>&amp;<span class="nb">readonly</span>
   <span class="k">let</span> &amp;<span class="nb">readonly</span><span class="p">=</span><span class="m">0</span>
   <span class="k">let</span> <span class="k">l</span>:oldmodifiable<span class="p">=</span>&amp;<span class="nb">modifiable</span>
   <span class="k">let</span> &amp;<span class="nb">modifiable</span><span class="p">=</span><span class="m">1</span>
   <span class="k">if</span> <span class="p">!</span>exists<span class="p">(</span><span class="s2">&quot;b:editHex&quot;</span><span class="p">)</span> <span class="p">||</span> <span class="p">!</span><span class="k">b</span>:editHex
-</pre></div>
-</div>
-
-
- save old options
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>    <span class="k">let</span> <span class="k">b</span>:oldft<span class="p">=</span>&amp;<span class="nb">ft</span>
+<span class="c">    &quot; save old options</span>
+    <span class="k">let</span> <span class="k">b</span>:oldft<span class="p">=</span>&amp;<span class="nb">ft</span>
     <span class="k">let</span> <span class="k">b</span>:oldbin<span class="p">=</span>&amp;<span class="nb">bin</span>
-</pre></div>
-</div>
-
-
- set new options
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>    <span class="k">setlocal</span> <span class="nb">binary</span> <span class="c">&quot; make sure it overrides any textwidth, etc.</span>
+<span class="c">    &quot; set new options</span>
+    <span class="k">setlocal</span> <span class="nb">binary</span> <span class="c">&quot; make sure it overrides any textwidth, etc.</span>
     <span class="k">let</span> &amp;<span class="nb">ft</span><span class="p">=</span><span class="s2">&quot;xxd&quot;</span>
-</pre></div>
-</div>
-
-
- set status
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>    <span class="k">let</span> <span class="k">b</span>:editHex<span class="p">=</span><span class="m">1</span>
-</pre></div>
-</div>
-
-
- switch to hex editor
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>    %<span class="p">!</span>xxd
+<span class="c">    &quot; set status</span>
+    <span class="k">let</span> <span class="k">b</span>:editHex<span class="p">=</span><span class="m">1</span>
+<span class="c">    &quot; switch to hex editor</span>
+    %<span class="p">!</span>xxd
   <span class="k">else</span>
-</pre></div>
-</div>
-
-
- restore old options
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>    <span class="k">let</span> &amp;<span class="nb">ft</span><span class="p">=</span><span class="k">b</span>:oldft
+<span class="c">    &quot; restore old options</span>
+    <span class="k">let</span> &amp;<span class="nb">ft</span><span class="p">=</span><span class="k">b</span>:oldft
     <span class="k">if</span> <span class="p">!</span><span class="k">b</span>:oldbin
       <span class="k">setlocal</span> <span class="nb">nobinary</span>
     <span class="k">endif</span>
-</pre></div>
-</div>
-
-
- set status
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>    <span class="k">let</span> <span class="k">b</span>:editHex<span class="p">=</span><span class="m">0</span>
-</pre></div>
-</div>
-
-
- return to normal editing
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>    %<span class="p">!</span>xxd <span class="p">-</span><span class="k">r</span>
+<span class="c">    &quot; set status</span>
+    <span class="k">let</span> <span class="k">b</span>:editHex<span class="p">=</span><span class="m">0</span>
+<span class="c">    &quot; return to normal editing</span>
+    %<span class="p">!</span>xxd <span class="p">-</span><span class="k">r</span>
   <span class="k">endif</span>
-</pre></div>
-</div>
-
-
- restore values for modified and read only state
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>  <span class="k">let</span> &amp;<span class="k">mod</span><span class="p">=</span><span class="k">l</span>:<span class="nb">modified</span>
+<span class="c">  &quot; restore values for modified and read only state</span>
+  <span class="k">let</span> &amp;<span class="k">mod</span><span class="p">=</span><span class="k">l</span>:<span class="nb">modified</span>
   <span class="k">let</span> &amp;<span class="nb">readonly</span><span class="p">=</span><span class="k">l</span>:oldreadonly
   <span class="k">let</span> &amp;<span class="nb">modifiable</span><span class="p">=</span><span class="k">l</span>:oldmodifiable
 <span class="k">endfunction</span>
