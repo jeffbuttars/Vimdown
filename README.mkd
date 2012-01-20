@@ -1,81 +1,20 @@
-<style>
-.hll { background-color: #ffffcc }
-.c { color: #808080 } /\* Comment \*/
-.err { color: #F00000; background-color: #F0A0A0 } /\* Error \*/
-.k { color: #008000; font-weight: bold } /\* Keyword \*/
-.o { color: #303030 } /\* Operator \*/
-.cm { color: #808080 } /\* Comment.Multiline \*/
-.cp { color: #507090 } /\* Comment.Preproc \*/
-.c1 { color: #808080 } /\* Comment.Single \*/
-.cs { color: #cc0000; font-weight: bold } /\* Comment.Special \*/
-.gd { color: #A00000 } /\* Generic.Deleted \*/
-.ge { font-style: italic } /\* Generic.Emph \*/
-.gr { color: #FF0000 } /\* Generic.Error \*/
-.gh { color: #000080; font-weight: bold } /\* Generic.Heading \*/
-.gi { color: #00A000 } /\* Generic.Inserted \*/
-.go { color: #808080 } /\* Generic.Output \*/
-.gp { color: #c65d09; font-weight: bold } /\* Generic.Prompt \*/
-.gs { font-weight: bold } /\* Generic.Strong \*/
-.gu { color: #800080; font-weight: bold } /\* Generic.Subheading \*/
-.gt { color: #0040D0 } /\* Generic.Traceback \*/
-.kc { color: #008000; font-weight: bold } /\* Keyword.Constant \*/
-.kd { color: #008000; font-weight: bold } /\* Keyword.Declaration \*/
-.kn { color: #008000; font-weight: bold } /\* Keyword.Namespace \*/
-.kp { color: #003080; font-weight: bold } /\* Keyword.Pseudo \*/
-.kr { color: #008000; font-weight: bold } /\* Keyword.Reserved \*/
-.kt { color: #303090; font-weight: bold } /\* Keyword.Type \*/
-.m { color: #6000E0; font-weight: bold } /\* Literal.Number \*/
-.s { background-color: #fff0f0 } /\* Literal.String \*/
-.na { color: #0000C0 } /\* Name.Attribute \*/
-.nb { color: #007020 } /\* Name.Builtin \*/
-.nc { color: #B00060; font-weight: bold } /\* Name.Class \*/
-.no { color: #003060; font-weight: bold } /\* Name.Constant \*/
-.nd { color: #505050; font-weight: bold } /\* Name.Decorator \*/
-.ni { color: #800000; font-weight: bold } /\* Name.Entity \*/
-.ne { color: #F00000; font-weight: bold } /\* Name.Exception \*/
-.nf { color: #0060B0; font-weight: bold } /\* Name.Function \*/
-.nl { color: #907000; font-weight: bold } /\* Name.Label \*/
-.nn { color: #0e84b5; font-weight: bold } /\* Name.Namespace \*/
-.nt { color: #007000 } /\* Name.Tag \*/
-.nv { color: #906030 } /\* Name.Variable \*/
-.ow { color: #000000; font-weight: bold } /\* Operator.Word \*/
-.w { color: #bbbbbb } /\* Text.Whitespace \*/
-.mf { color: #6000E0; font-weight: bold } /\* Literal.Number.Float \*/
-.mh { color: #005080; font-weight: bold } /\* Literal.Number.Hex \*/
-.mi { color: #0000D0; font-weight: bold } /\* Literal.Number.Integer \*/
-.mo { color: #4000E0; font-weight: bold } /\* Literal.Number.Oct \*/
-.sb { background-color: #fff0f0 } /\* Literal.String.Backtick \*/
-.sc { color: #0040D0 } /\* Literal.String.Char \*/
-.sd { color: #D04020 } /\* Literal.String.Doc \*/
-.s2 { background-color: #fff0f0 } /\* Literal.String.Double \*/
-.se { color: #606060; font-weight: bold; background-color: #fff0f0 } /\* Literal.String.Escape \*/
-.sh { background-color: #fff0f0 } /\* Literal.String.Heredoc \*/
-.si { background-color: #e0e0e0 } /\* Literal.String.Interpol \*/
-.sx { color: #D02000; background-color: #fff0f0 } /\* Literal.String.Other \*/
-.sr { color: #000000; background-color: #fff0ff } /\* Literal.String.Regex \*/
-.s1 { background-color: #fff0f0 } /\* Literal.String.Single \*/
-.ss { color: #A06000 } /\* Literal.String.Symbol \*/
-.bp { color: #007020 } /\* Name.Builtin.Pseudo \*/
-.vc { color: #306090 } /\* Name.Variable.Class \*/
-.vg { color: #d07000; font-weight: bold } /\* Name.Variable.Global \*/
-.vi { color: #3030B0 } /\* Name.Variable.Instance \*/
-.il { color: #0000D0; font-weight: bold } /\* Literal.Number.Integer.Long \*/
-div.vimdown_vim {display:block;border:1px solid #888;background-color:#E0E0E0;padding:.5em 1em .5em 1em;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
-</style>
-#[Viming With Buttar](http://code.google.com/p/vimingwithbuttar/)  
-### Maintainer: Jeff Buttars   
-<jeffbuttars@gmail.com>  
-Last change:	2010 Feb 08  
-  
-To use it, copy it to  
-    for Unix and OS/2:  ~/.vimrc  
-	      for Amiga:  s:.vimrc  
- for MS-DOS and Win32:  $VIM\_vimrc  
-	    for OpenVMS:  sys$login:.vimrc  
-### Original Maintainer:	Bram Moolenaar <Bram@vim.org>  
-Bram wrote/writes Vim, send money to his charity for Uganda.   
-Find more info at [Vim.org](http://www.vim.org)  
-When started as "evim", evim.vim will already have done these settings.  
+#[Viming With Buttar](http://code.google.com/p/vimingwithbuttar/)
+### Maintainer: Jeff Buttars 
+<jeffbuttars@gmail.com>
+Last change:	2010 Feb 08
+
+To use it, copy it to
+
+* On Unix and OS/2:  ~/.vimrc
+* On Amiga:  s:.vimrc
+* MS-DOS and Win32:  $VIM\_vimrc
+* On OpenVMS:  sys$login:.vimrc
+
+### Original Maintainer:	Bram Moolenaar <Bram@vim.org>
+
+Bram wrote/writes Vim, send money to his charity for Uganda. 
+Find more info at [Vim.org](http://www.vim.org)
+When started as "evim", evim.vim will already have done these settings.
 
 
 
@@ -87,8 +26,8 @@ When started as "evim", evim.vim will already have done these settings.
 </div>
 
 
-Use Vim settings, rather then Vi settings (much better!).  
-This must be first, because it changes other options as a side effect.  
+Use Vim settings, rather then Vi settings (much better!).
+This must be first, because it changes other options as a side effect.
 
 
 
@@ -98,7 +37,7 @@ This must be first, because it changes other options as a side effect.
 </div>
 
 
-allow backspacing over everything in insert mode  
+allow backspacing over everything in insert mode
 
 
 
@@ -108,11 +47,11 @@ allow backspacing over everything in insert mode
 </div>
 
 
-if has("vms")  
-set nobackup		" do not keep a backup file, use versions instead  
-else  
-set backup		" keep a backup file  
-endif  
+if has("vms")
+set nobackup		" do not keep a backup file, use versions instead
+else
+set backup		" keep a backup file
+endif
 
 
 
@@ -124,10 +63,10 @@ endif
 </div>
 
 
-set ruler		" show the cursor position all the time  
-Set up a custom status line. Like setting ruler, but we add the buffer number and filetype to the status  
-set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %P  
-set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %{&textwidth}\ %P  
+set ruler		" show the cursor position all the time
+Set up a custom status line. Like setting ruler, but we add the buffer number and filetype to the status
+set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %{&textwidth}\ %P
 
 
 
@@ -137,7 +76,7 @@ set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %{&textwidth}\ %P
 </div>
 
 
-last window will always have a status line  
+last window will always have a status line
 
 
 
@@ -149,9 +88,9 @@ last window will always have a status line
 </div>
 
 
-For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries  
-let &guioptions = substitute(&guioptions, "t", "", "g")  
-Don't use Ex mode, use Q for formatting  
+For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
+let &guioptions = substitute(&guioptions, "t", "", "g")
+Don't use Ex mode, use Q for formatting
 
 
 
@@ -166,8 +105,8 @@ Don't use Ex mode, use Q for formatting
 </div>
 
 
-CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,  
-so that you can undo CTRL-U after inserting a line break.  
+CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+so that you can undo CTRL-U after inserting a line break.
 
 
 
@@ -177,7 +116,7 @@ so that you can undo CTRL-U after inserting a line break.
 </div>
 
 
-In many terminal emulators the mouse works just fine, thus enable it.  
+In many terminal emulators the mouse works just fine, thus enable it.
 
 
 
@@ -189,8 +128,8 @@ In many terminal emulators the mouse works just fine, thus enable it.
 </div>
 
 
-Switch syntax highlighting on, when the terminal has colors  
-Also switch on highlighting the last used search pattern.  
+Switch syntax highlighting on, when the terminal has colors
+Also switch on highlighting the last used search pattern.
 
 
 
@@ -205,14 +144,14 @@ Also switch on highlighting the last used search pattern.
 </div>
 
 
-This line will make Vim set out tab characters, trailing whitespace and  
-invisible spaces visually, and additionally use the # sign at the end of lines  
-to mark lines that extend off-screen. For more info, see :h listchars  
-set list  
-set listchars=tab:\|.,trail:.,extends:#,nbsp:.  
-In some files, like HTML and XML files, tabs are fine and showing them is  
-really annoying, you can disable them easily using an autocmd declaration:  
-autocmd filetype html,xml set listchars-=tab:>.  
+This line will make Vim set out tab characters, trailing whitespace and
+invisible spaces visually, and additionally use the # sign at the end of lines
+to mark lines that extend off-screen. For more info, see :h listchars
+set list
+set listchars=tab:\|.,trail:.,extends:#,nbsp:.
+In some files, like HTML and XML files, tabs are fine and showing them is
+really annoying, you can disable them easily using an autocmd declaration:
+autocmd filetype html,xml set listchars-=tab:>.
 
 
 
@@ -223,7 +162,7 @@ autocmd filetype html,xml set listchars-=tab:>.
 </div>
 
 
-Only do this part when compiled with support for autocommands.  
+Only do this part when compiled with support for autocommands.
 
 
 
@@ -233,10 +172,10 @@ Only do this part when compiled with support for autocommands.
 </div>
 
 
- Enable file type detection.  
- Use the default filetype settings, so that mail gets 'tw' set to 72,  
- 'cindent' is on in C files, etc.  
- Also load indent files, to automatically do language-dependent indenting.  
+ Enable file type detection.
+ Use the default filetype settings, so that mail gets 'tw' set to 72,
+ 'cindent' is on in C files, etc.
+ Also load indent files, to automatically do language-dependent indenting.
 
 
 
@@ -246,7 +185,7 @@ Only do this part when compiled with support for autocommands.
 </div>
 
 
- Put these in an autocmd group, so that we can delete them easily.  
+ Put these in an autocmd group, so that we can delete them easily.
 
 
 
@@ -257,8 +196,8 @@ Only do this part when compiled with support for autocommands.
 </div>
 
 
- For all text files set 'textwidth' to 78 characters.  
-autocmd FileType text,txt,mkd setlocal textwidth=78  
+ For all text files set 'textwidth' to 78 characters.
+autocmd FileType text,txt,mkd setlocal textwidth=78
 
 
 
@@ -268,11 +207,11 @@ autocmd FileType text,txt,mkd setlocal textwidth=78
 </div>
 
 
- When editing a file, always jump to the last known cursor position.  
- Don't do it when the position is invalid or when inside an event handler  
- (happens when dropping a file on gvim).  
- Also don't do it when the mark is in the first line, that is the default  
- position when opening a file.  
+ When editing a file, always jump to the last known cursor position.
+ Don't do it when the position is invalid or when inside an event handler
+ (happens when dropping a file on gvim).
+ Also don't do it when the mark is in the first line, that is the default
+ position when opening a file.
 
 
 
@@ -293,13 +232,13 @@ autocmd FileType text,txt,mkd setlocal textwidth=78
 </div>
 
 
-Convenient command to see the difference between the current buffer and the  
-file it was loaded from, thus the changes you made.  
-Only define it when not defined already.  
-if !exists(":DiffOrig")  
-command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis  
-\ | wincmd p | diffthis  
-endif  
+Convenient command to see the difference between the current buffer and the
+file it was loaded from, thus the changes you made.
+Only define it when not defined already.
+if !exists(":DiffOrig")
+command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+\ | wincmd p | diffthis
+endif
 
 
 
@@ -309,8 +248,8 @@ endif
 </div>
 
 
-Allow us to save a file as root, if we have sudo privileges,  
-when we're not currently useing vim as root  
+Allow us to save a file as root, if we have sudo privileges,
+when we're not currently useing vim as root
 
 
 
@@ -322,8 +261,8 @@ when we're not currently useing vim as root
 
 __________
 
-  ##OmniCompletion settings  
-When c-y is used to select, enter normal mode.  
+##OmniCompletion settings
+When c-y is used to select, enter normal mode.
 
 
 
@@ -333,9 +272,9 @@ When c-y is used to select, enter normal mode.
 </div>
 
 
-Show the info preview window.  
-set completeopt=menuone,preview  
-set completeopt=menu,preview  
+Show the info preview window.
+set completeopt=menuone,preview
+set completeopt=menu,preview
 
 
 
@@ -345,10 +284,10 @@ set completeopt=menu,preview
 </div>
 
 
-(default: ".,w,b,u,t,i")  
-set complete=".,w,b,u,U,t,i,kspell,d,t"  
-set complete=".,w,b,u,t,i,kspell"  
-Map omnicomplete to Control-o  
+(default: ".,w,b,u,t,i")
+set complete=".,w,b,u,U,t,i,kspell,d,t"
+set complete=".,w,b,u,t,i,kspell"
+Map omnicomplete to Control-o
 
 
 
@@ -358,10 +297,10 @@ Map omnicomplete to Control-o
 </div>
 
 
-imap <C-space> <C-X><C-O>  
-Mapping for the a.vim plugin  
-quickly switch between source  
-and header files with <C-H>  
+imap <C-space> <C-X><C-O>
+Mapping for the a.vim plugin
+quickly switch between source
+and header files with <C-H>
 
 
 
@@ -372,23 +311,23 @@ nmap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt
 </div>
 
 
-When the completion window is open, shift will cycle  
-forward through the menu.  
-This does not work with snipmate, so I have a hack  
-in after/plugin/snipmate  
-function! CleverTab()  
-	if !pumvisible()   
-		return "\<Tab>"  
-	endif  
-  
-	return "\<C-N>"  
-endfunction  
-inoremap <Tab> <C-R>=CleverTab()<CR>  
-  
-Enter will do a simple accept of the selection  
-Moved this into delimitMate to get them  
-to work together  
-THIS INTERFERES WITH NICE MENU  
+When the completion window is open, shift will cycle
+forward through the menu.
+This does not work with snipmate, so I have a hack
+in after/plugin/snipmate
+function! CleverTab()
+	if !pumvisible() 
+		return "\<Tab>"
+	endif
+
+	return "\<C-N>"
+endfunction
+inoremap <Tab> <C-R>=CleverTab()<CR>
+
+Enter will do a simple accept of the selection
+Moved this into delimitMate to get them
+to work together
+THIS INTERFERES WITH NICE MENU
 
 
 
@@ -414,15 +353,15 @@ nmap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt
 </div>
 
 
-For example, to save a file, you type :w normally, which means:  
-   Press and hold Shift  
-   Press ;  
-   Release the Shift key  
-   Press w  
-   Press Return  
-This trick strips off steps 1 and 3 for each Vim command. It takes some times  
-for your muscle memory to get used to this new ;w command, but once you use  
-it, you don’t want to go back!  
+For example, to save a file, you type :w normally, which means:
+   Press and hold Shift
+   Press ;
+   Release the Shift key
+   Press w
+   Press Return
+This trick strips off steps 1 and 3 for each Vim command. It takes some times
+for your muscle memory to get used to this new ;w command, but once you use
+it, you don’t want to go back!
 
 
 
@@ -432,10 +371,10 @@ it, you don’t want to go back!
 </div>
 
 
-If you like long lines with line wrapping enabled, this solves the problem  
-that pressing down jumpes your cursor “over” the current line to the next  
-line. It changes behaviour so that it jumps to the next row in the editor  
-(much more natural):  
+If you like long lines with line wrapping enabled, this solves the problem
+that pressing down jumpes your cursor “over” the current line to the next
+line. It changes behaviour so that it jumps to the next row in the editor
+(much more natural):
 
 
 
@@ -446,8 +385,8 @@ nnoremap <span class="k">k</span> gk
 </div>
 
 
-Easier window navigation when you split up your buffers.  
-Use J instead of CTRL-W j, etc.  
+Easier window navigation when you split up your buffers.
+Use J instead of CTRL-W j, etc.
 
 
 
@@ -460,13 +399,13 @@ nnoremap <span class="p">&lt;</span>C<span class="p">-</span><span class="k">l</
 </div>
 
 
-Auto close the preview window  
-autocmd CursorHold * if pumvisible() == 0|pclose|endif  
-autocmd CursorMovedI * if pumvisible() == 0|pclose|endif  
-"" Snipmate   
-Don't trigger snipmate when using completion  
-This option currently requires the buttars hacked version  
-of snipMate :( available from vimingwithbuttar at google code.  
+Auto close the preview window
+autocmd CursorHold * if pumvisible() == 0|pclose|endif
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+"" Snipmate 
+Don't trigger snipmate when using completion
+This option currently requires the buttars hacked version
+of snipMate :( available from vimingwithbuttar at google code.
 
 
 
@@ -476,7 +415,7 @@ of snipMate :( available from vimingwithbuttar at google code.
 </div>
 
 
-We're extra friendly for django   
+We're extra friendly for django 
 
 
 
@@ -489,7 +428,7 @@ autocmd <span class="nb">FileType</span> mkd <span class="k">set</span> <span cl
 </div>
 
 
- snippets with my markdown  
+ snippets with my markdown
 
 
 
@@ -499,14 +438,14 @@ autocmd <span class="nb">FileType</span> mkd <span class="k">set</span> <span cl
 </div>
 
 
-Setup pysmell  
-source ~/.vim/plugin/pysmell.vim  
-let g:pysmell_debug = 1  
-autocmd FileType python set omnifunc=pysmell#Complete  
+Setup pysmell
+source ~/.vim/plugin/pysmell.vim
+let g:pysmell_debug = 1
+autocmd FileType python set omnifunc=pysmell#Complete
 __________
 
-  ###From an idea by Michael Naumann  
-You press * or # to search for the current visual selection !! Really useful  
+###From an idea by Michael Naumann
+You press * or # to search for the current visual selection !! Really useful
 
 
 
@@ -530,14 +469,14 @@ vnoremap <span class="p">&lt;</span><span class="k">silent</span><span class="p"
 </div>
 
 
-End From an idea by Michael Naumann  
+End From an idea by Michael Naumann
 __________
 
-  More normal Vim tweaks.  
-vertical: make a diff split vertical by default  
-iwhite: ignore whitespace  
-context: show 10 lines of context  
-set diffopt=filler,vertical,iwhite,context:10  
+More normal Vim tweaks.
+vertical: make a diff split vertical by default
+iwhite: ignore whitespace
+context: show 10 lines of context
+set diffopt=filler,vertical,iwhite,context:10
 
 
 
@@ -548,7 +487,7 @@ set diffopt=filler,vertical,iwhite,context:10
 </div>
 
 
-Use real tabs, 4 spaces  
+Use real tabs, 4 spaces
 
 
 
@@ -561,7 +500,7 @@ Use real tabs, 4 spaces
 </div>
 
 
-Show matching braces  
+Show matching braces
 
 
 
@@ -571,7 +510,7 @@ Show matching braces
 </div>
 
 
-Quick blink when a match is made  
+Quick blink when a match is made
 
 
 
@@ -581,11 +520,11 @@ Quick blink when a match is made
 </div>
 
 
-Keep our swap and backup files out of the way   
-and in a central palce.  
-set directory=~/.vim/swapback  
-set backupdir=~/.vim/swapback  
-Screw the swap file  
+Keep our swap and backup files out of the way 
+and in a central palce.
+set directory=~/.vim/swapback
+set backupdir=~/.vim/swapback
+Screw the swap file
 
 
 
@@ -595,13 +534,13 @@ Screw the swap file
 </div>
 
 
-C opts  
-Kernel style  
-set cinoptions=:0,(0,u0,W1s  
-I use  the default, you should  
-check out the help for cinoptions and  
-tune it to  match your prefered style.  
-:h cinoptions  
+C opts
+Kernel style
+set cinoptions=:0,(0,u0,W1s
+I use  the default, you should
+check out the help for cinoptions and
+tune it to  match your prefered style.
+:h cinoptions
 
 
 
@@ -611,7 +550,7 @@ tune it to  match your prefered style.
 </div>
 
 
-Keep this many lines above/below the cursor while scrolling.  
+Keep this many lines above/below the cursor while scrolling.
 
 
 
@@ -621,8 +560,8 @@ Keep this many lines above/below the cursor while scrolling.
 </div>
 
 
-The title of the window to titlestring  
-see :h title for better info.  
+The title of the window to titlestring
+see :h title for better info.
 
 
 
@@ -632,8 +571,8 @@ see :h title for better info.
 </div>
 
 
-set foldmethod=indent  
-set foldmethod=syntax  
+set foldmethod=indent
+set foldmethod=syntax
 
 
 
@@ -643,12 +582,12 @@ set foldmethod=syntax
 </div>
 
 
-Easy cycle through tabs using Ctrl-PgUp/PgDown   
-similar to FireFox  
-This won't work in all terminal programs. some use  
-this same key sequence to cycley through tabs, so you  
-may need to disable this key shortcut in your terminal  
-program for this mapping to work as advertised.  
+Easy cycle through tabs using Ctrl-PgUp/PgDown 
+similar to FireFox
+This won't work in all terminal programs. some use
+this same key sequence to cycley through tabs, so you
+may need to disable this key shortcut in your terminal
+program for this mapping to work as advertised.
 
 
 
@@ -661,16 +600,16 @@ imap <span class="p">&lt;</span>C<span class="p">-</span>PageUp<span class="p">&
 </div>
 
 
-nmap <C-PageDown> :bn<CR>  
-nmap <C-PageUp> :bp<CR>  
-imap <C-PageDown> <esc>:bn<CR>  
-imap <C-PageUp> <esc>:bp<CR>  
-[concisionandconcinnity.blogspot.com](http://concisionandconcinnity.blogspot.com/2009/07/vim-part-ii-matching-pairs.html)  
-The above URL also has good stuff for autoclosing matching pairs, like ().   
-One of the nicer minor features of TextMate is its treatment of highlighted text.   
-If you have something highlighted and type a, it replaces the text, like other editors.   
-If you type (, however, it wraps the selected text in parentheses.   
-This is enormously useful. Luckily, it's very easy to recreate in Vim:  
+nmap <C-PageDown> :bn<CR>
+nmap <C-PageUp> :bp<CR>
+imap <C-PageDown> <esc>:bn<CR>
+imap <C-PageUp> <esc>:bp<CR>
+[concisionandconcinnity.blogspot.com](http://concisionandconcinnity.blogspot.com/2009/07/vim-part-ii-matching-pairs.html)
+The above URL also has good stuff for autoclosing matching pairs, like (). 
+One of the nicer minor features of TextMate is its treatment of highlighted text. 
+If you have something highlighted and type a, it replaces the text, like other editors. 
+If you type (, however, it wraps the selected text in parentheses. 
+This is enormously useful. Luckily, it's very easy to recreate in Vim:
 
 
 
@@ -683,10 +622,10 @@ vnoremap }}  <span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span cla
 </div>
 
 
-If allow " here, it messes up register selection  
-So we use "" instead, and it works.  
-Move this into doubleTap?  
-vnoremap "  <ESC>`>a"<ESC>`<i"<ESC>  
+If allow " here, it messes up register selection
+So we use "" instead, and it works.
+Move this into doubleTap?
+vnoremap "  <ESC>`>a"<ESC>`<i"<ESC>
 
 
 
@@ -700,7 +639,7 @@ vnoremap ]]  <span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span cla
 </div>
 
 
-When vimrc is edited, automatically reload it!  
+When vimrc is edited, automatically reload it!
 
 
 
@@ -710,13 +649,13 @@ When vimrc is edited, automatically reload it!
 </div>
 
 
-Big nasty viminfo setup. If you you have a smaller/slower system use the  
-commented viminfo below, it's tuned down.  
-track up to 20,000 files.  
-store global marks.  
-no more than 500 lines per register are saved  
-1000 lines of history  
-save the buffer list  
+Big nasty viminfo setup. If you you have a smaller/slower system use the
+commented viminfo below, it's tuned down.
+track up to 20,000 files.
+store global marks.
+no more than 500 lines per register are saved
+1000 lines of history
+save the buffer list
 
 
 
@@ -726,9 +665,9 @@ save the buffer list
 </div>
 
 
-set viminfo='1000,f1,<500,:100,@100,/100,%  
-HTML output options  
-Use more modern css  
+set viminfo='1000,f1,<500,:100,@100,/100,%
+HTML output options
+Use more modern css
 
 
 
@@ -738,7 +677,7 @@ Use more modern css
 </div>
 
 
-wrap long lines  
+wrap long lines
 
 
 
@@ -749,8 +688,8 @@ wrap long lines
 </div>
 
 
-Some wordwrapp foo from  
-[kmandla](http://kmandla.wordpress.com/2009/07/27/proper-word-wrapping-in-vim/)  
+Some wordwrapp foo from
+[kmandla](http://kmandla.wordpress.com/2009/07/27/proper-word-wrapping-in-vim/)
 
 
 
@@ -767,7 +706,7 @@ Some wordwrapp foo from
 </div>
 
 
-set key timeout, good for remaps  
+set key timeout, good for remaps
 
 
 
@@ -777,14 +716,14 @@ set key timeout, good for remaps
 </div>
 
 
-I hate it when the cursorline is an underline  
-This is how I make the cursorline a hightlight  
-set cursorline  
-hi clear CursorLine   
-CursorLine really slows down php files  
-There is something wrong with the PHP syntax  
-plugin, as a work around we disable cursorline  
-for PHP files. :(  
+I hate it when the cursorline is an underline
+This is how I make the cursorline a hightlight
+set cursorline
+hi clear CursorLine 
+CursorLine really slows down php files
+There is something wrong with the PHP syntax
+plugin, as a work around we disable cursorline
+for PHP files. :(
 
 
 
@@ -794,25 +733,25 @@ for PHP files. :(
 </div>
 
 
-color schemes I have liked.  
-colo elflord " a low color dark theme. Great for the real console.  
-colo evening " dark theme, low color console friendly  
-colo xoria256 " a nice dark theme for 256 color terms  
-colo wombat256 " the classic wombat theme for 256 color terms  
-colo pyte " A white theme  
-colo mySlate   
-colo peaksea " A light theme  
-colo molokai " A dark pastelly theme, a little bisexual but very pleasing.  
-colo neutron " A very nice creamy light theme.  
-Explicitly say we want 256 colors when we find 256  
-in the TERM environmental variable.  
-When this is set it can mess up using vim on a real console.  
- Definitely in Fedora >= 11. So we try to be smart about  
-it and only set it if we think it's wanted.  
-  
-We default to a theme that works everywere.  
-Then we see if we can upgrade to a better theme  
-based on the environment.  
+color schemes I have liked.
+colo elflord " a low color dark theme. Great for the real console.
+colo evening " dark theme, low color console friendly
+colo xoria256 " a nice dark theme for 256 color terms
+colo wombat256 " the classic wombat theme for 256 color terms
+colo pyte " A white theme
+colo mySlate 
+colo peaksea " A light theme
+colo molokai " A dark pastelly theme, a little bisexual but very pleasing.
+colo neutron " A very nice creamy light theme.
+Explicitly say we want 256 colors when we find 256
+in the TERM environmental variable.
+When this is set it can mess up using vim on a real console.
+ Definitely in Fedora >= 11. So we try to be smart about
+it and only set it if we think it's wanted.
+
+We default to a theme that works everywere.
+Then we see if we can upgrade to a better theme
+based on the environment.
 
 
 
@@ -822,7 +761,7 @@ based on the environment.
 </div>
 
 
-evening is a nice dark theme, usually available by a default install.  
+evening is a nice dark theme, usually available by a default install.
 
 
 
@@ -832,7 +771,7 @@ evening is a nice dark theme, usually available by a default install.
 </div>
 
 
- I like a white based them in GVim  
+ I like a white based them in GVim
 
 
 
@@ -843,8 +782,8 @@ evening is a nice dark theme, usually available by a default install.
 </div>
 
 
-colo vylight   
-colo wombat256   
+colo vylight 
+colo wombat256 
 
 
 
@@ -856,8 +795,8 @@ colo wombat256
 </div>
 
 
- Use a console friendly theme and turn off cursorline  
- I  prefer a dark theme at the console..  
+ Use a console friendly theme and turn off cursorline
+ I  prefer a dark theme at the console..
 
 
 
@@ -869,7 +808,7 @@ colo wombat256
 </div>
 
 
-colo jellybeans   
+colo jellybeans 
 
 
 
@@ -880,7 +819,7 @@ colo jellybeans
 </div>
 
 
-colo github   
+colo github 
 
 
 
@@ -892,11 +831,11 @@ colo github
 </div>
 
 
-colo molokai   
-colo wombat256   
-colo jellybeans   
-colo 256-grayvim  
-colo mywombat256   
+colo molokai 
+colo wombat256 
+colo jellybeans 
+colo 256-grayvim
+colo mywombat256 
 
 
 
@@ -909,7 +848,7 @@ colo mywombat256
 </div>
 
 
-set linenumbers on by default  
+set linenumbers on by default
 
 
 
@@ -919,10 +858,10 @@ set linenumbers on by default
 </div>
 
 
-drupal rules  
-If you edit a lot of php-drupal you should  
-use these next few lines. If not, comment them  
-out and I doubt you'll miss them.  
+drupal rules
+If you edit a lot of php-drupal you should
+use these next few lines. If not, comment them
+out and I doubt you'll miss them.
 
 
 
@@ -934,9 +873,9 @@ augroup END
 </div>
 
 
-autowrite: "on" saves a lot of trouble  
-set autowrite  
-be aggressive/paranoid and save often automatically.  
+autowrite: "on" saves a lot of trouble
+set autowrite
+be aggressive/paranoid and save often automatically.
 
 
 
@@ -947,8 +886,8 @@ be aggressive/paranoid and save often automatically.
 </div>
 
 
-interactive spell check  
-works only in non-gui mode for now  
+interactive spell check
+works only in non-gui mode for now
 
 
 
@@ -958,11 +897,11 @@ works only in non-gui mode for now
 </div>
 
 
-Use the next line to selectively enable spell  
-checking for certain filetypes.  
-I usually don't want spell checking when   
-writting code, so only enable for thing with  
-a lot of real words like text and markdown files.  
+Use the next line to selectively enable spell
+checking for certain filetypes.
+I usually don't want spell checking when 
+writting code, so only enable for thing with
+a lot of real words like text and markdown files.
 
 
 
@@ -973,8 +912,8 @@ au <span class="nb">FileType</span> text<span class="p">,</span>markdown<span cl
 </div>
 
 
-set spell spelllang=en_us  
-Make right mouse button work in gvim  
+set spell spelllang=en_us
+Make right mouse button work in gvim
 
 
 
@@ -984,7 +923,7 @@ Make right mouse button work in gvim
 </div>
 
 
-Allow toggling of paste/nopaste via F2  
+Allow toggling of paste/nopaste via F2
 
 
 
@@ -994,7 +933,7 @@ Allow toggling of paste/nopaste via F2
 </div>
 
 
-Don't acutally close buffers, just hide them.  
+Don't acutally close buffers, just hide them.
 
 
 
@@ -1004,11 +943,11 @@ Don't acutally close buffers, just hide them.
 </div>
 
 
-dictionary: english words first  
-add any text based dictionaries to the list.  
-Also, you can use C-X,C-K to autocomplete a word  
-using the dictionary. Or, use C-X,C-S to check spelling  
-on a word, fun stuff.  
+dictionary: english words first
+add any text based dictionaries to the list.
+Also, you can use C-X,C-K to autocomplete a word
+using the dictionary. Or, use C-X,C-S to check spelling
+on a word, fun stuff.
 
 
 
@@ -1018,8 +957,8 @@ on a word, fun stuff.
 </div>
 
 
-[Improved_Hex_editing](http://vim.wikia.com/wiki/Improved_Hex_editing)  
-ex command for toggling hex mode - define mapping if desired  
+[Improved_Hex_editing](http://vim.wikia.com/wiki/Improved_Hex_editing)
+ex command for toggling hex mode - define mapping if desired
 
 
 
@@ -1029,7 +968,7 @@ ex command for toggling hex mode - define mapping if desired
 </div>
 
 
-helper function to toggle hex mode  
+helper function to toggle hex mode
 
 
 
@@ -1039,9 +978,9 @@ helper function to toggle hex mode
 </div>
 
 
- hex mode should be considered a read-only operation  
- save values for modified and read-only for restoration later,  
- and clear the read-only flag for now  
+ hex mode should be considered a read-only operation
+ save values for modified and read-only for restoration later,
+ and clear the read-only flag for now
 
 
 
@@ -1056,7 +995,7 @@ helper function to toggle hex mode
 </div>
 
 
- save old options  
+ save old options
 
 
 
@@ -1067,7 +1006,7 @@ helper function to toggle hex mode
 </div>
 
 
- set new options  
+ set new options
 
 
 
@@ -1078,7 +1017,7 @@ helper function to toggle hex mode
 </div>
 
 
- set status  
+ set status
 
 
 
@@ -1088,7 +1027,7 @@ helper function to toggle hex mode
 </div>
 
 
- switch to hex editor  
+ switch to hex editor
 
 
 
@@ -1099,7 +1038,7 @@ helper function to toggle hex mode
 </div>
 
 
- restore old options  
+ restore old options
 
 
 
@@ -1112,7 +1051,7 @@ helper function to toggle hex mode
 </div>
 
 
- set status  
+ set status
 
 
 
@@ -1122,7 +1061,7 @@ helper function to toggle hex mode
 </div>
 
 
- return to normal editing  
+ return to normal editing
 
 
 
@@ -1133,7 +1072,7 @@ helper function to toggle hex mode
 </div>
 
 
- restore values for modified and read only state  
+ restore values for modified and read only state
 
 
 
@@ -1146,7 +1085,7 @@ helper function to toggle hex mode
 </div>
 
 
-A more verbose pastetoggle  
+A more verbose pastetoggle
 
 
 
@@ -1164,8 +1103,8 @@ A more verbose pastetoggle
 </div>
 
 
-Allow toggling of paste/nopaste via F2  
-set pastetoggle=<F2>  
+Allow toggling of paste/nopaste via F2
+set pastetoggle=<F2>
 
 
 
@@ -1176,14 +1115,14 @@ imap <span class="p">&lt;</span>F2<span class="p">&gt;</span> <span class="p">&l
 </div>
 
 
-[plasticboy](http://plasticboy.com/markdown-vim-mode/)  
-Markdown format options, which I don't use   
-but I'll include them here for your experimentation  
-augroup mkd  
-autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:>  
-augroup END  
-I like to put system library tags in a different tag file that  
-is only generated once in a while.  
+[plasticboy](http://plasticboy.com/markdown-vim-mode/)
+Markdown format options, which I don't use 
+but I'll include them here for your experimentation
+augroup mkd
+autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:>
+augroup END
+I like to put system library tags in a different tag file that
+is only generated once in a while.
 
 
 
@@ -1196,9 +1135,9 @@ au <span class="nb">FileType</span> cpp <span class="k">set</span> <span class="
 </div>
 
 
-Remove menu bar from gvim  
-set guioptions-=m  
-Remove toolbar from gvim  
+Remove menu bar from gvim
+set guioptions-=m
+Remove toolbar from gvim
 
 
 
@@ -1208,9 +1147,9 @@ Remove toolbar from gvim
 </div>
 
 
-Set gvim font. I like the Inconsolata font these days.  
-You'll need to install, do it, it's very much worth it.  
-A great font, and it's 100% free.  
+Set gvim font. I like the Inconsolata font these days.
+You'll need to install, do it, it's very much worth it.
+A great font, and it's 100% free.
 
 
 
@@ -1220,10 +1159,10 @@ A great font, and it's 100% free.
 </div>
 
 
-set guifont=Anonymous\ Pro\ 12  
-I don't want variables and options saved in my views  
-so remove the 'options' option from the default viewoptions setting.  
-set viewoptions-=options  
+set guifont=Anonymous\ Pro\ 12
+I don't want variables and options saved in my views
+so remove the 'options' option from the default viewoptions setting.
+set viewoptions-=options
 
 
 
@@ -1234,13 +1173,13 @@ set viewoptions-=options
 </div>
 
 
-End More normal Vim tweaks.  
+End More normal Vim tweaks.
 __________
 
-  __________
+__________
 
-  Plugins and external addons  
-LustyExplorer  
+Plugins and external addons
+LustyExplorer
 
 
 
@@ -1251,15 +1190,15 @@ imap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt
 </div>
 
 
-"" comments.vim  
-A more elaborate comment set up. Use Ctr-C to comment and Ctr-x to uncomment  
-This will detect file types and use oneline comments accordingle. Cool  
-because you visually select regions and comment/uncomment the whole region.  
-works with marked regions to.  
-Just put it in your plugin directory.  
-"" TagList """"""""  
-Set taglist plugin options  
-Display function name in status bar:  
+"" comments.vim
+A more elaborate comment set up. Use Ctr-C to comment and Ctr-x to uncomment
+This will detect file types and use oneline comments accordingle. Cool
+because you visually select regions and comment/uncomment the whole region.
+works with marked regions to.
+Just put it in your plugin directory.
+"" TagList """"""""
+Set taglist plugin options
+Display function name in status bar:
 
 
 
@@ -1269,7 +1208,7 @@ Display function name in status bar:
 </div>
 
 
-Automatically start script  
+Automatically start script
 
 
 
@@ -1279,7 +1218,7 @@ Automatically start script
 </div>
 
 
-Displays taglist results in a vertical window:  
+Displays taglist results in a vertical window:
 
 
 
@@ -1289,8 +1228,8 @@ Displays taglist results in a vertical window:
 </div>
 
 
-Shorter commands to toggle Taglist display  
-nnoremap TT :TlistToggle<CR>  
+Shorter commands to toggle Taglist display
+nnoremap TT :TlistToggle<CR>
 
 
 
@@ -1308,9 +1247,9 @@ map <span class="p">&lt;</span>F4<span class="p">&gt;</span> :TlistToggle<span c
 </div>
 
 
-Tlist_WinWidth~  
-The default width of the vertically split taglist window is 30. This can be  
-changed by modifying the 'Tlist_WinWidth' variable:  
+Tlist_WinWidth~
+The default width of the vertically split taglist window is 30. This can be
+changed by modifying the 'Tlist_WinWidth' variable:
 
 
 
@@ -1320,7 +1259,7 @@ changed by modifying the 'Tlist_WinWidth' variable:
 </div>
 
 
-Close Tlist when jumping to tag  
+Close Tlist when jumping to tag
 
 
 
@@ -1330,11 +1269,11 @@ Close Tlist when jumping to tag
 </div>
 
 
-Tlist_Display_Prototype~  
-By default, only the tag name will be displayed in the taglist window. If you  
-like to see tag prototypes instead of names, set the 'Tlist_Display_Prototype'  
-variable to 1. By default, this variable is set to zero and only tag names  
-will be displayed.  
+Tlist_Display_Prototype~
+By default, only the tag name will be displayed in the taglist window. If you
+like to see tag prototypes instead of names, set the 'Tlist_Display_Prototype'
+variable to 1. By default, this variable is set to zero and only tag names
+will be displayed.
 
 
 
@@ -1344,9 +1283,9 @@ will be displayed.
 </div>
 
 
-"" End TagList  
-"" netrw  
-Tree Style listing  
+"" End TagList
+"" netrw
+Tree Style listing
 
 
 
@@ -1356,9 +1295,9 @@ Tree Style listing
 </div>
 
 
-Lusty Explorer  
-nmap <C-d> <ESC>:LustyFilesystemExplorerFromHere<CR>  
-imap <C-d> <ESC>:LustyFilesystemExplorerFromHere<CR>  
+Lusty Explorer
+nmap <C-d> <ESC>:LustyFilesystemExplorerFromHere<CR>
+imap <C-d> <ESC>:LustyFilesystemExplorerFromHere<CR>
 
 
 
@@ -1369,9 +1308,9 @@ imap <span class="p">&lt;</span>C<span class="p">-</span><span class="k">d</span
 </div>
 
 
-"" JSLint.vim plugin -- indespensable!  
-Turn off error highlighting. I like having just the  
-quickfix window.  
+"" JSLint.vim plugin -- indespensable!
+Turn off error highlighting. I like having just the
+quickfix window.
 
 
 
@@ -1384,8 +1323,8 @@ au <span class="nb">FileType</span> javascript imap <span class="p">&lt;</span>F
 </div>
 
 
-run the current buffer as a python script   
-or run it through PyFlakes command.  
+run the current buffer as a python script 
+or run it through PyFlakes command.
 
 
 
@@ -1400,12 +1339,12 @@ au <span class="nb">FileType</span> python imap <span class="p">&lt;</span>F5<sp
 </div>
 
 
-php synax check via 'php -l'  
-uses my plugin/phplint.vim  
-au FileType php nmap <F5> <ESC>:w<CR>:PHPLint<CR>  
-au FileType php imap <F5> <ESC>:w<CR>:PHPLint<CR>  
-use tidy  
-I don't use this much, so may be buggy  
+php synax check via 'php -l'
+uses my plugin/phplint.vim
+au FileType php nmap <F5> <ESC>:w<CR>:PHPLint<CR>
+au FileType php imap <F5> <ESC>:w<CR>:PHPLint<CR>
+use tidy
+I don't use this much, so may be buggy
 
 
 
@@ -1416,9 +1355,9 @@ au <span class="nb">FileType</span> html imap <span class="p">&lt;</span>F5<span
 </div>
 
 
-My own custom plugin/bashrun.vim  
-Very simple, BashRun runs the buffer as a bash  
-script and outputs errors into a quick fix windowl  
+My own custom plugin/bashrun.vim
+Very simple, BashRun runs the buffer as a bash
+script and outputs errors into a quick fix windowl
 
 
 
@@ -1431,7 +1370,7 @@ au <span class="nb">FileType</span> <span class="k">sh</span><span class="p">,</
 </div>
 
 
-au FileType sh,bash setlocal errorformat=%f\ line\ %l:\ %m  
+au FileType sh,bash setlocal errorformat=%f\ line\ %l:\ %m
 
 
 
@@ -1441,8 +1380,8 @@ au FileType sh,bash setlocal errorformat=%f\ line\ %l:\ %m
 </div>
 
 
-json_reformat is at:  
-URL: [lloyd.github.com](http://lloyd.github.com/yajl/)  
+json_reformat is at:
+URL: [lloyd.github.com](http://lloyd.github.com/yajl/)
 
 
 
@@ -1453,13 +1392,13 @@ autocmd <span class="nb">FileType</span> xml  <span class="k">set</span> <span c
 </div>
 
 
-Enable autotag.vim  
-source ~/.vim/plugin/autotag.vim  
-load the tag closer  
-au FileType html,xhtml let b:closetag_html_style=1  
-au FileType html,xml,xhtml,xsl,htmlcheetah source ~/.vim/scripts/closetag.vim  
-doubleTap  
-let g:loaded_doubleTap = 1  
+Enable autotag.vim
+source ~/.vim/plugin/autotag.vim
+load the tag closer
+au FileType html,xhtml let b:closetag_html_style=1
+au FileType html,xml,xhtml,xsl,htmlcheetah source ~/.vim/scripts/closetag.vim
+doubleTap
+let g:loaded_doubleTap = 1
 
 
 
@@ -1469,7 +1408,7 @@ let g:loaded_doubleTap = 1
 </div>
 
 
-Set NiceMenu Delay  
+Set NiceMenu Delay
 
 
 
@@ -1481,14 +1420,14 @@ Set NiceMenu Delay
 </div>
 
 
-Syntax checking entire file  
-Usage: :make (check file)  
-:clist (view list of errors)  
-:cn, :cp (move around list of errors)  
-autocmd BufRead *.py set makeprg=python\ -c\ \"import\ py_compile,sys;\  
-sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"  
-autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\  
-%l%.%#,%Z%[%^\ ]%\\@=%m  
+Syntax checking entire file
+Usage: :make (check file)
+:clist (view list of errors)
+:cn, :cp (move around list of errors)
+autocmd BufRead *.py set makeprg=python\ -c\ \"import\ py_compile,sys;\
+sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
+autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\
+%l%.%#,%Z%[%^\ ]%\\@=%m
 
 
 
@@ -1498,7 +1437,7 @@ autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\
 </div>
 
 
-BellyButton settings  
+BellyButton settings
 
 
 
@@ -1509,9 +1448,9 @@ BellyButton settings
 </div>
 
 
-Sparkup options  
-I don't like default mapping, I actually use  
-the <c-e> default for navigation  
+Sparkup options
+I don't like default mapping, I actually use
+the <c-e> default for navigation
 
 
 
@@ -1524,31 +1463,31 @@ the <c-e> default for navigation
 </div>
 
 
-End Plugins and external addons  
+End Plugins and external addons
 __________
 
-  Misc People and places that I've gotten stuff from  
-[http://dancingpenguinsoflight".com"/2009/02/code-navigation-completion-snippets-in-vim/](http://dancingpenguinsoflight".com"/2009/02/code-navigation-completion-snippets-in-vim/)  
-[http://www.thegeekstuff.com/2009/01/vi-and-vim-editor-5-awesome-examples-for-automatic-word-completion-using-ctrl-x-magic/](http://www.thegeekstuff.com/2009/01/vi-and-vim-editor-5-awesome-examples-for-automatic-word-completion-using-ctrl-x-magic/)  
-IBM Vim series, quite good.  
-Scripting the Vim editor, Part 1: Variables, values, and expressions  
-[http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html)  
-Scripting the Vim editor, Part 2: User-defined functions  
-[http://www.ibm.com/developerworks/linux/library/l-vim-script-2/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-2/index.html)  
-Scripting the Vim editor, Part 3: Built-in lists  
-[http://www.ibm.com/developerworks/linux/library/l-vim-script-3/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-3/index.html)  
-Scripting the Vim editor, Part 4: Dictionaries  
-[http://www.ibm.com/developerworks/linux/library/l-vim-script-4/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-4/index.html)  
-Scripting the Vim editor, Part 5: Event-driven scripting and automation  
-[http://www.ibm.com/developerworks/linux/library/l-vim-script-5/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-5/index.html)  
-Some good python settings suggestions:  
-[http://www.cmdln.org/2008/10/18/vim-customization-for-python/](http://www.cmdln.org/2008/10/18/vim-customization-for-python/)  
-  
-Good information on line wrapping:  
-[http://blog.ezyang.com/2010/03/vim-textwidth/](http://blog.ezyang.com/2010/03/vim-textwidth/)  
-au FileType php set nocursorline   
-au WinEnter * setlocal number  
-au WinLeave * setlocal nonumber  
+Misc People and places that I've gotten stuff from
+[http://dancingpenguinsoflight".com"/2009/02/code-navigation-completion-snippets-in-vim/](http://dancingpenguinsoflight".com"/2009/02/code-navigation-completion-snippets-in-vim/)
+[http://www.thegeekstuff.com/2009/01/vi-and-vim-editor-5-awesome-examples-for-automatic-word-completion-using-ctrl-x-magic/](http://www.thegeekstuff.com/2009/01/vi-and-vim-editor-5-awesome-examples-for-automatic-word-completion-using-ctrl-x-magic/)
+IBM Vim series, quite good.
+Scripting the Vim editor, Part 1: Variables, values, and expressions
+[http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html)
+Scripting the Vim editor, Part 2: User-defined functions
+[http://www.ibm.com/developerworks/linux/library/l-vim-script-2/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-2/index.html)
+Scripting the Vim editor, Part 3: Built-in lists
+[http://www.ibm.com/developerworks/linux/library/l-vim-script-3/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-3/index.html)
+Scripting the Vim editor, Part 4: Dictionaries
+[http://www.ibm.com/developerworks/linux/library/l-vim-script-4/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-4/index.html)
+Scripting the Vim editor, Part 5: Event-driven scripting and automation
+[http://www.ibm.com/developerworks/linux/library/l-vim-script-5/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-5/index.html)
+Some good python settings suggestions:
+[http://www.cmdln.org/2008/10/18/vim-customization-for-python/](http://www.cmdln.org/2008/10/18/vim-customization-for-python/)
+
+Good information on line wrapping:
+[http://blog.ezyang.com/2010/03/vim-textwidth/](http://blog.ezyang.com/2010/03/vim-textwidth/)
+au FileType php set nocursorline 
+au WinEnter * setlocal number
+au WinLeave * setlocal nonumber
 
 
 

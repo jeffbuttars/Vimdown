@@ -72,7 +72,7 @@ def main():
 		blocks = lexer.lex(fd)
 		#logging.debug(lexer.print_blocks(blocks, annotate=True))
 		#outfile.write(lexer.print_blocks(blocks, annotate=True))
-		outfile.write(style_section)
+		#outfile.write(style_section)
 		outfile.write(lexer.blocks_to_markdown(blocks))
 		#hl = colorize(fd.read(), outfile)
 		#logging.debug(hl)

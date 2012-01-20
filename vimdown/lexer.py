@@ -40,15 +40,8 @@ def lex(input):
 
 		if iscomment.match(line):
 			nstate = COMMENT
-			#logging.debug("COMMENT : %s" % (line,))
 		else:
 			nstate = NONCOMMENT
-			#logging.debug("NONCOMMENT : %s" % (line,))
-			# Avoid empty code blocks
-			#if (len(block[state]) < 1) and (len(line) < 2):
-			#	line = input.readline()
-			#	continue
-
 
 		if state != nstate:
 			blocks.append(block)
@@ -85,7 +78,7 @@ def blocks_to_markdown(blocks):
 
 		# check for hard rule
 		if str[0:10] == '""""""""""':
-			return '__________\n\n  '
+			return '__________\n\n'
 
 		# Trim the comment and first space if it's easy
 		if str[0:2] == '" ':
@@ -97,7 +90,8 @@ def blocks_to_markdown(blocks):
 			# do a dumb search and crop
 			res = ("%s" % (str.partition('"')[2],))
 
-		return res.replace("\n", "  \n")
+		return res
+		#return res.replace("\n", "  \n")
 	#strip_vcomment()
 
 	res = [] 
