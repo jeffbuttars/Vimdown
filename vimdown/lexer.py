@@ -22,7 +22,10 @@ state_map = {
 		NONCOMMENT:"NONCOMMENT",
 }
 
-div_style = " -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px ;padding: .5em;"
+div_style = ("-webkit-border-radius: 5px; -moz-border-radius: 5px;" 
+			 " border-radius: 5px ;padding: .25em .5em .25em .5em;" 
+			 " margin:.5em 1em .5em .25em ;"
+			 )
 
 def pygmentize(code, style='default'):
 	hf = HtmlFormatter(style=style, noclasses=True,
