@@ -8,7 +8,8 @@ from pygments.lexers import VimLexer
 from pygments.formatters import HtmlFormatter
 from pygments.styles import get_style_by_name
 
-iscomment = re.compile('^\s?"')
+# Allow tabs
+iscomment = re.compile('^[ ]?"')
 isspacey = re.compile('^\s*$')
 
 # States
@@ -21,10 +22,12 @@ state_map = {
 		NONCOMMENT:"NONCOMMENT",
 }
 
+div_style = " -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px ;padding: .5em;"
 
-def pygmentize(code):
-	hf = HtmlFormatter()
-	return highlight(code, VimLexer(), hf).encode('ascii', 'ignore')
+def pygmentize(code, style='default'):
+	hf = HtmlFormatter(style=style, noclasses=True,
+					encoding='ascii', cssstyles=div_style)
+	return highlight(code, VimLexer(), hf)
 #pygmentize()
 
 def lex(input):
@@ -70,7 +73,7 @@ def print_blocks(blocks, annotate=True):
 	return res
 #print_blocks()
 
-def blocks_to_markdown(blocks):
+def blocks_to_markdown(blocks, style='vim'):
 
 	def strip_vcomment(str):
 		#logging.debug("strip_vcomment %s" % (str,))
@@ -91,7 +94,6 @@ def blocks_to_markdown(blocks):
 			res = ("%s" % (str.partition('"')[2],))
 
 		return res
-		#return res.replace("\n", "  \n")
 	#strip_vcomment()
 
 	res = [] 
@@ -103,7 +105,7 @@ def blocks_to_markdown(blocks):
 				continue
 			logging.debug("cont : '%s'" % cont)
 				
-			res.append("\n\n\n<div class=\"vimdown_vim\">\n%s</div>\n\n\n" % (pygmentize(cont)))
+			res.append("\n\n\n<div class=\"vimdown_vim\">\n%s</div>\n\n\n" % (pygmentize(cont, style)))
 		if k == COMMENT:
 			res.extend(map(strip_vcomment, v))
 		if k == NON:
