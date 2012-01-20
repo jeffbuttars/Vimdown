@@ -11,6 +11,8 @@ from pygments.lexers import VimLexer
 from pygments.formatters import HtmlFormatter
 from pygments.styles import get_style_by_name
 
+import lexer
+
 def colorize(code, outfile):
 	hf = HtmlFormatter(style='colorful')
 	return "<style>%s</style>\n%s" % (hf.get_style_defs(),
@@ -54,9 +56,10 @@ def main():
 	for fl in infiles:
 		logging.debug("opening file %s" % (fl,))
 		fd = open(fl)
-		hl = colorize(fd.read(), outfile)
+		lexer.lex(fd)
+		#hl = colorize(fd.read(), outfile)
 		#logging.debug(hl)
-		outfile.write(hl.encode('utf-8'))
+		#outfile.write(hl.encode('utf-8'))
 #main()
 
 if __name__ == '__main__':
