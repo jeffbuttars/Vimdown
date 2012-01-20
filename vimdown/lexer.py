@@ -8,7 +8,7 @@ from pygments.lexers import VimLexer
 from pygments.formatters import HtmlFormatter
 from pygments.styles import get_style_by_name
 
-iscomment = re.compile('^\s*"')
+iscomment = re.compile('^\s?"')
 isspacey = re.compile('^\s*$')
 
 # States
