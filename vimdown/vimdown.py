@@ -1,39 +1,152 @@
 #!/usr/bin/env python
 
-import sys
+import sys, re, logging
 from optparse import OptionParser
 
-import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
 
-from pygments import  highlight
-from pygments.lexers import VimLexer
-from pygments.formatters import HtmlFormatter
-from pygments.styles import get_style_by_name
+class Parser(object):
 
-import lexer
+	# States
+	NON = 0
+	COMMENT = 1
+	NONCOMMENT = 2
+	state_map = {
+			NON:"NON",
+			COMMENT:"COMMENT",
+			NONCOMMENT:"NONCOMMENT",
+	}
 
-def colorize(code, outfile):
-	hf = HtmlFormatter(style='colorful')
-	return "<style>%s</style>\n%s" % (hf.get_style_defs(),
-					highlight(code, VimLexer(), hf))
-#colorize()
+	def __init__(self, fl):
+
+		logging.debug("Parser(fl:%s)" % (fl,))
+		self.fd = open(fl)
+
+		self.iscomment = re.compile('^\s?"')
+		#isspacey = re.compile('^\s*$')
+	#__init__()
+
+	def parse(self):
+
+		state = Parser.NON
+		nstate = None 
+		blocks = []
+		block = {Parser.NON:[]}
+
+		line = self.fd.readline()
+		while line:
+
+
+			if self.iscomment.match(line):
+				nstate = Parser.COMMENT
+			else:
+				nstate = Parser.NONCOMMENT
+
+			if state != nstate:
+				blocks.append(block)
+				state = nstate
+				block = {state:[]}
+
+			block[state].append(line)
+			line = self.fd.readline()
+
+		blocks.append(block)
+
+		return blocks
+	#parse()
+
+	#def print_blocks(self, blocks, annotate=True):
+
+	#	res = ""
+	#	for block in blocks:
+	#		k,v = block.items()[0]
+	#		if annotate:
+	#			res = "%s\n%s++++++++++++++++++++++++++++\n%s" % (
+	#					res, state_map[k], "".join(v)) 
+	#		else:
+	#			res = "%s%s" % (res, "".join(v)) 
+
+	#	return res
+	##print_blocks()
+
+	def blocks_to_markdown(self, blocks):
+
+		# remove the Vim comment character
+		def strip_vcomment(str):
+			#logging.debug("strip_vcomment %s" % (str,))
+			res = ""
+
+			# check for hard rule
+			if str[0:10] == '""""""""""':
+				return '__________\n\n'
+
+			# Trim the comment and first space if it's easy
+			if str[0:2] == '" ':
+				res = str[2:]
+			elif str[0:1] == '"':
+				res = str[1:]
+			else:
+				# If the begining of the line is not predictable, 
+				# do a dumb search and crop
+				res = ("%s" % (str.partition('"')[2],))
+
+			return res
+			#return res.replace("\n", "  \n")
+		#strip_vcomment()
+
+		res = [] 
+		for block in blocks:
+			k,v = block.items()[0]
+			if k == Parser.NONCOMMENT:
+				#if cont == '\n' or isspacey.match(cont):
+				if v == '\n':
+					continue
+				cont = "    ".join(v)
+				logging.debug("cont : '%s'" % cont)
+					
+				#res.append("\n\n\n<div class=\"vimdown_vim\">\n%s</div>\n\n\n" % (pygmentize(cont)))
+				#res.append("\n    :::vim\n%s\n" % (cont))
+				logging.debug("code block : \n'    %s'\n" % cont)
+				res.append("\n    %s\n" % (cont))
+			if k == Parser.COMMENT:
+				res.extend(map(strip_vcomment, v))
+			if k == Parser.NON:
+				continue
+				
+		return "".join(res)
+	#blocks_to_markdown()
+
+	def gen_markdown(self):
+		blocks = self.parse()
+		return self.blocks_to_markdown(blocks)
+	#gen_markdown()
+
+	def gen_html(self):
+		pass
+	#gen_html()
+#Parser
 
 def main():
 	usage = ("%prog, Convert .vimrc and vimscript into markdown")
 
 	parser = OptionParser(usage=usage)
-	#parser.add_option("-f", "--configfile", dest='cfg_path', default="/etc/wpc/wpc.ini",
-	#		help=("The path to the config file to read. If this is the only option"
-	#	 	" given the entire config file will be printed to stdout"))
-
-	#parser.add_option("-s", "--configsection", dest='cfg_section', default="",
-	#		help=("The section in the config file to read. If this option is given but "
-	#	 	"the --configoption is NOT, then the config section specified will be printed"
-	#		" to stdout. NOTE: Specify the DEFAULT section to print out default section. "))
-
 	parser.add_option("-o", "--outfile", dest='outfile', default=False,
 			help=("Write the output to the given filename"))
+	parser.add_option("-t", "--html", dest='html', default=False,
+			help=("If markdown2 is present then vimdown will"
+		 		" will process the markdown using markdown2 and"
+		 		" and output the resulting HTML"
+			))
+	parser.add_option("-p", "--pygmentize", dest='pygmentize', default=False,
+			help=("If markdown2 is present then vimdown will"
+		 		" will output html using markdown2's pygments"
+		 		" code coloring. If this option is present the --html"
+		 		" option is implied."
+			))
+	parser.add_option("-c", "--codeblock", dest='codeblock', default=False,
+			help=("If set, the code blocks in the generated markdown will be"
+		 		" the markdown2 extended syntax."
+			))
 
 	(options, args) = parser.parse_args()
 	logging.debug("options:%s"%options)
@@ -53,30 +166,10 @@ def main():
 		
 	logging.debug("outfile : %s, infiles : %s" % (outfile, infiles))
 
-	hf = HtmlFormatter(style='colorful')
-	style_section = ("<style>\n%s\ndiv.vimdown_vim "
-				  "{display:block;border:1px solid #888;"
-				  "background-color:#E0E0E0;"
-				  "padding:.5em 1em .5em 1em;"
-				  "-webkit-border-radius: 5px;"
-				  "-moz-border-radius: 5px;"
-				  "border-radius: 5px;"
-				  "}"
-				  "\n</style>\n") % (hf.get_style_defs(),)
-	#style_section = "<style>\n%s\n</style>\n" % (hf.get_style_defs(),)
-	style_section = style_section.replace('*', '\*')
-
 	for fl in infiles:
-		logging.debug("opening file %s" % (fl,))
-		fd = open(fl)
-		blocks = lexer.lex(fd)
-		#logging.debug(lexer.print_blocks(blocks, annotate=True))
-		#outfile.write(lexer.print_blocks(blocks, annotate=True))
-		#outfile.write(style_section)
-		outfile.write(lexer.blocks_to_markdown(blocks))
-		#hl = colorize(fd.read(), outfile)
-		#logging.debug(hl)
-		#outfile.write(hl.encode('utf-8'))
+		#logging.debug(parser.print_blocks(blocks, annotate=True))
+		parser = Parser(fl)
+		outfile.write(parser.gen_markdown())
 #main()
 
 if __name__ == '__main__':

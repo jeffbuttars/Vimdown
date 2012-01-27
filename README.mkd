@@ -1,303 +1,280 @@
-#[Viming With Buttar](http://code.google.com/p/vimingwithbuttar/)
-### Maintainer: Jeff Buttars 
-<jeffbuttars@gmail.com>
-Last change:	2010 Feb 08
+#Viming With Buttars
 
-To use it, copy it to
+## Maintainer: Jeff Buttars  
+<jeffbuttars@gmail.com>  
+[Git Hub Repo](http://github.com/jeffbuttars/viming-with-buttars)
 
-* On Unix and OS/2:  ~/.vimrc
-* On Amiga:  s:.vimrc
-* MS-DOS and Win32:  $VIM\_vimrc
-* On OpenVMS:  sys$login:.vimrc
+To use this .vimrc copy it to :  
 
-### Original Maintainer:	Bram Moolenaar <Bram@vim.org>
+* On Linux, OS X, Unix and OS/2:  ~/.vimrc  
+*	On Amiga:  s:.vimrc  
+* On MS-DOS and Win32:  $VIM\_vimrc  
+* On OpenVMS:  sys$login:.vimrc  
 
+## Original Maintainer:	Bram Moolenaar <Bram@vim.org>  
 Bram wrote/writes Vim, send money to his charity for Uganda. 
-Find more info at [Vim.org](http://www.vim.org)
-When started as "evim", evim.vim will already have done these settings.
+Find more info at [Vim.org](http://www.vim.org)  
 
+__*If your reading this as a README on GitHub you should know that this 
+README is generted from the .vimrc file of this project using [Vimdown](https://github.com/jeffbuttars/Vimdown)*__
 
+* [Vim Options](#vimoptions)
+* [Autocommands][autocommands]
+* [Mappings][mappings]
+__________
 
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">if</span> v:progname <span class="p">=~</span>? <span class="c">&quot;evim&quot;</span>
-  <span class="k">finish</span>
-<span class="k">endif</span>
-</pre></div>
-</div>
+It's .vimrc time  
+## Options
+When started as "evim", evim.vim will already have done these settings, so
+we'll bail out in that scenario
 
+    if v:progname =~? "evim"
+      finish
+    endif
+    
 
+### [Vim Options]
 Use Vim settings, rather then Vi settings (much better!).
 This must be first, because it changes other options as a side effect.
 
+    set nocompatible " Don't be compatible with basic Vi
+    
+    set backspace=indent,eol,start " allow backspacing over everything in insert mode
+    
+    set nobackup " do not keep a backup file, use versions instead
+    
+    set history=1000 " keep 1000 lines of command line history
 
 
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">nocompatible</span>
-</pre></div>
-</div>
+* [nocompatible][]
+* [backspace][]
+* [nobackup][]
+* [history][]
+
+### Ruler and Statusline
+
+I don't use these following examples, I have a more advanced version
+of setting the status line in 
+[hacks.vim](https://github.com/jeffbuttars/Viming-With-Buttars/blob/master/hacks.vim)  
+ 
+Using set ruler
+ set ruler    " show the cursor position all the time
+Set up a custom status line. Like setting ruler, statusline overrides ruler, but we add the buffer number and filetype to the status:
+ set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+or
+ set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %{&textwidth}\ %P
+
+* [ruler][]
+* [statusline][]
 
 
-allow backspacing over everything in insert mode
+    set switchbuf=useopen
+    set laststatus=2          " last window will always have a status line
+    set showcmd		         " display incomplete commands
 
 
+* [switchbuf][]
+* [laststatus][]
+* [showcmd][]
+ 
+For Win32 GUI: you can remove 't' flag from 'guioptions' for no tearoff menu entries  
+ let &[guioptions = substitute(&guioptions, "t", "", "g")
 
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">backspace</span><span class="p">=</span>indent<span class="p">,</span><span class="nb">eol</span><span class="p">,</span><span class="k">start</span>
-</pre></div>
-</div>
-
-
-if has("vms")
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="c">  &quot;set nobackup		&quot; do not keep a backup file, use versions instead</span>
-</pre></div>
-</div>
+* [guioptions][]
 
 
-else
+If we're running Vim 7.3 or newer, enable persisten undo
+and tell vim were to store the undo files. 
+
+    if version >= 730
+    	set undofile
+    	set undodir=~/.vim/undos
+    endif
 
 
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="c">  &quot;set backup		&quot; keep a backup file</span>
-</pre></div>
-</div>
-
-
-endif
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">nobackup</span>		<span class="c">&quot; do not keep a backup file, use versions instead</span>
-
-<span class="k">set</span> <span class="k">history</span><span class="p">=</span><span class="m">1000</span>		<span class="c">&quot; keep 1000 lines of command line history</span>
-</pre></div>
-</div>
-
-
-set ruler		" show the cursor position all the time  
-Set up a custom status line. Like setting ruler, but we add the buffer number and filetype to the status  
-set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %P  
-set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %{&textwidth}\ %P  
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">switchbuf</span><span class="p">=</span>useopen
-
-<span class="k">set</span> <span class="nb">laststatus</span><span class="p">=</span><span class="m">2</span> <span class="c">&quot; last window will always have a status line</span>
-
-<span class="k">set</span> <span class="nb">showcmd</span>	<span class="c">&quot; display incomplete commands</span>
-</pre></div>
-</div>
-
-
-For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
-let &guioptions = substitute(&guioptions, "t", "", "g")
-Don't use Ex mode, use Q for formatting
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>map Q gq
-
-<span class="k">if</span> version <span class="p">&gt;=</span> <span class="m">730</span>
-	<span class="k">set</span> undofile
-	<span class="k">set</span> undodir<span class="p">=~</span><span class="sr">/.vim/</span>undos
-<span class="k">endif</span>
-</pre></div>
-</div>
-
-
-CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-so that you can undo CTRL-U after inserting a line break.
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>inoremap <span class="p">&lt;</span>C<span class="p">-</span>U<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>G<span class="p">&gt;</span><span class="k">u</span><span class="p">&lt;</span>C<span class="p">-</span>U<span class="p">&gt;</span>
-</pre></div>
-</div>
-
+* [undofile][]
+* [undodir][]
+ 
 
 In many terminal emulators the mouse works just fine, thus enable it.
 
+    if has('mouse')
+      set mouse=a
+    endif
 
 
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">if</span> has<span class="p">(</span><span class="s1">&#39;mouse&#39;</span><span class="p">)</span>
-  <span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span>a
-<span class="k">endif</span>
-</pre></div>
-</div>
+* [mouse][]
 
 
-Switch syntax highlighting on, when the terminal has colors
-Also switch on highlighting the last used search pattern.
+    
+
+Switch syntax highlighting on if the terminal supports colors
+or if we're runnig in a GUI.
+Also switch on highlighting of the last used search pattern.
+
+    if &t_Co > 2 || has("gui_running")
+    	syntax on
+    	set hlsearch
+    	
+
+set guioptions-=m " Will remove menu bar from gvim
+
+    	set guioptions-=T " Remove toolbar from gvim
+    
+
+ Set gvim font. I like the Inconsolata font.
+ You'll need to install, do it, it's very much worth it.
+ A great font, and it's 100% free.
+
+    	set guifont=Inconsolata\ Medium\ 10
+    endif
+    
+
+ 
+* [syntax][]
+* [hlsearch][]
+* [guioptions][]
 
 
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">if</span> &amp;<span class="nb">t_Co</span> <span class="p">&gt;</span> <span class="m">2</span> <span class="p">||</span> has<span class="p">(</span><span class="s2">&quot;gui_running&quot;</span><span class="p">)</span>
-  <span class="nb">syntax</span> <span class="k">on</span>
-  <span class="k">set</span> <span class="nb">hlsearch</span>
-<span class="k">endif</span>
-
-<span class="k">set</span> <span class="nb">incsearch</span>		<span class="c">&quot; do incremental searching</span>
-</pre></div>
-</div>
-
+__I don't use the following, but some like it so I included for FYI purposes:__  
 
 This line will make Vim set out tab characters, trailing whitespace and
 invisible spaces visually, and additionally use the # sign at the end of lines
-to mark lines that extend off-screen. For more info, see :h listchars
-set list
-set listchars=tab:\|.,trail:.,extends:#,nbsp:.
+to mark lines that extend off-screen. For more info, see :h listchars  
+
+       " set list  
+       " set listchars=tab:\|.,trail:.,extends:#,nbsp:.
+
+
+* [listchars][]
+
+
+    
+    set ttyfast
+    set laststatus=2
+    set incsearch		" Enable incremental searching
+    
+
+__________
+
+
+## Autocommands
+
+We check if autocommands are enabled before we use them. 
+
+    if has("autocmd")
+    
+
 In some files, like HTML and XML files, tabs are fine and showing them is
-really annoying, you can disable them easily using an autocmd declaration:
-autocmd filetype html,xml set listchars-=tab:>.
+really annoying, you can disable them easily using the autocmd declaration:
+
+       " autocmd filetype html,xml set listchars-=tab:>.
 
 
 
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">ttyfast</span>
-<span class="k">set</span> <span class="nb">laststatus</span><span class="p">=</span><span class="m">2</span>
-</pre></div>
-</div>
-
-
-Only do this part when compiled with support for autocommands.
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">if</span> has<span class="p">(</span><span class="s2">&quot;autocmd&quot;</span><span class="p">)</span>
-
-<span class="c">  &quot; Enable file type detection.</span>
-<span class="c">  &quot; Use the default filetype settings, so that mail gets &#39;tw&#39; set to 72,</span>
-<span class="c">  &quot; &#39;cindent&#39; is on in C files, etc.</span>
-<span class="c">  &quot; Also load indent files, to automatically do language-dependent indenting.</span>
-  <span class="k">filetype</span> plugin indent <span class="k">on</span>
-
-<span class="c">  &quot; Put these in an autocmd group, so that we can delete them easily.</span>
-  augroup vimrcEx
-  au<span class="p">!</span>
-
-<span class="c">  &quot; For all text files set &#39;textwidth&#39; to 78 characters.</span>
-<span class="c">  &quot;autocmd FileType text,txt,mkd setlocal textwidth=78</span>
-  autocmd <span class="nb">FileType</span> text<span class="p">,</span>txt <span class="k">setlocal</span> <span class="nb">textwidth</span><span class="p">=</span><span class="m">78</span>
-
-<span class="c">  &quot; When editing a file, always jump to the last known cursor position.</span>
-<span class="c">  &quot; Don&#39;t do it when the position is invalid or when inside an event handler</span>
-<span class="c">  &quot; (happens when dropping a file on gvim).</span>
-<span class="c">  &quot; Also don&#39;t do it when the mark is in the first line, that is the default</span>
-<span class="c">  &quot; position when opening a file.</span>
-  autocmd <span class="nb">BufReadPost</span> *
-    \ <span class="k">if</span> line<span class="p">(</span><span class="s2">&quot;&#39;\&quot;&quot;</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">1</span> &amp;&amp; line<span class="p">(</span><span class="s2">&quot;&#39;\&quot;&quot;</span><span class="p">)</span> <span class="p">&lt;=</span> line<span class="p">(</span><span class="s2">&quot;$&quot;</span><span class="p">)</span> <span class="p">|</span>
-    \   exe <span class="c">&quot;normal! g`\&quot;&quot; |</span>
-    \ <span class="k">endif</span>
-
-  augroup END
-
-<span class="k">else</span>
-
-  <span class="k">set</span> <span class="nb">autoindent</span>		<span class="c">&quot; always set autoindenting on</span>
-
-<span class="k">endif</span> <span class="c">&quot; has(&quot;autocmd&quot;)</span>
-</pre></div>
-</div>
-
+    
+      " Enable file type detection.
+      " Use the default filetype settings, so that mail gets 'tw' set to 72,
+      " 'cindent' is on in C files, etc.
+      " Also load indent files, to automatically do language-dependent indenting.
+      filetype plugin indent on
+    
+      " Put these in an autocmd group, so that we can delete them easily.
+      augroup vimrcEx
+      au!
+    
+      " For all text files set 'textwidth' to 78 characters.
+      "autocmd FileType text,txt,mkd setlocal textwidth=78
+      autocmd FileType text,txt setlocal textwidth=78
+    
+      " When editing a file, always jump to the last known cursor position.
+      " Don't do it when the position is invalid or when inside an event handler
+      " (happens when dropping a file on gvim).
+      " Also don't do it when the mark is in the first line, that is the default
+      " position when opening a file.
+      autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line("$") |
+        \   exe "normal! g`\"" |
+        \ endif
+    
+      augroup END
+    
+    else
+    
+      set autoindent		" always set autoindenting on
+    
+    endif " has("autocmd")
+    
 
 Convenient command to see the difference between the current buffer and the
 file it was loaded from, thus the changes you made.
 Only define it when not defined already.
 if !exists(":DiffOrig")
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="c">  &quot;command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis</span>
-<span class="c">		  &quot;\ | wincmd p | diffthis</span>
-</pre></div>
-</div>
-
+      "command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+    		  "\ | wincmd p | diffthis
 
 endif
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">autoread</span>
-</pre></div>
-</div>
-
+    
+    
+    set autoread
+    
 
 Allow us to save a file as root, if we have sudo privileges,
 when we're not currently useing vim as root
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>cmap <span class="k">w</span><span class="p">!!</span> %<span class="p">!</span>sudo tee <span class="p">&gt;</span> <span class="sr">/dev/</span>null %
-</pre></div>
-</div>
-
+    cmap w!! %!sudo tee > /dev/null %
+    
 
 __________
 
-##OmniCompletion settings
+OmniCompletion settings
 When c-y is used to select, enter normal mode.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>imap <span class="p">&lt;</span><span class="k">c</span><span class="p">-</span><span class="k">y</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="k">c</span><span class="p">-</span><span class="k">y</span><span class="p">&gt;&lt;</span>esc<span class="p">&gt;</span>
-</pre></div>
-</div>
-
+    imap <c-y> <c-y><esc>
 
 Show the info preview window.
 set completeopt=menuone,preview
 set completeopt=menu,preview
 
+    set completeopt=menuone,preview,longest
+    
+
+__________
 
 
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">completeopt</span><span class="p">=</span>menuone<span class="p">,</span>preview<span class="p">,</span>longest
-</pre></div>
-</div>
+## Mappings
 
+    
+
+CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+so that you can undo CTRL-U after inserting a line break.
+
+    inoremap <C-U> <C-G>u<C-U>
+
+
+* [inoremap][]
 
 (default: ".,w,b,u,t,i")
 set complete=".,w,b,u,U,t,i,kspell,d,t"
 set complete=".,w,b,u,t,i,kspell"
 Map omnicomplete to Control-o
+imap <C-O> <C-X><C-O> 
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>imap <span class="p">&lt;</span>C<span class="p">-</span>O<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">X</span><span class="p">&gt;&lt;</span>C<span class="p">-</span>O<span class="p">&gt;</span> 
-</pre></div>
-</div>
-
+    
 
 imap <C-space> <C-X><C-O>
+
+    
+
 Mapping for the a.vim plugin
 quickly switch between source
 and header files with <C-H>
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>imap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>S<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:A<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-nmap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>S<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:A<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-</pre></div>
-</div>
-
+    imap <silent> <C-S> <ESC>:A<CR>
+    nmap <silent> <C-S> <ESC>:A<CR>
+    
 
 When the completion window is open, shift will cycle
 forward through the menu.
@@ -312,36 +289,38 @@ function! CleverTab()
 endfunction
 inoremap <Tab> <C-R>=CleverTab()<CR>
 
+
+    
+
 Enter will do a simple accept of the selection
 Moved this into delimitMate to get them
 to work together
 THIS INTERFERES WITH NICE MENU
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">function</span><span class="p">!</span> CleverCR<span class="p">()</span>
-	<span class="k">if</span> <span class="p">!</span>pumvisible<span class="p">()</span> 
-		<span class="k">return</span> <span class="c">&quot;\&lt;CR&gt;&quot;</span>
-	<span class="k">endif</span>
-
-	<span class="k">return</span> <span class="c">&quot;\&lt;C-Y&gt;&quot;</span>
-<span class="k">endfunction</span>
-inoremap <span class="p">&lt;</span>CR<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>R<span class="p">&gt;=</span>CleverCR<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
-
-<span class="k">function</span><span class="p">!</span> ToggleRNU<span class="p">()</span>
-	<span class="k">if</span> <span class="m">0</span> <span class="p">==</span> &amp;rnu
-		<span class="k">set</span> rnu
-	<span class="k">else</span>
-		<span class="k">set</span> <span class="k">number</span> 
-	<span class="k">endif</span>
-<span class="k">endfunction</span>
-nmap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>F3<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:<span class="k">call</span> ToggleRNU<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
-</pre></div>
-</div>
-
+    function! CleverCR()
+    	if !pumvisible() 
+    		return "\<CR>"
+    	endif
+    
+    	return "\<C-Y>"
+    endfunction
+    inoremap <CR> <C-R>=CleverCR()<CR>
+    
+    function! ToggleRNU()
+    	if 0 == &rnu
+    		set rnu
+    	else
+    		set number 
+    	endif
+    endfunction
+    nmap <silent> <F3> <ESC>:call ToggleRNU()<CR>
+    
+    
 
 For example, to save a file, you type :w normally, which means:
+
+    
+
    Press and hold Shift
    Press ;
    Release the Shift key
@@ -351,105 +330,91 @@ This trick strips off steps 1 and 3 for each Vim command. It takes some times
 for your muscle memory to get used to this new ;w command, but once you use
 it, you don’t want to go back!
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>nnoremap ; :
-</pre></div>
-</div>
-
+    nnoremap ; :
+    
 
 If you like long lines with line wrapping enabled, this solves the problem
 that pressing down jumpes your cursor “over” the current line to the next
 line. It changes behaviour so that it jumps to the next row in the editor
 (much more natural):
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>nnoremap <span class="k">j</span> gj
-nnoremap <span class="k">k</span> gk
-</pre></div>
-</div>
-
+    nnoremap j gj
+    nnoremap k gk
+    
 
 Easier window navigation when you split up your buffers.
 Use J instead of CTRL-W j, etc.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>nnoremap <span class="p">&lt;</span>C<span class="p">-</span><span class="k">j</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="k">c</span><span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">j</span>
-nnoremap <span class="p">&lt;</span>C<span class="p">-</span><span class="k">h</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="k">c</span><span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">h</span>
-nnoremap <span class="p">&lt;</span>C<span class="p">-</span><span class="k">k</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="k">c</span><span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">k</span>
-nnoremap <span class="p">&lt;</span>C<span class="p">-</span><span class="k">l</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="k">c</span><span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">l</span>
-</pre></div>
-</div>
-
+    nnoremap <C-j> <c-w>j
+    nnoremap <C-h> <c-w>h
+    nnoremap <C-k> <c-w>k
+    nnoremap <C-l> <c-w>l
+    
 
 Auto close the preview window
 autocmd CursorHold * if pumvisible() == 0|pclose|endif
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+
+    
+
 "" Snipmate 
 Don't trigger snipmate when using completion
 This option currently requires the buttars hacked version
 of snipMate :( available from vimingwithbuttar at google code.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> g:SnipeMateAllowOmniTab <span class="p">=</span> <span class="m">1</span>
-</pre></div>
-</div>
-
+    let g:SnipeMateAllowOmniTab = 1
+    
 
 We're extra friendly for django 
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>autocmd <span class="nb">FileType</span> python <span class="k">set</span> <span class="nb">ft</span><span class="p">=</span>python.django 		<span class="c">&quot; For SnipMate</span>
-autocmd <span class="nb">BufRead</span> *.djml <span class="k">set</span> <span class="nb">ft</span><span class="p">=</span>html.htmldjango 	<span class="c">&quot; For SnipMate</span>
-
-autocmd <span class="nb">FileType</span> mkd <span class="k">set</span> <span class="nb">ft</span><span class="p">=</span>mkd.html 	<span class="c">&quot; For SnipMate, I want to use HTML</span>
-<span class="c">										&quot; snippets with my markdown</span>
-autocmd <span class="nb">BufRead</span> *.<span class="k">go</span> <span class="k">set</span> <span class="nb">ft</span><span class="p">=</span><span class="k">go</span> 	<span class="c">&quot; For SnipMate</span>
-</pre></div>
-</div>
-
+    autocmd FileType python set ft=python.django 		" For SnipMate
+    autocmd BufRead *.djml set ft=html.htmldjango 	" For SnipMate
+    
+    autocmd FileType mkd set ft=mkd.html 	" For SnipMate, I want to use HTML
+    										" snippets with my markdown
+    autocmd BufRead *.go set ft=go 	" For SnipMate
+    
 
 Setup pysmell
 source ~/.vim/plugin/pysmell.vim
 let g:pysmell_debug = 1
 autocmd FileType python set omnifunc=pysmell#Complete
+
+    
+
+End OmniCompletion settings
 __________
 
-###From an idea by Michael Naumann
+
+    
+
+__________
+
+From an idea by Michael Naumann
 You press * or # to search for the current visual selection !! Really useful
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">function</span><span class="p">!</span> VisualSearch<span class="p">(</span>direction<span class="p">)</span> range
-  <span class="k">let</span> <span class="k">l</span>:saved_reg <span class="p">=</span> @&quot;
-  execute <span class="c">&quot;normal! vgvy&quot;</span>
-  <span class="k">let</span> <span class="k">l</span>:pattern <span class="p">=</span> escape<span class="p">(</span>@&quot;<span class="p">,</span> <span class="s1">&#39;\\/.*$^~[]&#39;</span><span class="p">)</span>
-  <span class="k">let</span> <span class="k">l</span>:pattern <span class="p">=</span> substitute<span class="p">(</span><span class="k">l</span>:pattern<span class="p">,</span> <span class="c">&quot;\n$&quot;, &quot;&quot;, &quot;&quot;)</span>
-  <span class="k">if</span> a:direction <span class="p">==</span> <span class="s1">&#39;b&#39;</span>
-    execute <span class="c">&quot;normal ?&quot; . l:pattern . &quot;^M&quot;</span>
-  <span class="k">else</span>
-    execute <span class="c">&quot;normal /&quot; . l:pattern . &quot;^M&quot;</span>
-  <span class="k">endif</span>
-  <span class="k">let</span> @/ <span class="p">=</span> <span class="k">l</span>:pattern
-  <span class="k">let</span> @&quot; <span class="p">=</span> <span class="k">l</span>:saved_reg
-<span class="k">endfunction</span>
-vnoremap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> * :<span class="k">call</span> VisualSearch<span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">)&lt;</span>CR<span class="p">&gt;</span>
-vnoremap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> # :<span class="k">call</span> VisualSearch<span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)&lt;</span>CR<span class="p">&gt;</span>
-</pre></div>
-</div>
-
+    function! VisualSearch(direction) range
+      let l:saved_reg = @"
+      execute "normal! vgvy"
+      let l:pattern = escape(@", '\\/.*$^~[]')
+      let l:pattern = substitute(l:pattern, "\n$", "", "")
+      if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+      else
+        execute "normal /" . l:pattern . "^M"
+      endif
+      let @/ = l:pattern
+      let @" = l:saved_reg
+    endfunction
+    vnoremap <silent> * :call VisualSearch('f')<CR>
+    vnoremap <silent> # :call VisualSearch('b')<CR>
 
 End From an idea by Michael Naumann
+__________
+
+
+    
+
 __________
 
 More normal Vim tweaks.
@@ -458,47 +423,26 @@ iwhite: ignore whitespace
 context: show 10 lines of context
 set diffopt=filler,vertical,iwhite,context:10
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">diffopt</span><span class="p">=</span>filler<span class="p">,</span><span class="k">vertical</span><span class="p">,</span>context:<span class="m">15</span>
-<span class="k">let</span> g:html_diff_one_file <span class="p">=</span> <span class="m">1</span>
-</pre></div>
-</div>
-
+    set diffopt=filler,vertical,context:15
+    let g:html_diff_one_file = 1
+    
 
 Use real tabs, 4 spaces
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">tabstop</span><span class="p">=</span><span class="m">4</span>
-<span class="k">set</span> <span class="nb">shiftwidth</span><span class="p">=</span><span class="m">4</span>
-<span class="k">set</span> <span class="nb">shiftround</span>	<span class="c">&quot; use multiple of shiftwidth when indenting with &#39;&lt;&#39; and &#39;&gt;&#39;</span>
-<span class="k">set</span> <span class="nb">smarttab</span>
-</pre></div>
-</div>
-
+    set tabstop=4
+    set shiftwidth=4
+    set shiftround	" use multiple of shiftwidth when indenting with '<' and '>'
+    set smarttab
+    
 
 Show matching braces
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">showmatch</span> 
-</pre></div>
-</div>
-
+    set showmatch 
 
 Quick blink when a match is made
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="k">mat</span><span class="p">=</span><span class="m">5</span>
-</pre></div>
-</div>
-
+    set mat=5
+    
 
 Keep our swap and backup files out of the way 
 and in a central palce.
@@ -506,13 +450,8 @@ set directory=~/.vim/swapback
 set backupdir=~/.vim/swapback
 Screw the swap file
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">noswapfile</span>
-</pre></div>
-</div>
-
+    set noswapfile
+    
 
 C opts
 Kernel style
@@ -522,45 +461,25 @@ check out the help for cinoptions and
 tune it to  match your prefered style.
 :h cinoptions
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">cinoptions</span><span class="p">+=</span>J
-</pre></div>
-</div>
-
+    set cinoptions+=J
+    
 
 Keep this many lines above/below the cursor while scrolling.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">scrolloff</span><span class="p">=</span><span class="m">3</span>
-</pre></div>
-</div>
-
+    set scrolloff=3
+    
 
 The title of the window to titlestring
 see :h title for better info.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">title</span>
-</pre></div>
-</div>
-
+    set title
+    
 
 set foldmethod=indent
 set foldmethod=syntax
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">foldmethod</span><span class="p">=</span>manual
-</pre></div>
-</div>
-
+    set foldmethod=manual
+    
 
 Easy cycle through tabs using Ctrl-PgUp/PgDown 
 similar to FireFox
@@ -569,65 +488,46 @@ this same key sequence to cycley through tabs, so you
 may need to disable this key shortcut in your terminal
 program for this mapping to work as advertised.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>nmap <span class="p">&lt;</span>C<span class="p">-</span>PageDown<span class="p">&gt;</span> :tabnext<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-nmap <span class="p">&lt;</span>C<span class="p">-</span>PageUp<span class="p">&gt;</span> :<span class="k">tabprevious</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>
-imap <span class="p">&lt;</span>C<span class="p">-</span>PageDown<span class="p">&gt;</span> :tabnext<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-imap <span class="p">&lt;</span>C<span class="p">-</span>PageUp<span class="p">&gt;</span> :<span class="k">tabprevious</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>
-</pre></div>
-</div>
-
+    nmap <C-PageDown> :tabnext<CR>
+    nmap <C-PageUp> :tabprevious<CR>
+    imap <C-PageDown> :tabnext<CR>
+    imap <C-PageUp> :tabprevious<CR>
 
 nmap <C-PageDown> :bn<CR>
 nmap <C-PageUp> :bp<CR>
 imap <C-PageDown> <esc>:bn<CR>
 imap <C-PageUp> <esc>:bp<CR>
-[concisionandconcinnity.blogspot.com](http://concisionandconcinnity.blogspot.com/2009/07/vim-part-ii-matching-pairs.html)
+
+    
+
+http://concisionandconcinnity.blogspot.com/2009/07/vim-part-ii-matching-pairs.html
 The above URL also has good stuff for autoclosing matching pairs, like (). 
 One of the nicer minor features of TextMate is its treatment of highlighted text. 
 If you have something highlighted and type a, it replaces the text, like other editors. 
 If you type (, however, it wraps the selected text in parentheses. 
 This is enormously useful. Luckily, it's very easy to recreate in Vim:
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>vnoremap <span class="p">((</span>  <span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&gt;</span>a<span class="p">)&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&lt;</span>i<span class="p">(&lt;</span>ESC<span class="p">&gt;</span>
-vnoremap <span class="p">))</span>  <span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&lt;</span>i<span class="p">(&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&gt;&lt;</span><span class="k">right</span><span class="p">&gt;</span>a<span class="p">)&lt;</span>ESC<span class="p">&gt;</span>
-vnoremap {{  <span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&gt;</span>a}<span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&lt;</span>i{<span class="p">&lt;</span>ESC<span class="p">&gt;</span>
-vnoremap }}  <span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&lt;</span>i{<span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&gt;&lt;</span><span class="k">right</span><span class="p">&gt;</span>a}<span class="p">&lt;</span>ESC<span class="p">&gt;</span>
-</pre></div>
-</div>
-
+    vnoremap ((  <ESC>`>a)<ESC>`<i(<ESC>
+    vnoremap ))  <ESC>`<i(<ESC>`><right>a)<ESC>
+    vnoremap {{  <ESC>`>a}<ESC>`<i{<ESC>
+    vnoremap }}  <ESC>`<i{<ESC>`><right>a}<ESC>
 
 If allow " here, it messes up register selection
 So we use "" instead, and it works.
 Move this into doubleTap?
 vnoremap "  <ESC>`>a"<ESC>`<i"<ESC>
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>vnoremap <span class="c">&quot;&quot;  &lt;ESC&gt;`&gt;a&quot;&lt;ESC&gt;`&lt;i&quot;&lt;ESC&gt;</span>
-vnoremap <span class="s1">&#39;&#39;</span>  <span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&gt;</span>a<span class="s1">&#39;&lt;ESC&gt;`&lt;i&#39;</span><span class="p">&lt;</span>ESC<span class="p">&gt;</span>
-vnoremap ``  <span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&gt;</span>a`<span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&lt;</span>i`<span class="p">&lt;</span>ESC<span class="p">&gt;</span>
-vnoremap [[  <span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&gt;</span>a]<span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&lt;</span>i[<span class="p">&lt;</span>ESC<span class="p">&gt;</span>
-vnoremap ]]  <span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&lt;</span>i[<span class="p">&lt;</span>ESC<span class="p">&gt;</span>`<span class="p">&gt;&lt;</span><span class="k">right</span><span class="p">&gt;</span>a]<span class="p">&lt;</span>ESC<span class="p">&gt;</span>
-</pre></div>
-</div>
-
+    vnoremap ""  <ESC>`>a"<ESC>`<i"<ESC>
+    vnoremap ''  <ESC>`>a'<ESC>`<i'<ESC>
+    vnoremap ``  <ESC>`>a`<ESC>`<i`<ESC>
+    vnoremap [[  <ESC>`>a]<ESC>`<i[<ESC>
+    vnoremap ]]  <ESC>`<i[<ESC>`><right>a]<ESC>
+    
 
 When vimrc is edited, automatically reload it!
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>autocmd<span class="p">!</span> bufwritepost .vimrc source <span class="p">~</span>/.vimrc
-</pre></div>
-</div>
-
+    autocmd! bufwritepost .vimrc source ~/.vimrc
+    
 
 Big nasty viminfo setup. If you you have a smaller/slower system use the
 commented viminfo below, it's tuned down.
@@ -637,81 +537,57 @@ no more than 500 lines per register are saved
 1000 lines of history
 save the buffer list
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">viminfo</span><span class="p">=</span>&#39;<span class="m">20000</span><span class="p">,</span>f1<span class="p">,&lt;</span><span class="m">500</span><span class="p">,</span>:<span class="m">1000</span><span class="p">,</span>@<span class="m">1000</span><span class="p">,</span>/<span class="m">1000</span><span class="p">,</span>%
-</pre></div>
-</div>
-
+    set viminfo='20000,f1,<500,:1000,@1000,/1000,%
 
 set viminfo='1000,f1,<500,:100,@100,/100,%
+
+    
+
 HTML output options
 Use more modern css
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> html_use_css <span class="p">=</span> <span class="m">1</span>
-</pre></div>
-</div>
-
+    let html_use_css = 1
+    
 
 wrap long lines
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">wrap</span>
-<span class="k">set</span> <span class="nb">sidescroll</span><span class="p">=</span><span class="m">3</span>
-</pre></div>
-</div>
-
+    set wrap
+    set sidescroll=3
+    
 
 Some wordwrapp foo from
-[kmandla](http://kmandla.wordpress.com/2009/07/27/proper-word-wrapping-in-vim/)
+http://kmandla.wordpress.com/2009/07/27/proper-word-wrapping-in-vim/
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">formatoptions</span><span class="p">+=</span><span class="k">l</span>
-<span class="k">set</span> <span class="nb">lbr</span>
-
-<span class="k">set</span> <span class="nb">selection</span><span class="p">=</span>inclusive
-<span class="k">set</span> <span class="nb">shortmess</span><span class="p">=</span>atI
-<span class="k">set</span> <span class="nb">wildmenu</span>
-<span class="k">set</span> <span class="nb">wildmode</span><span class="p">=</span><span class="nb">list</span>:longest
-<span class="k">set</span> <span class="nb">wildignore</span><span class="p">=</span>*.swp<span class="p">,</span>*.bak<span class="p">,</span>*.pyc<span class="p">,</span>*.pyo<span class="p">,</span>*.class<span class="p">,</span>*.<span class="m">6</span>
-</pre></div>
-</div>
-
+    set formatoptions+=l
+    set lbr
+    
+    set selection=inclusive
+    set shortmess=atI
+    set wildmenu
+    set wildmode=list:longest
+    set wildignore=*.swp,*.bak,*.pyc,*.pyo,*.class,*.6
+    
 
 set key timeout, good for remaps
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">timeoutlen</span><span class="p">=</span><span class="m">300</span>
-</pre></div>
-</div>
-
+    set timeoutlen=300
+    
 
 I hate it when the cursorline is an underline
 This is how I make the cursorline a hightlight
 set cursorline
 hi clear CursorLine 
+
+    
+
 CursorLine really slows down php files
 There is something wrong with the PHP syntax
 plugin, as a work around we disable cursorline
 for PHP files. :(
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>au <span class="nb">FileType</span> php <span class="k">set</span> <span class="nb">nocursorline</span> 
-</pre></div>
-</div>
-
+    au FileType php set nocursorline 
+    
+    
 
 color schemes I have liked.
 colo elflord " a low color dark theme. Great for the real console.
@@ -723,6 +599,9 @@ colo mySlate
 colo peaksea " A light theme
 colo molokai " A dark pastelly theme, a little bisexual but very pleasing.
 colo neutron " A very nice creamy light theme.
+
+    
+
 Explicitly say we want 256 colors when we find 256
 in the TERM environmental variable.
 When this is set it can mess up using vim on a real console.
@@ -733,133 +612,79 @@ We default to a theme that works everywere.
 Then we see if we can upgrade to a better theme
 based on the environment.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">colo</span> evening 
-</pre></div>
-</div>
-
+    colo evening 
 
 evening is a nice dark theme, usually available by a default install.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">if</span> has<span class="p">(</span> <span class="c">&quot;gui_running&quot; )</span>
-</pre></div>
-</div>
-
+    
+    if has( "gui_running" )
 
  I like a white based them in GVim
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>	<span class="k">set</span> <span class="nb">cursorline</span>
-	<span class="nb">hi</span> clear CursorLine 
-</pre></div>
-</div>
-
+    	set cursorline
+    	hi clear CursorLine 
 
 colo vylight 
 colo wombat256 
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>	<span class="k">let</span> g:lucius_style <span class="p">=</span> <span class="c">&quot;light&quot;</span>
-	<span class="k">colo</span> lucius 
-<span class="k">elseif</span> $TERM <span class="p">=~</span> <span class="s1">&#39;256&#39;</span> <span class="p">||</span> $COLORTERM <span class="p">=~</span> <span class="s1">&#39;gnome-terminal&#39;</span>
-</pre></div>
-</div>
-
+    	let g:lucius_style = "light"
+    	colo lucius 
+    elseif $TERM =~ '256' || $COLORTERM =~ 'gnome-terminal'
 
  Use a console friendly theme and turn off cursorline
  I  prefer a dark theme at the console..
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>	<span class="k">set</span> <span class="nb">t_Co</span><span class="p">=</span><span class="m">256</span>
-	<span class="k">set</span> <span class="nb">cursorline</span>
-	<span class="nb">hi</span> clear CursorLine 
-</pre></div>
-</div>
-
+    	set t_Co=256
+    	set cursorline
+    	hi clear CursorLine 
 
 colo jellybeans 
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>	
-	<span class="k">if</span> $TERM_META <span class="p">=~</span> <span class="s1">&#39;white&#39;</span>
-<span class="c">		&quot;colo github </span>
-		<span class="k">let</span> g:lucius_style <span class="p">=</span> <span class="c">&quot;light&quot;</span>
-		<span class="k">colo</span> lucius 
-	<span class="k">else</span>
-<span class="c">		&quot;colo molokai </span>
-<span class="c">		&quot;colo wombat256 </span>
-<span class="c">		&quot;colo jellybeans </span>
-<span class="c">		&quot;colo 256-grayvim</span>
-<span class="c">		&quot;colo mywombat256 </span>
-		<span class="k">let</span> g:lucius_style <span class="p">=</span> <span class="c">&quot;dark&quot;</span>
-		<span class="k">colo</span> lucius 
-	<span class="k">endif</span>
-<span class="k">endif</span>
-</pre></div>
-</div>
-
+    	
+    	if $TERM_META =~ 'white'
+    		"colo github 
+    		let g:lucius_style = "light"
+    		colo lucius 
+    	else
+    		"colo molokai 
+    		"colo wombat256 
+    		"colo jellybeans 
+    		"colo 256-grayvim
+    		"colo mywombat256 
+    		let g:lucius_style = "dark"
+    		colo lucius 
+    	endif
+    endif
+    
 
 set linenumbers on by default
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="k">number</span> 
-</pre></div>
-</div>
-
+    set number 
+    
 
 drupal rules
 If you edit a lot of php-drupal you should
 use these next few lines. If not, comment them
 out and I doubt you'll miss them.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>augroup drupal_module
-	autocmd <span class="nb">BufRead</span> *.module<span class="p">,</span>*.<span class="nb">inc</span> <span class="k">set</span> <span class="k">filetype</span><span class="p">=</span>php
-augroup END
-</pre></div>
-</div>
-
+    augroup drupal_module
+    	autocmd BufRead *.module,*.inc set filetype=php
+    augroup END
+    
 
 autowrite: "on" saves a lot of trouble
 set autowrite
 be aggressive/paranoid and save often automatically.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">autowriteall</span>
-<span class="k">set</span>	<span class="nb">autoread</span>
-</pre></div>
-</div>
-
+    set autowriteall
+    set	autoread
+    
 
 interactive spell check
 works only in non-gui mode for now
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>map #<span class="k">sp</span> :<span class="k">w</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>:<span class="p">!</span>ispell %<span class="p">&lt;</span>CR<span class="p">&gt;</span>:<span class="k">e</span> %<span class="p">&lt;</span>CR<span class="p">&gt;</span> 
-</pre></div>
-</div>
-
+    map #sp :w<CR>:!ispell %<CR>:e %<CR> 
+    
 
 Use the next line to selectively enable spell
 checking for certain filetypes.
@@ -867,45 +692,28 @@ I usually don't want spell checking when
 writting code, so only enable for thing with
 a lot of real words like text and markdown files.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>au <span class="nb">FileType</span> text<span class="p">,</span>markdown<span class="p">,</span>rst <span class="k">setlocal</span> <span class="k">spell</span> <span class="nb">spelllang</span><span class="p">=</span>en_us
-au <span class="nb">FileType</span> text<span class="p">,</span>markdown<span class="p">,</span>rst <span class="k">let</span> <span class="k">b</span>:NiceMenuContextRegex<span class="p">=</span><span class="s1">&#39;[a-zA-Z0-9]&#39;</span> 
-</pre></div>
-</div>
-
+    au FileType text,markdown,rst setlocal spell spelllang=en_us
+    au FileType text,markdown,rst let b:NiceMenuContextRegex='[a-zA-Z0-9]' 
+    
 
 set spell spelllang=en_us
+
+    
+
 Make right mouse button work in gvim
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">mousemodel</span><span class="p">=</span><span class="k">popup</span>
-</pre></div>
-</div>
-
+    set mousemodel=popup
+    
 
 Allow toggling of paste/nopaste via F2
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">pastetoggle</span><span class="p">=&lt;</span>F2<span class="p">&gt;</span>
-</pre></div>
-</div>
-
+    set pastetoggle=<F2>
+    
 
 Don't acutally close buffers, just hide them.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">hidden</span>
-</pre></div>
-</div>
-
+    set hidden
+    
 
 dictionary: english words first
 add any text based dictionaries to the list.
@@ -913,174 +721,117 @@ Also, you can use C-X,C-K to autocomplete a word
 using the dictionary. Or, use C-X,C-S to check spelling
 on a word, fun stuff.
 
+    set dictionary+=/usr/share/dict/words,/usr/dict/words,/usr/dict/extra.words
+    
 
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">dictionary</span><span class="p">+=</span><span class="sr">/usr/</span>share<span class="sr">/dict/</span>words<span class="p">,</span><span class="sr">/usr/</span><span class="nb">dict</span><span class="sr">/words,/</span>usr<span class="sr">/dict/</span>extra.words
-</pre></div>
-</div>
-
-
-[Improved_Hex_editing](http://vim.wikia.com/wiki/Improved_Hex_editing)
+http://vim.wikia.com/wiki/Improved_Hex_editing
 ex command for toggling hex mode - define mapping if desired
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>command<span class="p">!</span> <span class="p">-</span><span class="nb">bar</span> Hexmode <span class="k">call</span> ToggleHex<span class="p">()</span>
-</pre></div>
-</div>
-
+    command! -bar Hexmode call ToggleHex()
+    
 
 helper function to toggle hex mode
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">function</span><span class="p">!</span> ToggleHex<span class="p">()</span>
-<span class="c">  &quot; hex mode should be considered a read-only operation</span>
-<span class="c">  &quot; save values for modified and read-only for restoration later,</span>
-<span class="c">  &quot; and clear the read-only flag for now</span>
-  <span class="k">let</span> <span class="k">l</span>:<span class="nb">modified</span><span class="p">=</span>&amp;<span class="k">mod</span>
-  <span class="k">let</span> <span class="k">l</span>:oldreadonly<span class="p">=</span>&amp;<span class="nb">readonly</span>
-  <span class="k">let</span> &amp;<span class="nb">readonly</span><span class="p">=</span><span class="m">0</span>
-  <span class="k">let</span> <span class="k">l</span>:oldmodifiable<span class="p">=</span>&amp;<span class="nb">modifiable</span>
-  <span class="k">let</span> &amp;<span class="nb">modifiable</span><span class="p">=</span><span class="m">1</span>
-  <span class="k">if</span> <span class="p">!</span>exists<span class="p">(</span><span class="s2">&quot;b:editHex&quot;</span><span class="p">)</span> <span class="p">||</span> <span class="p">!</span><span class="k">b</span>:editHex
-<span class="c">    &quot; save old options</span>
-    <span class="k">let</span> <span class="k">b</span>:oldft<span class="p">=</span>&amp;<span class="nb">ft</span>
-    <span class="k">let</span> <span class="k">b</span>:oldbin<span class="p">=</span>&amp;<span class="nb">bin</span>
-<span class="c">    &quot; set new options</span>
-    <span class="k">setlocal</span> <span class="nb">binary</span> <span class="c">&quot; make sure it overrides any textwidth, etc.</span>
-    <span class="k">let</span> &amp;<span class="nb">ft</span><span class="p">=</span><span class="s2">&quot;xxd&quot;</span>
-<span class="c">    &quot; set status</span>
-    <span class="k">let</span> <span class="k">b</span>:editHex<span class="p">=</span><span class="m">1</span>
-<span class="c">    &quot; switch to hex editor</span>
-    %<span class="p">!</span>xxd
-  <span class="k">else</span>
-<span class="c">    &quot; restore old options</span>
-    <span class="k">let</span> &amp;<span class="nb">ft</span><span class="p">=</span><span class="k">b</span>:oldft
-    <span class="k">if</span> <span class="p">!</span><span class="k">b</span>:oldbin
-      <span class="k">setlocal</span> <span class="nb">nobinary</span>
-    <span class="k">endif</span>
-<span class="c">    &quot; set status</span>
-    <span class="k">let</span> <span class="k">b</span>:editHex<span class="p">=</span><span class="m">0</span>
-<span class="c">    &quot; return to normal editing</span>
-    %<span class="p">!</span>xxd <span class="p">-</span><span class="k">r</span>
-  <span class="k">endif</span>
-<span class="c">  &quot; restore values for modified and read only state</span>
-  <span class="k">let</span> &amp;<span class="k">mod</span><span class="p">=</span><span class="k">l</span>:<span class="nb">modified</span>
-  <span class="k">let</span> &amp;<span class="nb">readonly</span><span class="p">=</span><span class="k">l</span>:oldreadonly
-  <span class="k">let</span> &amp;<span class="nb">modifiable</span><span class="p">=</span><span class="k">l</span>:oldmodifiable
-<span class="k">endfunction</span>
-</pre></div>
-</div>
-
+    function! ToggleHex()
+      " hex mode should be considered a read-only operation
+      " save values for modified and read-only for restoration later,
+      " and clear the read-only flag for now
+      let l:modified=&mod
+      let l:oldreadonly=&readonly
+      let &readonly=0
+      let l:oldmodifiable=&modifiable
+      let &modifiable=1
+      if !exists("b:editHex") || !b:editHex
+        " save old options
+        let b:oldft=&ft
+        let b:oldbin=&bin
+        " set new options
+        setlocal binary " make sure it overrides any textwidth, etc.
+        let &ft="xxd"
+        " set status
+        let b:editHex=1
+        " switch to hex editor
+        %!xxd
+      else
+        " restore old options
+        let &ft=b:oldft
+        if !b:oldbin
+          setlocal nobinary
+        endif
+        " set status
+        let b:editHex=0
+        " return to normal editing
+        %!xxd -r
+      endif
+      " restore values for modified and read only state
+      let &mod=l:modified
+      let &readonly=l:oldreadonly
+      let &modifiable=l:oldmodifiable
+    endfunction
+    
 
 A more verbose pastetoggle
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">function</span><span class="p">!</span> TogglePaste<span class="p">()</span>
-	<span class="k">if</span>	&amp;<span class="nb">paste</span> <span class="p">==</span> <span class="m">0</span>
-		<span class="k">set</span> <span class="nb">paste</span>
-		echo <span class="c">&quot;Paste is ON!&quot;</span>
-	<span class="k">else</span>
-		<span class="k">set</span> <span class="nb">nopaste</span>
-		echo <span class="c">&quot;Paste is OFF!&quot;</span>
-	<span class="k">endif</span>
-<span class="k">endfunction</span>
-</pre></div>
-</div>
-
+    function! TogglePaste()
+    	if	&paste == 0
+    		set paste
+    		echo "Paste is ON!"
+    	else
+    		set nopaste
+    		echo "Paste is OFF!"
+    	endif
+    endfunction
 
 Allow toggling of paste/nopaste via F2
 set pastetoggle=<F2>
 
+    nmap <F2> <ESC>:call TogglePaste()<CR>
+    imap <F2> <ESC>:call TogglePaste()<CR>i
+    
 
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>nmap <span class="p">&lt;</span>F2<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:<span class="k">call</span> TogglePaste<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
-imap <span class="p">&lt;</span>F2<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:<span class="k">call</span> TogglePaste<span class="p">()&lt;</span>CR<span class="p">&gt;</span>i
-</pre></div>
-</div>
-
-
-[plasticboy](http://plasticboy.com/markdown-vim-mode/)
+http://plasticboy.com/markdown-vim-mode/
 Markdown format options, which I don't use 
 but I'll include them here for your experimentation
 augroup mkd
 autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:>
 augroup END
+
+    
+
 I like to put system library tags in a different tag file that
 is only generated once in a while.
 
+    set tags=tags;/
+    au FileType python set tags +=~/.tags/tags-python
+    au FileType c set tags +=~/.tags/tags-c
+    au FileType cpp set tags +=~/.tags/tags-cpp
+    
 
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="k">tags</span><span class="p">=</span><span class="k">tags</span>;/
-au <span class="nb">FileType</span> python <span class="k">set</span> <span class="k">tags</span> <span class="p">+=~</span><span class="sr">/.tags/</span><span class="k">tags</span><span class="p">-</span>python
-au <span class="nb">FileType</span> <span class="k">c</span> <span class="k">set</span> <span class="k">tags</span> <span class="p">+=~</span><span class="sr">/.tags/</span><span class="k">tags</span><span class="p">-</span><span class="k">c</span>
-au <span class="nb">FileType</span> cpp <span class="k">set</span> <span class="k">tags</span> <span class="p">+=~</span><span class="sr">/.tags/</span><span class="k">tags</span><span class="p">-</span>cpp
-</pre></div>
-</div>
-
-
-Remove menu bar from gvim
-set guioptions-=m
-Remove toolbar from gvim
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">guioptions</span><span class="p">-=</span>T
-</pre></div>
-</div>
-
-
-Set gvim font. I like the Inconsolata font these days.
-You'll need to install, do it, it's very much worth it.
-A great font, and it's 100% free.
-
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">guifont</span><span class="p">=</span>Inconsolata\ Medium\ <span class="m">12</span>
-</pre></div>
-</div>
-
-
-set guifont=Anonymous\ Pro\ 12
 I don't want variables and options saved in my views
 so remove the 'options' option from the default viewoptions setting.
 set viewoptions-=options
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">viewoptions</span><span class="p">=</span><span class="nb">cursor</span>
-<span class="k">set</span> <span class="nb">sessionoptions</span><span class="p">=</span><span class="k">winpos</span><span class="p">,</span>localoptions
-</pre></div>
-</div>
-
+    set viewoptions=cursor
+    set sessionoptions=winpos,localoptions
+    
 
 End More normal Vim tweaks.
 __________
 
+
+    
+
 __________
 
 Plugins and external addons
+
+    
+
 LustyExplorer
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>nmap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="k">c</span><span class="p">-</span><span class="k">l</span><span class="p">&gt;</span> <span class="p">&lt;</span>esc<span class="p">&gt;</span>:LustyBufferExplorer<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-imap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="k">c</span><span class="p">-</span><span class="k">l</span><span class="p">&gt;</span> <span class="p">&lt;</span>esc<span class="p">&gt;</span>:LustyBufferExplorer<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-</pre></div>
-</div>
-
+    nmap <silent> <c-l> <esc>:LustyBufferExplorer<CR>
+    imap <silent> <c-l> <esc>:LustyBufferExplorer<CR>
+    
 
 "" comments.vim
 A more elaborate comment set up. Use Ctr-C to comment and Ctr-x to uncomment
@@ -1088,78 +839,50 @@ This will detect file types and use oneline comments accordingle. Cool
 because you visually select regions and comment/uncomment the whole region.
 works with marked regions to.
 Just put it in your plugin directory.
+
+    
+    
+    
+
 "" TagList """"""""
 Set taglist plugin options
 Display function name in status bar:
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> g:ctags_statusline<span class="p">=</span><span class="m">1</span>
-</pre></div>
-</div>
-
+    let g:ctags_statusline=1
 
 Automatically start script
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> generate_tags<span class="p">=</span><span class="m">1</span>
-</pre></div>
-</div>
-
+    let generate_tags=1
+    
 
 Displays taglist results in a vertical window:
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> Tlist_Use_Horiz_Window<span class="p">=</span><span class="m">0</span>
-</pre></div>
-</div>
-
+    let Tlist_Use_Horiz_Window=0
 
 Shorter commands to toggle Taglist display
 nnoremap TT :TlistToggle<CR>
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>nnoremap TT :TlistOpen<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-map <span class="p">&lt;</span>F4<span class="p">&gt;</span> :TlistToggle<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-
-<span class="k">let</span> Tlist_Use_Right_Window     <span class="p">=</span> <span class="m">0</span>
-<span class="k">let</span> Tlist_Exit_OnlyWindow      <span class="p">=</span> <span class="m">1</span>
-<span class="k">let</span> Tlist_Enable_Fold_Column   <span class="p">=</span> <span class="m">0</span>
-<span class="k">let</span> Tlist_Compact_Format       <span class="p">=</span> <span class="m">1</span>
-<span class="k">let</span> Tlist_File_Fold_Auto_Close <span class="p">=</span> <span class="m">1</span>
-<span class="k">let</span> Tlist_Auto_Highlight_Tag   <span class="p">=</span> <span class="m">1</span>
-</pre></div>
-</div>
-
+    nnoremap TT :TlistOpen<CR>
+    map <F4> :TlistToggle<CR>
+    
+    let Tlist_Use_Right_Window     = 0
+    let Tlist_Exit_OnlyWindow      = 1
+    let Tlist_Enable_Fold_Column   = 0
+    let Tlist_Compact_Format       = 1
+    let Tlist_File_Fold_Auto_Close = 1
+    let Tlist_Auto_Highlight_Tag   = 1
+    
 
 Tlist_WinWidth~
 The default width of the vertically split taglist window is 30. This can be
 changed by modifying the 'Tlist_WinWidth' variable:
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> Tlist_WinWidth <span class="p">=</span> <span class="m">60</span>
-</pre></div>
-</div>
-
+    let Tlist_WinWidth = 60
+    
 
 Close Tlist when jumping to tag
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> Tlist_Close_On_Select <span class="p">=</span> <span class="m">1</span>
-</pre></div>
-</div>
-
+    let Tlist_Close_On_Select = 1
 
 Tlist_Display_Prototype~
 By default, only the tag name will be displayed in the taglist window. If you
@@ -1167,150 +890,110 @@ like to see tag prototypes instead of names, set the 'Tlist_Display_Prototype'
 variable to 1. By default, this variable is set to zero and only tag names
 will be displayed.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> Tlist_Display_Prototype <span class="p">=</span> <span class="m">1</span>
-</pre></div>
-</div>
-
+    let Tlist_Display_Prototype = 1
 
 "" End TagList
+
+    
+
 "" netrw
 Tree Style listing
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> g:netrw_liststyle <span class="p">=</span> <span class="m">3</span>
-</pre></div>
-</div>
-
+    let g:netrw_liststyle = 3
+    
 
 Lusty Explorer
 nmap <C-d> <ESC>:LustyFilesystemExplorerFromHere<CR>
 imap <C-d> <ESC>:LustyFilesystemExplorerFromHere<CR>
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>nmap <span class="p">&lt;</span>C<span class="p">-</span><span class="k">d</span><span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:LustyFilesystemExplorer<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-imap <span class="p">&lt;</span>C<span class="p">-</span><span class="k">d</span><span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:LustyFilesystemExplorer<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-</pre></div>
-</div>
-
+    nmap <C-d> <ESC>:LustyFilesystemExplorer<CR>
+    imap <C-d> <ESC>:LustyFilesystemExplorer<CR>
+    
+    
+    
 
 "" JSLint.vim plugin -- indespensable!
 Turn off error highlighting. I like having just the
 quickfix window.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> g:JSLintHighlightErrorLine <span class="p">=</span> <span class="m">0</span>
-<span class="k">let</span> g:JSLintIgnoreImpliedGlobals <span class="p">=</span> <span class="m">1</span>
-au <span class="nb">FileType</span> javascript nmap <span class="p">&lt;</span>F5<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:JSLint<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-au <span class="nb">FileType</span> javascript imap <span class="p">&lt;</span>F5<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:JSLint<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-</pre></div>
-</div>
-
+    let g:JSLintHighlightErrorLine = 0
+    let g:JSLintIgnoreImpliedGlobals = 1
+    au FileType javascript nmap <F5> <ESC>:JSLint<CR>
+    au FileType javascript imap <F5> <ESC>:JSLint<CR>
+    
 
 run the current buffer as a python script 
 or run it through PyFlakes command.
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>au <span class="nb">FileType</span> python nmap <span class="p">&lt;</span>F1<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:<span class="k">w</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>:<span class="p">!</span>python %<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-au <span class="nb">FileType</span> python imap <span class="p">&lt;</span>F1<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:<span class="k">w</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>:<span class="p">!</span>python %<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-au <span class="nb">FileType</span> python nmap <span class="p">&lt;</span>F5<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:<span class="k">w</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>:PyFlakes<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-au <span class="nb">FileType</span> python imap <span class="p">&lt;</span>F5<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:<span class="k">w</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>:PyFlakes<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-
-<span class="k">let</span> python_highlight_space_errors <span class="p">=</span> <span class="m">0</span>
-</pre></div>
-</div>
-
+    au FileType python nmap <F1> <ESC>:w<CR>:!python %<CR>
+    au FileType python imap <F1> <ESC>:w<CR>:!python %<CR>
+    au FileType python nmap <F5> <ESC>:w<CR>:PyFlakes<CR>
+    au FileType python imap <F5> <ESC>:w<CR>:PyFlakes<CR>
+    
+    let python_highlight_space_errors = 0
+    
 
 php synax check via 'php -l'
 uses my plugin/phplint.vim
 au FileType php nmap <F5> <ESC>:w<CR>:PHPLint<CR>
 au FileType php imap <F5> <ESC>:w<CR>:PHPLint<CR>
+
+    
+
 use tidy
 I don't use this much, so may be buggy
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>au <span class="nb">FileType</span> html nmap <span class="p">&lt;</span>F5<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:<span class="k">w</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>:HTMLTidyLint<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-au <span class="nb">FileType</span> html imap <span class="p">&lt;</span>F5<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:<span class="k">w</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>:HTMLTidyLint<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-</pre></div>
-</div>
-
+    au FileType html nmap <F5> <ESC>:w<CR>:HTMLTidyLint<CR>
+    au FileType html imap <F5> <ESC>:w<CR>:HTMLTidyLint<CR>
+    
+    
 
 My own custom plugin/bashrun.vim
 Very simple, BashRun runs the buffer as a bash
 script and outputs errors into a quick fix windowl
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>au <span class="nb">FileType</span> <span class="k">sh</span><span class="p">,</span>bash nmap <span class="p">&lt;</span>F1<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:<span class="k">w</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>:<span class="p">!</span><span class="k">sh</span> %<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-au <span class="nb">FileType</span> <span class="k">sh</span><span class="p">,</span>bash imap <span class="p">&lt;</span>F1<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:<span class="k">w</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>:<span class="p">!</span><span class="k">sh</span> %<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-au <span class="nb">FileType</span> <span class="k">sh</span><span class="p">,</span>bash nmap <span class="p">&lt;</span>F5<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:<span class="k">w</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>:BashRun<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-au <span class="nb">FileType</span> <span class="k">sh</span><span class="p">,</span>bash imap <span class="p">&lt;</span>F5<span class="p">&gt;</span> <span class="p">&lt;</span>ESC<span class="p">&gt;</span>:<span class="k">w</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>:BashRun<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-</pre></div>
-</div>
-
+    au FileType sh,bash nmap <F1> <ESC>:w<CR>:!sh %<CR>
+    au FileType sh,bash imap <F1> <ESC>:w<CR>:!sh %<CR>
+    au FileType sh,bash nmap <F5> <ESC>:w<CR>:BashRun<CR>
+    au FileType sh,bash imap <F5> <ESC>:w<CR>:BashRun<CR>
 
 au FileType sh,bash setlocal errorformat=%f\ line\ %l:\ %m
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>au <span class="nb">FileType</span> <span class="k">go</span> <span class="k">setlocal</span> <span class="nb">errorformat</span><span class="p">=</span>%<span class="k">f</span>:%<span class="k">l</span>:\ %<span class="k">m</span>
-</pre></div>
-</div>
-
+    
+    
+    au FileType go setlocal errorformat=%f:%l:\ %m
+    
 
 json_reformat is at:
-URL: [lloyd.github.com](http://lloyd.github.com/yajl/)
+URL: http://lloyd.github.com/yajl/
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre>autocmd <span class="nb">FileType</span> json <span class="k">set</span> <span class="nb">equalprg</span><span class="p">=</span>json_reformat
-autocmd <span class="nb">FileType</span> xml  <span class="k">set</span> <span class="nb">equalprg</span><span class="p">=</span>xmllint\ <span class="p">--</span>format\ <span class="p">-</span>
-</pre></div>
-</div>
-
+    autocmd FileType json set equalprg=json_reformat
+    autocmd FileType xml  set equalprg=xmllint\ --format\ -
+    
 
 Enable autotag.vim
 source ~/.vim/plugin/autotag.vim
+
+    
+
 load the tag closer
 au FileType html,xhtml let b:closetag_html_style=1
 au FileType html,xml,xhtml,xsl,htmlcheetah source ~/.vim/scripts/closetag.vim
+
+    
+
 doubleTap
 let g:loaded_doubleTap = 1
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> g:DoubleTapInsertTimer <span class="p">=</span> <span class="m">0</span>.<span class="m">8</span>
-</pre></div>
-</div>
-
+    let g:DoubleTapInsertTimer = 0.8
+    
 
 Set NiceMenu Delay
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> g:loaded_nice_menu <span class="p">=</span> <span class="m">1</span>
-<span class="k">let</span> g:NiceMenuDelay <span class="p">=</span> <span class="s1">&#39;.6&#39;</span>
-<span class="k">let</span> g:NiceMenuMin <span class="p">=</span> <span class="m">1</span>
-</pre></div>
-</div>
-
+    let g:loaded_nice_menu = 1
+    let g:NiceMenuDelay = '.6'
+    let g:NiceMenuMin = 1
+    
 
 Syntax checking entire file
 Usage: :make (check file)
@@ -1321,71 +1004,82 @@ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
 autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\
 %l%.%#,%Z%[%^\ ]%\\@=%m
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> g:maxLineLength<span class="p">=</span><span class="m">100</span>
-</pre></div>
-</div>
-
+    
+    let g:maxLineLength=100
+    
 
 BellyButton settings
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> g:BellyButton_javascript_jslint_options <span class="p">=</span> {<span class="s1">&#39;white&#39;</span>:<span class="s1">&#39;false&#39;</span><span class="p">,</span> <span class="s1">&#39;vars&#39;</span>:<span class="s1">&#39;true&#39;</span><span class="p">,</span><span class="s1">&#39;bitwise&#39;</span>:<span class="s1">&#39;false&#39;</span><span class="p">,</span>
-			\<span class="s1">&#39;predef&#39;</span>:<span class="s2">&quot;[&#39;Backbone&#39;, &#39;_&#39;, &#39;console&#39;,&#39;window&#39;, &#39;Ext&#39;, &#39;jQuery&#39;, &#39;$&#39;, &#39;cp&#39;, &#39;alert&#39;, &#39;confirm&#39;, &#39;document&#39;]&quot;</span>}
-</pre></div>
-</div>
-
+    let g:BellyButton_javascript_jslint_options = {'white':'false', 'vars':'true','bitwise':'false',
+    			\'predef':"['Backbone', '_', 'console','window', 'Ext', 'jQuery', '$', 'cp', 'alert', 'confirm', 'document']"}
+    
+    
 
 Sparkup options
 I don't like default mapping, I actually use
 the <c-e> default for navigation
 
-
-
-<div class="vimdown_vim">
-<div class="highlight"><pre><span class="k">let</span> g:sparkupExecuteMapping <span class="p">=</span> <span class="s1">&#39;&lt;c-t&gt;&#39;</span>
-<span class="k">let</span> g:sparkupNextMapping <span class="p">=</span> <span class="s1">&#39;&lt;c-h&gt;&#39;</span>
-
-<span class="k">let</span> g:snips_author <span class="p">=</span> <span class="s1">&#39;Jeff Buttars&#39;</span>
-</pre></div>
-</div>
-
+    let g:sparkupExecuteMapping = '<c-t>'
+    let g:sparkupNextMapping = '<c-h>'
+    
+    let g:snips_author = 'Jeff Buttars'
+    
 
 End Plugins and external addons
 __________
 
-Misc People and places that I've gotten stuff from
-[http://dancingpenguinsoflight".com"/2009/02/code-navigation-completion-snippets-in-vim/](http://dancingpenguinsoflight".com"/2009/02/code-navigation-completion-snippets-in-vim/)
-[http://www.thegeekstuff.com/2009/01/vi-and-vim-editor-5-awesome-examples-for-automatic-word-completion-using-ctrl-x-magic/](http://www.thegeekstuff.com/2009/01/vi-and-vim-editor-5-awesome-examples-for-automatic-word-completion-using-ctrl-x-magic/)
-IBM Vim series, quite good.
-Scripting the Vim editor, Part 1: Variables, values, and expressions
-[http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html)
-Scripting the Vim editor, Part 2: User-defined functions
-[http://www.ibm.com/developerworks/linux/library/l-vim-script-2/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-2/index.html)
-Scripting the Vim editor, Part 3: Built-in lists
-[http://www.ibm.com/developerworks/linux/library/l-vim-script-3/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-3/index.html)
-Scripting the Vim editor, Part 4: Dictionaries
-[http://www.ibm.com/developerworks/linux/library/l-vim-script-4/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-4/index.html)
-Scripting the Vim editor, Part 5: Event-driven scripting and automation
-[http://www.ibm.com/developerworks/linux/library/l-vim-script-5/index.html](http://www.ibm.com/developerworks/linux/library/l-vim-script-5/index.html)
-Some good python settings suggestions:
-[http://www.cmdln.org/2008/10/18/vim-customization-for-python/](http://www.cmdln.org/2008/10/18/vim-customization-for-python/)
 
-Good information on line wrapping:
-[http://blog.ezyang.com/2010/03/vim-textwidth/](http://blog.ezyang.com/2010/03/vim-textwidth/)
-au FileType php set nocursorline 
-au WinEnter * setlocal number
-au WinLeave * setlocal nonumber
+    
 
+####Misc People and places that I've gotten stuff from  
+
+* [code-navigation-completion-snippets-in-vim](http://dancingpenguinsoflight.com/2009/02/code-navigation-completion-snippets-in-vim/)
+* [5-awesome-examples-for-automatic-word-completion-using-ctrl-x-magic](http://www.thegeekstuff.com/2009/01/vi-and-vim-editor-5-awesome-examples-for-automatic-word-completion-using-ctrl-x-magic/)
+
+#### IBM Vim series, quite good.
+
+* [Scripting the Vim editor, Part 1: Variables, values, and expressions](http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html)
+* [Scripting the Vim editor, Part 2: User-defined functions](http://www.ibm.com/developerworks/linux/library/l-vim-script-2/index.html)
+* [Scripting the Vim editor, Part 3: Built-in lists](http://www.ibm.com/developerworks/linux/library/l-vim-script-3/index.html)
+* [Scripting the Vim editor, Part 4: Dictionaries](http://www.ibm.com/developerworks/linux/library/l-vim-script-4/index.html)
+* [Scripting the Vim editor, Part 5: Event-driven scripting and automation](http://www.ibm.com/developerworks/linux/library/l-vim-script-5/index.html)
+* [Some good python settings suggestions](http://www.cmdln.org/2008/10/18/vim-customization-for-python/)
+* [Good information on line wrapping](http://blog.ezyang.com/2010/03/vim-textwidth/)
+
+The php syntax file and showing the cursorline don't play well together.
+If you find editing PHP files with cursorline enabled unbearably slow
+Use the following to disable the cursorline for PHP files
 
 
-<div class="vimdown_vim">
-<div class="highlight"><pre>runtime hacks.<span class="k">vim</span> 
-</pre></div>
-</div>
+<pre>au FileType php set nocursorline </pre>
 
 
+
+I put my small Vim hacks into a seperate file called hacks.vim
+There are things, often functions/commands, I don't want in my 
+.vimrc but I also don't want to write a plugin for.
+I source it last thing
+
+    runtime hacks.vim 
+    
+
+[nocompatible]: http://vimdoc.sourceforge.net/htmldoc/options.html#'nocompatible'
+[backspace]: http://vimdoc.sourceforge.net/htmldoc/options.html#'backspace'
+[nobackup]: http://vimdoc.sourceforge.net/htmldoc/options.html#'nobackup'
+[history]: http://vimdoc.sourceforge.net/htmldoc/options.html#'history'
+[ruler]: http://vimdoc.sourceforge.net/htmldoc/options.html#'ruler'
+[statusline]: http://vimdoc.sourceforge.net/htmldoc/options.html#'statusline'
+[guioptions]: http://vimdoc.sourceforge.net/htmldoc/options.html#'guioptions'
+[switchbuf]: http://vimdoc.sourceforge.net/htmldoc/options.html#'switchbuf'
+[laststatus]: http://vimdoc.sourceforge.net/htmldoc/options.html#'laststatus'
+[showcmd]: http://vimdoc.sourceforge.net/htmldoc/options.html#'showcmd'
+[undofile]: http://vimdoc.sourceforge.net/htmldoc/options.html#'undofile'
+[undodir]: http://vimdoc.sourceforge.net/htmldoc/options.html#'undodir'
+[mouse]: http://vimdoc.sourceforge.net/htmldoc/options.html#'mouse'
+[syntax]: http://vimdoc.sourceforge.net/htmldoc/options.html#'syntax'
+[hlsearch]: http://vimdoc.sourceforge.net/htmldoc/options.html#'hlsearch'
+[listchars]: http://vimdoc.sourceforge.net/htmldoc/options.html#'listchars'
+
+[inoremap]: http://vimdoc.sourceforge.net/htmldoc/map.html#:inoremap
+[imap]: http://vimdoc.sourceforge.net/htmldoc/map.html#:imap
+[nmap]: http://vimdoc.sourceforge.net/htmldoc/map.html#:nmap
