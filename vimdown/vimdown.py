@@ -17,11 +17,13 @@ class Parser(object):
 			NONCOMMENT:"NONCOMMENT",
 	}
 
-	def __init__(self, fl):
+	def __init__(self, fl, m2code=False, pyg=False):
 
-		logging.debug("Parser(fl:%s)" % (fl,))
+		logging.debug("Parser(fl:%s, m2code:%s)" % (fl, m2code))
 		self.fd = open(fl)
 
+		self.m2code = m2code
+		self.pyg = pyg
 		self.iscomment = re.compile('^\s?"')
 		#isspacey = re.compile('^\s*$')
 	#__init__()
@@ -104,10 +106,13 @@ class Parser(object):
 				cont = "    ".join(v)
 				logging.debug("cont : '%s'" % cont)
 					
-				#res.append("\n\n\n<div class=\"vimdown_vim\">\n%s</div>\n\n\n" % (pygmentize(cont)))
-				#res.append("\n    :::vim\n%s\n" % (cont))
-				logging.debug("code block : \n'    %s'\n" % cont)
-				res.append("\n    %s\n" % (cont))
+				if self.m2code:
+					cb = "\n    :::vim\n    %s\n" % (cont)
+				else:
+					cb = "\n    %s\n" % (cont)
+				logging.debug("code block : %s" % cb)
+				res.append(cb)
+					
 			if k == Parser.COMMENT:
 				res.extend(map(strip_vcomment, v))
 			if k == Parser.NON:
@@ -122,7 +127,15 @@ class Parser(object):
 	#gen_markdown()
 
 	def gen_html(self):
-		pass
+		import markdown2
+		blocks = self.parse()
+		mkd = self.blocks_to_markdown(blocks)
+		if self.pyg:
+			logging.debug("Parser.gen_html() codehilite")
+			return markdown2.markdown(mkd, extras=['codehilite'])
+		else:
+			logging.debug("Parser.gen_html()")
+			return markdown2.markdown(mkd)
 	#gen_html()
 #Parser
 
@@ -132,20 +145,20 @@ def main():
 	parser = OptionParser(usage=usage)
 	parser.add_option("-o", "--outfile", dest='outfile', default=False,
 			help=("Write the output to the given filename"))
-	parser.add_option("-t", "--html", dest='html', default=False,
+	parser.add_option("-t", "--html", dest='html', action='store_true', default=False,
 			help=("If markdown2 is present then vimdown will"
 		 		" will process the markdown using markdown2 and"
 		 		" and output the resulting HTML"
 			))
-	parser.add_option("-p", "--pygmentize", dest='pygmentize', default=False,
-			help=("If markdown2 is present then vimdown will"
-		 		" will output html using markdown2's pygments"
-		 		" code coloring. If this option is present the --html"
-		 		" option is implied."
-			))
-	parser.add_option("-c", "--codeblock", dest='codeblock', default=False,
+	parser.add_option("-c", "--codeblock", dest='codeblock', action='store_true', default=False,
 			help=("If set, the code blocks in the generated markdown will be"
 		 		" the markdown2 extended syntax."
+			))
+	parser.add_option("-p", "--pygmentize", dest='pygmentize', action='store_true', default=False,
+			help=("If markdown2 is present then vimdown will"
+		 		" will output html using markdown2's pygments"
+		 		" code coloring. If this option is present the --html and --codeblock"
+		 		" options are implied."
 			))
 
 	(options, args) = parser.parse_args()
@@ -167,9 +180,14 @@ def main():
 	logging.debug("outfile : %s, infiles : %s" % (outfile, infiles))
 
 	for fl in infiles:
-		#logging.debug(parser.print_blocks(blocks, annotate=True))
-		parser = Parser(fl)
-		outfile.write(parser.gen_markdown())
+		parser = Parser(fl, m2code=options.codeblock, pyg=options.pygmentize)
+		res = ""
+		if options.html or options.pygmentize:
+			res = parser.gen_html().encode('utf-8')
+		else:
+			res = parser.gen_markdown()
+			
+		outfile.write(res)
 #main()
 
 if __name__ == '__main__':
