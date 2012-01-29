@@ -45,17 +45,6 @@ def main():
 		
 	logging.debug("outfile : %s, infiles : %s" % (outfile, infiles))
 
-	#hf = HtmlFormatter(style='colorful')
-	#style_section = ("<style>\n%s\ndiv.vimdown_vim "
-	#			  "{display:block;border:1px solid #888;"
-	#			  "background-color:#E0E0E0;"
-	#			  "padding:.5em 1em .5em 1em;"
-	#			  "-webkit-border-radius: 5px;"
-	#			  "-moz-border-radius: 5px;"
-	#			  "border-radius: 5px;"
-	#			  "}"
-	#			  "\n</style>\n") % (hf.get_style_defs(),)
-	#style_section = style_section.replace('*', '\*')
 
 	for fl in infiles:
 		logging.debug("opening file %s" % (fl,))
