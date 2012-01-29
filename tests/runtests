@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# source the settings and activate the virtualenv
+THIS_DIR=$(readlink -f $(dirname $BASH_SOURCE))
+. $THIS_DIR/../.settings.sh
+
+buildenv
+
+function cleanup() 
+{
+	echo "Uninstalling $PROJ_NAME"
+	pip uninstall -y "$PROJ_NAME"
+} #cleanup()
+
+function failed() 
+{
+	echo "$@"
+	pip uninstall -y "$PROJ_NAME"
+	exit 1
+} #failed()
+
+cd $TOP_DIR
+echo "create the distribution"
+rm -fr dist
+python setup.py sdist
+
+echo "install PROJ_NAME with pip"
+pip install "dist/$PROJ_NAME-$PROJ_VER.tar.gz"
+
+cd -
+
+echo "See if it explodes with 0 arguments"
+vimdown
+retc="$?"
+if [[ "$retc" != "9" ]]; then
+	failed "expected return code 9, got $retc instead. Test failed."
+fi
+
+
+cleanup
