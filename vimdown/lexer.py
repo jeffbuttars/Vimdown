@@ -5,7 +5,7 @@ import logging
 
 from pygments import  highlight
 from pygments.lexers import VimLexer
-from pygments.formatters import HtmlFormatter
+from pygments.formatters import HtmlFormatter, SvgFormatter, JpgImageFormatter
 from pygments.styles import get_style_by_name
 
 iscomment = re.compile('^\s?"')
@@ -24,7 +24,10 @@ state_map = {
 
 def pygmentize(code):
 	hf = HtmlFormatter()
+	#hf = SvgFormatter()
+	#hf = JpgImageFormatter()
 	return highlight(code, VimLexer(), hf).encode('ascii', 'ignore')
+	#return highlight(code, VimLexer(), hf).encode('utf-8')
 #pygmentize()
 
 def lex(input):
