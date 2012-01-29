@@ -144,7 +144,8 @@ class Parser(object):
 #Parser
 
 def main():
-	usage = ("%prog, Convert .vimrc and vimscript into markdown")
+	usage = ("%prog, Convert .vimrc and vimscript into markdown\n"
+		  	"%prog <options> infile [infile2] [infile3] [....]")
 
 	parser = OptionParser(usage=usage)
 	parser.add_option("-o", "--outfile", dest='outfile', default=False,
@@ -169,29 +170,37 @@ def main():
 	logging.debug("options:%s"%options)
 	logging.debug("args:%s"%args)
 
-	outfile = options.outfile
-	if not outfile:
-		outfile = sys.stdout
-	else:
-		outfile = open(outfile, 'w')
+	if len(args) < 1:
+		parser.print_help()
+		sys.exit(1)
 
-	infiles = []	
-	if args:
-		infiles += args
-	else:
-		infiles.append(sys.stdin)
-		
-	logging.debug("outfile : %s, infiles : %s" % (outfile, infiles))
-
-	for fl in infiles:
-		parser = Parser(fl, m2code=options.codeblock, pyg=options.pygmentize)
-		res = ""
-		if options.html or options.pygmentize:
-			res = parser.gen_html().encode('utf-8')
+	try:
+		outfile = options.outfile
+		if not outfile:
+			outfile = sys.stdout
 		else:
-			res = parser.gen_markdown()
+			outfile = open(outfile, 'w')
+
+		infiles = []	
+		if args:
+			infiles += args
+		else:
+			infiles.append(sys.stdin)
 			
-		outfile.write(res)
+		logging.debug("outfile : %s, infiles : %s" % (outfile, infiles))
+
+		for fl in infiles:
+			parser = Parser(fl, m2code=options.codeblock, pyg=options.pygmentize)
+			res = ""
+			if options.html or options.pygmentize:
+				res = parser.gen_html().encode('utf-8')
+			else:
+				res = parser.gen_markdown()
+				
+			outfile.write(res)
+	except Exception as e:
+		parser.print_help()
+		raise
 #main()
 
 if __name__ == '__main__':

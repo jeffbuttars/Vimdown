@@ -2,4 +2,4 @@ syntax: glob
 .venv
 *.pyc
 *.pyo
-
+dist

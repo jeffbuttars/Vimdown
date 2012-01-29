@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+THIS_DIR=$(readlink -f $(dirname $BASH_SOURCE))
+. $THIS_DIR/../.settings.sh
+
+src=$TOP_DIR/readme.vim
+mout=$TOP_DIR/README.mkd
+tout=$TOP_DIR/README.txt
+
+vimdown $src > $mout
+cp $mout $tout
