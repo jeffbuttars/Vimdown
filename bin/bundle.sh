@@ -5,6 +5,7 @@ THIS_DIR=$(readlink -f $(dirname $BASH_SOURCE))
 . $THIS_DIR/../.settings.sh
 
 buildenv
+vactivate
 
 cd $TOP_DIR
 

@@ -147,31 +147,31 @@ def main():
 	usage = ("%prog, Convert .vimrc and vimscript into markdown\n"
 		  	"%prog <options> infile [infile2] [infile3] [....]")
 
-	parser = OptionParser(usage=usage)
-	parser.add_option("-o", "--outfile", dest='outfile', default=False,
+	opt_parser = OptionParser(usage=usage)
+	opt_parser.add_option("-o", "--outfile", dest='outfile', default=False,
 			help=("Write the output to the given filename"))
-	parser.add_option("-t", "--html", dest='html', action='store_true', default=False,
+	opt_parser.add_option("-t", "--html", dest='html', action='store_true', default=False,
 			help=("If markdown2 is present then vimdown will"
 		 		" will process the markdown using markdown2 and"
 		 		" and output the resulting HTML"
 			))
-	parser.add_option("-c", "--codeblock", dest='codeblock', action='store_true', default=False,
+	opt_parser.add_option("-c", "--codeblock", dest='codeblock', action='store_true', default=False,
 			help=("If set, the code blocks in the generated markdown will be"
 		 		" the markdown2 extended syntax."
 			))
-	parser.add_option("-p", "--pygmentize", dest='pygmentize', action='store_true', default=False,
+	opt_parser.add_option("-p", "--pygmentize", dest='pygmentize', action='store_true', default=False,
 			help=("If markdown2 is present then vimdown will"
 		 		" will output html using markdown2's pygments"
 		 		" code coloring. If this option is present the --html and --codeblock"
 		 		" options are implied. In fact, this is a short cut for '-c -t'"
 			))
 
-	(options, args) = parser.parse_args()
+	(options, args) = opt_parser.parse_args()
 	logging.debug("options:%s"%options)
 	logging.debug("args:%s"%args)
 
 	if len(args) < 1:
-		parser.print_help()
+		opt_parser.print_help()
 		sys.exit(9)
 
 	try:
@@ -199,7 +199,7 @@ def main():
 				
 			outfile.write(res)
 	except Exception as e:
-		parser.print_help()
+		opt_parser.print_help()
 		raise
 #main()
 

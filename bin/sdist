@@ -18,15 +18,18 @@ THIS_DIR=$(readlink -f $(dirname $BASH_SOURCE))
 . $THIS_DIR/../.settings.sh
 
 buildenv
+vactivate
 
 cd $TOP_DIR
 
 if [[ -n $erase ]]; then
 	echo "erasing the Python distribution files"
 	rm -fr dist
-	README.txt
+	if [[ -f README.txt ]]; then
+		rm -vf README.txt
+	fi
 else
-	vimdown README.vim -o README.txt
+	vimdown/vimdown README.vim -o README.txt
 	python setup.py sdist
 fi
 
