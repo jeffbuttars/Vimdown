@@ -29,7 +29,8 @@ if [[ -n $erase ]]; then
 		rm -vf README.txt
 	fi
 else
-	vimdown/vimdown README.vim -o README.txt
+	vimdown/vimdown README.vim -o README.mkd
+    cp -v README.mkd README.txt
 	python setup.py sdist
 fi
 
