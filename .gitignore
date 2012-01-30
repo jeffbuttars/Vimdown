@@ -5,3 +5,6 @@ dist
 MANIFEST
 build-bundle
 vimdown.pybundle
+tests/*.css
+tests/outfile*
+tests/tmphtml
