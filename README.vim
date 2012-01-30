@@ -9,7 +9,7 @@
 " 	* [Basic](#usage_basic)
 " 	* [Advanced](#usage_advanced)
 " * [Examples](#examples)
-" #### Vim comment lines as a code block
+"   * [Viming-With-Buttars](https://github.com/jeffbuttars/Viming-With-Buttars)
 "
 " 
 " <a name="overview"></a>
@@ -103,6 +103,10 @@
 " 
 " <a name="examples" /></a>
 " ## Examples
+"
+" To see real world usage of vimdown, checkout the README for the [Viming-With-Buttars](https://github.com/jeffbuttars/Viming-With-Buttars)
+" project.  
+"
 " Everything you've seen in the document so far is an example of how vimdown
 " renders comments in a vim file. 
 "

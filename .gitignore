@@ -8,3 +8,5 @@ vimdown.pybundle
 tests/*.css
 tests/outfile*
 tests/tmphtml
+README.html
+README.txt

@@ -9,7 +9,7 @@
 	* [Basic](#usage_basic)
 	* [Advanced](#usage_advanced)
 * [Examples](#examples)
-#### Vim comment lines as a code block
+  * [Viming-With-Buttars](https://github.com/jeffbuttars/Viming-With-Buttars)
 
 
 <a name="overview"></a>
@@ -103,6 +103,10 @@ markup styled for Pygments. Use the -p option:
 
 <a name="examples" /></a>
 ## Examples
+
+To see real world usage of vimdown, checkout the README for the [Viming-With-Buttars](https://github.com/jeffbuttars/Viming-With-Buttars)
+project.  
+
 Everything you've seen in the document so far is an example of how vimdown
 renders comments in a vim file. 
 
@@ -140,7 +144,6 @@ This will be considered a code block:
 rendered as:
 
 
-    :::vim
       "  comment
       "  comment
       "  comment
@@ -149,7 +152,6 @@ rendered as:
 The following examples are how it will render 
 code blocks.  
 
-    :::vim
     
     if variable < 10
         let g:variable = 0
@@ -158,7 +160,6 @@ code blocks.
 
 A code block with comments
 
-    :::vim
     
     if filereadable( tstr )
         " make sure our big ass bsd tags file
