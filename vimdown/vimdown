@@ -33,7 +33,7 @@ class Parser(object):
 
         self.m2code = m2code or pyg
         self.pyg = pyg
-        self.iscomment = re.compile('^\s?"')
+        self.iscomment = re.compile('^ ?"')
         self.isspacey = re.compile('^\s*$')
     #__init__()
 
