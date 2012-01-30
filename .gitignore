@@ -3,3 +3,5 @@
 *.pyo
 dist
 MANIFEST
+build-bundle
+vimdown.bundle
