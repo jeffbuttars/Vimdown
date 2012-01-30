@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Build the Python distribution
+
+set -e
+
+erase=''
+while getopts 'r' opts 
+do 
+	case $opts in
+	r)
+		erase='true'
+	esac
+done
+
+# source the settings and activate the virtualenv
+THIS_DIR=$(readlink -f $(dirname $BASH_SOURCE))
+. $THIS_DIR/../.settings.sh
+
+buildenv
+
+cd $TOP_DIR
+
+if [[ -n $erase ]]; then
+	echo "erasing the Python distribution files"
+	rm -fr dist
+	README.txt
+else
+	vimdown README.vim -o README.txt
+	python setup.py sdist
+fi
+
+
+cd -

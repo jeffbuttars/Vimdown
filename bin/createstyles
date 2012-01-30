@@ -1,0 +1,12 @@
+#!/bin/bash
+
+style_list=$(pygmentize -L styles | grep -e '* ' | sed -e 's/^\* //g' | sed -e 's/:$//g')
+
+echo "<div id=\"style_options\">"
+echo "<p>Choose a pygments style</p>"
+for style in $style_list
+do
+	pygmentize -S $style -f html -a .codehilite > $style.css
+	echo -e "<a href=\"#\" name=\"$style\" >$style</a>"
+done
+echo "</div><br />"
