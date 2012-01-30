@@ -6,28 +6,109 @@ THIS_DIR=$(readlink -f $(dirname $BASH_SOURCE))
 
 buildenv
 
+infile='vimrc'
+outfile='outfile'
+OFCOUNT=1
+ofvalue='wrong'
+
+function ofile() 
+{
+	ofvalue="${outfile}${OFCOUNT}.$1"
+	let OFCOUNT+=1
+} #ofile()
+
 function cleanup() 
 {
-	echo "Uninstalling $PROJ_NAME"
+	cd $TOP_DIR
+	echo "cleaning up. Uninstalling $PROJ_NAME"
 	pip uninstall -y "$PROJ_NAME"
+	bin/sdist -r
+	cd -
 } #cleanup()
+
+trap cleanup SIGINT SIGTERM
 
 function failed() 
 {
 	echo "$@"
-	pip uninstall -y "$PROJ_NAME"
+	cleanup
 	exit 1
 } #failed()
 
+function runvimdown() 
+{
+	cd $TOP_DIR/tests
+
+	opts=''
+	if [[ -n $1 ]]; then
+		opts=$1
+	fi
+
+	ftype='mkd'
+	if [[ -n $2 ]]; then
+		ftype=$2
+	fi
+
+	ofile $ftype
+	local out=$ofvalue
+	if [[ "$ftype" == "html" ]]; then
+		out='tmphtml'
+	fi
+
+	cmd="vimdown $opts $infile"
+	echo "$cmd > $out"
+	$cmd > $out
+	rtc=$?
+	if [[ "$rtc" != "0" ]]; then
+		failed "vimdown command: '$cmd'" " FAILED"
+	fi
+	if [[ "$ftype" == "html" ]]; then
+		cat 'a.html' > $ofvalue
+		echo $style_li >> $ofvalue
+		cat $out >> $ofvalue
+		cat 'b.html' >> $ofvalue
+	fi
+
+
+	ofile $ftype
+	local out=$ofvalue
+	if [[ "$ftype" == "html" ]]; then
+		out='tmphtml'
+	fi
+
+	echo "$cmd -o $out"
+	$cmd -o $out
+	rtc=$?
+	if [[ "$rtc" != "0" ]]; then
+		failed "vimdown command: '$cmd'" " FAILED"
+	fi
+	if [[ "$ftype" == "html" ]]; then
+		cat 'a.html' > $ofvalue
+		echo $style_li >> $ofvalue
+		cat $out >> $ofvalue
+		cat 'b.html' >> $ofvalue
+	fi
+
+	cd -
+} #runvimdown()
+
 cd $TOP_DIR
+
+echo "remove any installed vimdown"
+pip uninstall -y vimdown
+echo "remove the distribution"
+bin/sdist -r
 echo "create the distribution"
-rm -fr dist
-python setup.py sdist
+bin/sdist
 
 echo "install PROJ_NAME with pip"
 pip install "dist/$PROJ_NAME-$PROJ_VER.tar.gz"
 
+cd $TOP_DIR/tests
+echo "creating style files"
+style_li=$($TOP_DIR/bin/createstyles)
 cd -
+
 
 echo "See if it explodes with 0 arguments"
 vimdown
@@ -35,6 +116,29 @@ retc="$?"
 if [[ "$retc" != "9" ]]; then
 	failed "expected return code 9, got $retc instead. Test failed."
 fi
+echo "Empty args test is good"
 
+# simple markdown tests
+echo "most basic markdown tests"
+runvimdown
+
+echo "produce a simple HTML file"
+runvimdown -t 'html'
+
+echo "produce a markdown file with markdown2 style codblocks"
+runvimdown -c
+
+echo "produce an HTML file that uses markdown2 style codeblocks the markdown2 code-color option"
+runvimdown -p 'html'
+
+
+echo "open everything up"
+
+cd $TOP_DIR/tests/
+for nf in $(ls $outfile*)
+do
+	xdg-open $nf
+done
+cd -
 
 cleanup
