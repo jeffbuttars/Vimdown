@@ -2,6 +2,7 @@
 # Vimdown
 
 ## TOC
+* [Install](#install)
 * [Overview](#overview)
 * [Usage](#usage)
 	* [Basic](#usage_basic)
@@ -9,6 +10,19 @@
 * [Examples](#examples)
   * [Viming-With-Buttars](https://github.com/jeffbuttars/Viming-With-Buttars)
 
+
+__________
+
+
+<a name="install"></a>
+## Install
+
+The easiest way to install is to use pip
+
+    pip install vimdown
+
+Or you can [chose an install download from
+GitHub](https://github.com/jeffbuttars/Vimdown/downloads)
 
 <a name="overview"></a>
 ## Overview
