@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(name='vimdown',
-	  version='0.9.0',
+	  version='1.0.0',
 	  description="Convert Vim files to Markdown",
 	  author="Jeff Buttars",
 	  author_email="jeffbuttars@gmail.com",
