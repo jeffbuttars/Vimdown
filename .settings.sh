@@ -4,7 +4,7 @@ TOP_DIR=$(readlink -f $(dirname $BASH_SOURCE))
 
 # Poject name
 PROJ_NAME='vimdown'
-PROJ_VER='1.0.0'
+PROJ_VER='1.1.0'
 # Name of the virtualenv
 VENV_NAME='.venv'
 

@@ -128,8 +128,12 @@ runvimdown -t 'html'
 echo "produce a markdown file with markdown2 style codblocks"
 runvimdown -c
 
+echo "produce a markdown file with GitHub code fences"
+runvimdown -g
+
 echo "produce an HTML file that uses markdown2 style codeblocks the markdown2 code-color option"
 runvimdown -p 'html'
+
 
 
 echo "open everything up"

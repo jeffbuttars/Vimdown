@@ -25,14 +25,21 @@ class Parser(object):
             NONCOMMENT: "NONCOMMENT",
             }
 
-    def __init__(self, fl, m2code=False, pyg=False):
+    def __init__(self, fl, m2code=False, ghubf=False, pyg=False):
 
         logging.debug("Parser(fl:%s, m2code:%s, pyg:%s)" % (
                 fl, m2code, pyg))
         self.fd = open(fl)
 
+        self.ghubf = ghubf
         self.m2code = m2code or pyg
         self.pyg = pyg
+
+        # GitHub code fences take precedence
+        if self.ghubf:
+            self.m2code = False
+            self.pyg = False
+
         self.iscomment = re.compile('^ ?"')
         self.isspacey = re.compile('^\s*$')
     #__init__()
@@ -91,14 +98,22 @@ class Parser(object):
         for block in blocks:
             k, v = block.items()[0]
             if k == Parser.NONCOMMENT:
-                cont = "    ".join(v)
-                if self.isspacey.match(cont):
-                    # We look for and ignore empty code blocks
-                    continue
 
-                if self.m2code:
+                if self.ghubf:
+                    cont = "".join(v)
+                    if self.isspacey.match(cont):
+                        # We look for and ignore empty code blocks
+                        continue
+                    cb = "\n```vim\n%s\n```\n" % (cont)
+                elif self.m2code:
+                    cont = "    ".join(v)
+                    if self.isspacey.match(cont):
+                        continue
                     cb = "\n    :::vim\n    %s\n" % (cont)
                 else:
+                    cont = "    ".join(v)
+                    if self.isspacey.match(cont):
+                        continue
                     cb = "\n    %s\n" % (cont)
                 logging.debug("code block : '%s'" % cb)
                 res.append(cb)
@@ -150,6 +165,12 @@ def main():
                             " markdown will be"
                             " the markdown2 extended syntax."
                         ))
+    opt_parser.add_option("-g", "--ghubfence", dest='ghubfence',
+                          action='store_true', default=False,
+                        help=("If set, the code blocks in the generated"
+                            " markdown will be"
+                            " GitHub code fence syntax."
+                        ))
     opt_parser.add_option("-p", "--pygmentize", dest='pygmentize',
                           action='store_true', default=False,
                             help=("If markdown2 is present then vimdown will"
@@ -185,6 +206,7 @@ def main():
 
         for fl in infiles:
             parser = Parser(fl, m2code=options.codeblock,
+                            ghubf=options.ghubfence,
                             pyg=options.pygmentize)
             res = ""
             if options.html or options.pygmentize:

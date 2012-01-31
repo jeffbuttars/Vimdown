@@ -24,15 +24,14 @@ cd $TOP_DIR
 
 if [[ -n $erase ]]; then
 	echo "erasing the Python distribution files"
-	rm -fr dist
+	rm -vf dist/${PROJ_NAME}-${PROJ_VER}.tar.gz
 	if [[ -f README.txt ]]; then
 		rm -vf README.txt
 	fi
 else
-	vimdown/vimdown README.vim -o README.mkd
+	vimdown/vimdown -g -o README.mkd README.vim
     cp -v README.mkd README.txt
 	python setup.py sdist
 fi
-
 
 cd -
