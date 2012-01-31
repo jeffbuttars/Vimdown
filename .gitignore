@@ -1,7 +1,6 @@
 .venv
 *.pyc
 *.pyo
-dist
 MANIFEST
 build-bundle
 vimdown.pybundle
