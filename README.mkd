@@ -173,9 +173,10 @@ code blocks.
 A code block with comments
 
     
-    if filereadable( tstr )
-        " make sure our big ass bsd tags file
-        " is used in subdirs as well.
-        set tags+=tstr " comment at end of line
-    endif
-
+```vim
+if filereadable( tstr )
+    " make sure our big ass bsd tags file
+    " is used in subdirs as well.
+    set tags+=tstr " comment at end of line
+endif
+```
