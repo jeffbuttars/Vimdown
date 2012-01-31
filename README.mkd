@@ -1,5 +1,3 @@
-# Vimdown
-
 
 # Vimdown
 
@@ -115,38 +113,38 @@ position of the line.
 
 The comment block:
 <pre>
-" comment 
-" comment 
+" # comment 
+" _comment_ 
 " comment 
 </pre>
 will render as:  
-comment   
-comment   
+# comment   
+_comment_   
 comment   
 
 Another comment block, the comment starts in an extra space:
 <pre>
+ " [comment](http://google.com)
  " comment 
- " comment 
- " comment 
+ " __comment__
 </pre>
 renders as:  
+ [comment](http://google.com)   
  comment   
- comment   
- comment  
+ __comment__  
 
 This will be considered a code block:  
 <pre>
-    " comment 
-    " comment 
+    " [comment](http://google.com) 
+    " # comment 
     " comment 
 </pre>
 rendered as:
 
 
-      "  comment
-      "  comment
-      "  comment
+      " [comment](http://google.com)
+      " # comment
+      " comment
 
 
 The following examples are how it will render 
