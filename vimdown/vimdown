@@ -13,8 +13,6 @@ logging.basicConfig(level=logging.INFO,
 
 
 class Parser(object):
-
-
     # States
     NON = 0
     COMMENT = 1
@@ -66,7 +64,6 @@ class Parser(object):
             line = self.fd.readline()
 
         blocks.append(block)
-
         return blocks
     #parse()
 
@@ -143,6 +140,7 @@ class Parser(object):
         return markdown2.markdown(mkd)
     #gen_html()
 #Parser
+
 
 def main():
     usage = ("%prog, Convert .vimrc and vimscript into markdown\n"

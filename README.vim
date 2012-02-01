@@ -159,13 +159,10 @@ pip install vimdown
 "
 " The following examples are how it will render 
 " code blocks.  
-
 if variable < 10
     let g:variable = 0
 endif
-
 " A code block with comments
-
 if filereadable( tstr )
     " make sure our big ass bsd tags file
     " is used in subdirs as well.
