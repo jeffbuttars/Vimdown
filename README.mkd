@@ -9,6 +9,7 @@
 	* [Advanced](#usage_advanced)
 * [Examples](#examples)
   * [Viming-With-Buttars](https://github.com/jeffbuttars/Viming-With-Buttars)
+* [Changes](#changes)
 
 
 __________
@@ -21,7 +22,6 @@ The easiest way to install is to use pip
 
 ```vim
 pip install vimdown
-
 ```
 Or you can [chose an install download from
 GitHub](https://github.com/jeffbuttars/Vimdown/downloads)
@@ -64,7 +64,12 @@ print out the result to stdout:
 
 You can specify an output file:
 <pre>
-> vimdown  -o outfile infile
+> vimdown -o outfile infile
+</pre>
+
+If your using vimdown to create a GitHub README use the -g option:
+<pre>
+> vimdown -g -o outfile infile
 </pre>
 
 Using multiple input files:
@@ -88,6 +93,20 @@ That will create code blocks in the markdown in the style of:
 <pre>
     :::vim
     code is here
+</pre>
+
+#### GitHub code fencing 
+You can have GitHub code fencing with -g :
+<pre>
+> vimdown -g -o outfile infile
+</pre>
+
+That will create code blocks in the style of:
+<pre>
+```vim
+code is here
+another line of code is here
+```
 </pre>
 
 
@@ -158,32 +177,27 @@ This will be considered a code block:
 rendered as:
 
 
-```vim
-  " [comment](http://google.com)
-  " # comment
-  " comment
-
-```
-
 The following examples are how it will render 
 code blocks.  
 
 ```vim
-
 if variable < 10
     let g:variable = 0
 endif
-
-
 ```
 A code block with comments
 
 ```vim
-
 if filereadable( tstr )
     " make sure our big ass bsd tags file
     " is used in subdirs as well.
     set tags+=tstr " comment at end of line
 endif
-
 ```
+<a name="changes" /></a>
+## Changes
+
+* 1.1.0 Added the -g option to enable GitHub style code fencing. This makes
+code render with hilighting on GitHub.
+* 1.1.1 Vimdown now removes leading and trailing empty lines from code
+blocks.

@@ -9,6 +9,7 @@
 " 	* [Advanced](#usage_advanced)
 " * [Examples](#examples)
 "   * [Viming-With-Buttars](https://github.com/jeffbuttars/Viming-With-Buttars)
+" * [Changes](#changes)
 "
 "
 """""""""""""""""""""""""
@@ -60,7 +61,12 @@ pip install vimdown
 "
 " You can specify an output file:
 " <pre>
-" > vimdown  -o outfile infile
+" > vimdown -o outfile infile
+" </pre>
+" 
+" If your using vimdown to create a GitHub README use the -g option:
+" <pre>
+" > vimdown -g -o outfile infile
 " </pre>
 " 
 " Using multiple input files:
@@ -84,6 +90,20 @@ pip install vimdown
 " <pre>
 "     :::vim
 "     code is here
+" </pre>
+" 
+" #### GitHub code fencing 
+" You can have GitHub code fencing with -g :
+" <pre>
+" > vimdown -g -o outfile infile
+" </pre>
+"
+" That will create code blocks in the style of:
+" <pre>
+" ```vim
+" code is here
+" another line of code is here
+" ```
 " </pre>
 " 
 " 
@@ -168,3 +188,11 @@ if filereadable( tstr )
     " is used in subdirs as well.
     set tags+=tstr " comment at end of line
 endif
+
+" <a name="changes" /></a>
+" ## Changes
+"
+" * 1.1.0 Added the -g option to enable GitHub style code fencing. This makes
+" code render with hilighting on GitHub.
+" * 1.1.1 Vimdown now removes leading and trailing empty lines from code
+" blocks.

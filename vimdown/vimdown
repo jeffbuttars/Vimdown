@@ -96,22 +96,26 @@ class Parser(object):
             k, v = block.items()[0]
             if k == Parser.NONCOMMENT:
 
+                # A super dirty and crapy way to remove
+                # leading a trailing empty lines.
+                while v and self.isspacey.match(v[0][0]):
+                    v.pop(0)
+                while v and self.isspacey.match(v[-1:][0]):
+                    v.pop()
+
+                # We look for and ignore empty code blocks
+                if not v:
+                    continue
+
                 if self.ghubf:
                     cont = "".join(v)
-                    if self.isspacey.match(cont):
-                        # We look for and ignore empty code blocks
-                        continue
-                    cb = "\n```vim\n%s\n```\n" % (cont)
+                    cb = "\n```vim\n%s```\n" % (cont)
                 elif self.m2code:
                     cont = "    ".join(v)
-                    if self.isspacey.match(cont):
-                        continue
-                    cb = "\n    :::vim\n    %s\n" % (cont)
+                    cb = "\n    :::vim\n    %s" % (cont)
                 else:
                     cont = "    ".join(v)
-                    if self.isspacey.match(cont):
-                        continue
-                    cb = "\n    %s\n" % (cont)
+                    cb = "\n    %s" % (cont)
                 logging.debug("code block : '%s'" % cb)
                 res.append(cb)
 
@@ -221,3 +225,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# vim: set ft=python:

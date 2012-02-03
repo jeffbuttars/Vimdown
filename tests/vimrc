@@ -1,3 +1,13 @@
+"<!--<style>
+"div.codehilite {
+"background-color:#F0F0F0;
+"padding:.25em;
+"border:1px solid #CCC;
+"-webkit-border-radius: 3px;
+"-moz-border-radius: 3px;
+"border-radius: 3px;
+"}
+"</style>-->
 " #Viming With Buttars
 "
 " ## Maintainer: Jeff Buttars  
@@ -15,22 +25,102 @@
 " Bram wrote/writes Vim, send money to his charity for Uganda. 
 " Find more info at [Vim.org](http://www.vim.org)  
 "
-" __*If your reading this as a README on GitHub you should know that this 
-" README is generted from the .vimrc file of this project using [Vimdown](https://github.com/jeffbuttars/Vimdown)*__
+" __If your reading this as a README on GitHub you should know that this 
+" README is generted from the .vimrc file of this project using [Vimdown](https://github.com/jeffbuttars/Vimdown)__  
 "
+" After each code block I will try to put some links to the appropriate vimdoc
+" pages for the Vim features used in the section. This is a large .vimrc file
+" and I have yet to tame it. So it's not in a great order, a work in progress.
+" 
+" ## .vimrc sections:
+" * [Bundles](#bundles)
 " * [Vim Options](#vimoptions)
-" * [Autocommands][autocommands]
-" * [Mappings][mappings]
+" * [Autocommands](#autocommands)
+" * [OminCompletion Settings](#ominsettings) 
+" * [Mappings](#mappings)
+" * [Plugin Settings](#pluginsettings)
+" * [Misc.](#misc)
+"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" It's .vimrc time  
-" ## Options
+" ## Bundles
+"
+" We deal with our bundles first thing because later sections
+" rely on them being available.
+"
+" #### [Pathogen](https://github.com/tpope/vim-pathogen)
+" [Pathogen](https://github.com/tpope/vim-pathogen) is a
+" nice package format for Vim _'packages'_.  
+" [Vundle](https://github.com/gmarik/vundle) is a great package manager
+" for Pathogen bundles.
+"
+" Call infect to get the bundle handling started.
+call pathogen#infect()
+"
+" Brief help on Bundle commands  
+" :BundleList          - list configured bundles
+" :BundleInstall(!)    - install(update) bundles
+" :BundleSearch(!) foo - search(or refresh cache first) for foo
+" :BundleClean(!)      - confirm(or auto-approve) removal of unused
+"
+" see :h vundle for more details or wiki for FAQ
+" *NOTE*: comments after Bundle command are not allowed..
+"
+" [Vundle](https://github.com/gmarik/vundle) Configuration
+" Add vundle to our runtime path (rtp) and start vundle
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" Bundles
+" let Vundle manage Vundle
+" required! 
+Bundle 'gmarik/vundle'
+
+" git-hub specific bundles:
+Bundle 'vim-scripts/LustyExplorer'
+Bundle 'garbas/vim-snipmate'
+Bundle 'vim-scripts/tComment'
+Bundle 'rygwdn/vim-conque'
+   " Bundle 'kogakure/vim-sparkup'
+Bundle 'ZenCoding.vim'
+"
+" Other bundles
+Bundle 'pep8'
+Bundle 'a.vim'
+Bundle 'vcscommand.vim'
+Bundle 'python.vim'
+Bundle 'vim-ipython'
+Bundle 'matchit.zip'
+Bundle 'vim-indent-object'
+Bundle 'histwin.vim'
+Bundle 'Tabular'
+Bundle 'ScrollColors'
+Bundle 'LargeFile'
+Bundle 'tlib'
+Bundle 'Python-Syntax'
+
+Bundle 'colorsupport.vim'
+" Colorschemes
+"
+" Lucius is a great 256 color theme with both light and dark 
+" schemes
+Bundle 'Lucius'
+Bundle 'noahfrederick/Hemisu'
+Bundle 'eclm_wombat.vim'
+Bundle 'wombat256.vim'
+Bundle 'Wombat'
+"
+" <a name="vimoptions" />
+"
+" ### Vim Options
+"
 " When started as "evim", evim.vim will already have done these settings, so
 " we'll bail out in that scenario
 if v:progname =~? "evim"
   finish
 endif
-
-" ### [Vim Options]
+" * [evim][]
+" * [finish][]
+"
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible " Don't be compatible with basic Vi
@@ -48,20 +138,24 @@ set history=1000 " keep 1000 lines of command line history
 "
 " ### Ruler and Statusline
 " 
-" I don't use these following examples, I have a more advanced version
-" of setting the status line in 
+" I don't use the following ruler and statusline examples, I have a more advanced version
+" of setting the status line in my
 " [hacks.vim](https://github.com/jeffbuttars/Viming-With-Buttars/blob/master/hacks.vim)  
 "  
-" Using set ruler
-	" set ruler    " show the cursor position all the time
-" Set up a custom status line. Like setting ruler, statusline overrides ruler, but we add the buffer number and filetype to the status:
-	" set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %P
-" or
-	" set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %{&textwidth}\ %P
+" Examples of using set ruler and set statusline
+"
+  " set ruler    " show the cursor position all the time
+  " Set up a custom status line. Like setting ruler, statusline overrides ruler, but we add the buffer number and filetype to the status:
+  " set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+  " Set up a custom status line. Like setting ruler, statusline overrides ruler, but we add the buffer number and filetype to the status:
+  " set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+  " or
+  " set statusline=%<%y\ b%n\ %h%m%r%=%-14.(%l,%c%V%)\ %{&textwidth}\ %P
 "
 " * [ruler][]
 " * [statusline][]
 "
+" Set up some buffer and window behaviors
 set switchbuf=useopen
 set laststatus=2          " last window will always have a status line
 set showcmd		         " display incomplete commands
@@ -76,9 +170,9 @@ set showcmd		         " display incomplete commands
 " * [guioptions][]
 "
 "
-" If we're running Vim 7.3 or newer, enable persisten undo
+" If we're running Vim 7.3 or newer, enable persistent undo
 " and tell vim were to store the undo files. 
-if version >= 730
+if version >= 703
 	set undofile
 	set undodir=~/.vim/undos
 endif
@@ -127,22 +221,29 @@ endif
 " 
 " * [listchars][]
 "
-
+" 
+" We take for granted that we are connected to a fast terminal most of the time
 set ttyfast
-set laststatus=2
-set incsearch		" Enable incremental searching
+set laststatus=2 " keep the status line showing
+set incsearch    " Enable incremental searching
+" * [ttyfast][]
+" * [laststatus][]
+" * [incsearch][]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
+" <a name="autocommands" /> 
+" 
 " ## Autocommands
+"
+" * See  [autocommands][]
 "
 " We check if autocommands are enabled before we use them. 
 if has("autocmd")
 
-"In some files, like HTML and XML files, tabs are fine and showing them is
-"really annoying, you can disable them easily using the autocmd declaration:
+   "In some files, like HTML and XML files, tabs are fine and showing them is
+   "really annoying, you can disable them easily using the autocmd declaration:
    " autocmd filetype html,xml set listchars-=tab:>.
-"
 
   " Enable file type detection.
   " Use the default filetype settings, so that mail gets 'tw' set to 72,
@@ -155,7 +256,6 @@ if has("autocmd")
   au!
 
   " For all text files set 'textwidth' to 78 characters.
-  "autocmd FileType text,txt,mkd setlocal textwidth=78
   autocmd FileType text,txt setlocal textwidth=78
 
   " When editing a file, always jump to the last known cursor position.
@@ -169,79 +269,79 @@ if has("autocmd")
     \ endif
 
   augroup END
-
 else
-
-  set autoindent		" always set autoindenting on
-
+    set autoindent		" always set autoindenting on
 endif " has("autocmd")
+"
+" *[autoindent][]
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
-"if !exists(":DiffOrig")
-  "command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-		  "\ | wincmd p | diffthis
-"endif
+  " if !exists(":DiffOrig")
+  "    command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+  "    \ | wincmd p | diffthis
+  " endif
 
-
+" I like to have my files automatically reloaded if they change on disk
 set autoread
-
-" Allow us to save a file as root, if we have sudo privileges,
-" when we're not currently useing vim as root
+"
+" * [autoread][]
+"
+" This allows us to save a file as root with the :w!! command,
+" if we have sudo privileges, " when we're not currently useing vim as root
 cmap w!! %!sudo tee > /dev/null %
 
+" Auto close the preview window after a short time of inactivity
+autocmd CursorHold * if pumvisible() == 0|pclose|endif
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" OmniCompletion settings
-" When c-y is used to select, enter normal mode.
-imap <c-y> <c-y><esc>
-" Show the info preview window.
-"set completeopt=menuone,preview
-" set completeopt=menu,preview
-set completeopt=menuone,preview,longest
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
+"
+" <a name="ominsettings" />
+" ##OmniCompletion settings
+"
+" No much going on here for Omni Completion. In the past there were all sorts of
+" nasty hacks for this section.  
+" When c-y is used to select a completion, enter normal mode after it's inserted.
+imap <c-y> <c-y><esc>
+set completeopt=menuone,preview,longest
+" You can tweak what is searched and in what order for keyword completion. This
+" .vimrc only uses the defaults for now. Here are some quick examples of setting it.
+" (default: ".,w,b,u,t,i")
+   "set complete=".,w,b,u,U,t,i,kspell,d,t"
+   "set complete=".,w,b,u,t,i,kspell"
+"
+" * [completeopt][]
+" * [complete][]
+"
+"
+" <a name="mappings" />
+" 
 " ## Mappings
-
+" * See [map][]  
+"
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
 "
-" * [inoremap][]
+" * [inoremap][]  
 "
-"(default: ".,w,b,u,t,i")
-"set complete=".,w,b,u,U,t,i,kspell,d,t"
-"set complete=".,w,b,u,t,i,kspell"
-" Map omnicomplete to Control-o
-" imap <C-O> <C-X><C-O> 
-
-" imap <C-space> <C-X><C-O>
+" Map omnicomplete to Control-o while in insert mode.
+   " For reasons I have yet to figure out this mapping is broken, 
+   " so it's commented out for now.
+   " imap <C-O> <C-X><C-O> 
 
 " Mapping for the a.vim plugin
 " quickly switch between source
-" and header files with <C-H>
-imap <silent> <C-S> <ESC>:A<CR>
-nmap <silent> <C-S> <ESC>:A<CR>
-
-" When the completion window is open, shift will cycle
-" forward through the menu.
-" This does not work with snipmate, so I have a hack
-" in after/plugin/snipmate
-" function! CleverTab()
-" 	if !pumvisible() 
-" 		return "\<Tab>"
-" 	endif
-" 
-" 	return "\<C-N>"
-" endfunction
-" inoremap <Tab> <C-R>=CleverTab()<CR>
-"
+" and header files with <C-H> when editing C files
+autocmd FileType c imap <silent> <C-S> <ESC>:A<CR>
+autocmd FileType c nmap <silent> <C-S> <ESC>:A<CR>
 
 " Enter will do a simple accept of the selection
-"Moved this into delimitMate to get them
-"to work together
- "THIS INTERFERES WITH NICE MENU
+" Moved this into delimitMate to get them
+" to work together
 function! CleverCR()
 	if !pumvisible() 
 		return "\<CR>"
@@ -250,29 +350,36 @@ function! CleverCR()
 	return "\<C-Y>"
 endfunction
 inoremap <CR> <C-R>=CleverCR()<CR>
-
+"
+" * [pumvisible][]
+" 
+" Use the F3 key to toggle line numbers between absolute and relative
 function! ToggleRNU()
 	if 0 == &rnu
-		set rnu
+		set relativenumber
 	else
 		set number 
 	endif
 endfunction
 nmap <silent> <F3> <ESC>:call ToggleRNU()<CR>
+"
+" * [number][]
+" * [relativenumber][]
+"
 
 
-"For example, to save a file, you type :w normally, which means:
-
-"    Press and hold Shift
-"    Press ;
-"    Release the Shift key
-"    Press w
-"    Press Return
+" The ';' ':' shortcut. For example, to save a file, you type :w normally, which means:
+"
+"    Press and hold Shift  
+"    Press ;  
+"    Release the Shift key  
+"    Press w  
+"    Press Return  
 " This trick strips off steps 1 and 3 for each Vim command. It takes some times
 " for your muscle memory to get used to this new ;w command, but once you use
 " it, you don’t want to go back!
 nnoremap ; :
-
+"
 "If you like long lines with line wrapping enabled, this solves the problem
 "that pressing down jumpes your cursor “over” the current line to the next
 "line. It changes behaviour so that it jumps to the next row in the editor
@@ -281,15 +388,15 @@ nnoremap j gj
 nnoremap k gk
 
 " Easier window navigation when you split up your buffers.
-" Use J instead of CTRL-W j, etc.
-nnoremap <C-j> <c-w>j
-nnoremap <C-h> <c-w>h
-nnoremap <C-k> <c-w>k
-nnoremap <C-l> <c-w>l
-
-" Auto close the preview window
-"autocmd CursorHold * if pumvisible() == 0|pclose|endif
-"autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+" Use J instead of CTRL-W j, etc.  
+" Personally, this interferes with other shortcuts and I'm OK
+" using the defaults, so I'll comment this out and leave it
+" here in case someone reading this finds it useful.
+   " nnoremap <C-j> <c-w>j
+   " nnoremap <C-h> <c-w>h
+   " nnoremap <C-k> <c-w>k
+   " nnoremap <C-l> <c-w>l
+"  
 
 """ Snipmate 
 " Don't trigger snipmate when using completion
@@ -310,8 +417,6 @@ autocmd BufRead *.go set ft=go 	" For SnipMate
 " let g:pysmell_debug = 1
 " autocmd FileType python set omnifunc=pysmell#Complete
 
-"End OmniCompletion settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " From an idea by Michael Naumann
@@ -343,11 +448,24 @@ vnoremap <silent> # :call VisualSearch('b')<CR>
 set diffopt=filler,vertical,context:15
 let g:html_diff_one_file = 1
 
-"Use real tabs, 4 spaces
+" Use real tabs, 4 spaces
+" I prefer to use realtabs, but, I'm overruled by spaces.
+" Use this if you want real tabs.
+"<pre>
+" set tabstop=4
+" set shiftwidth=4
+" set shiftround	" use multiple of shiftwidth when indenting with '<' and '>'
+" set smarttab
+"</pre>
+
+" A gave in and use spaces instead of real tabs
 set tabstop=4
+set softtabstop=4
 set shiftwidth=4
-set shiftround	" use multiple of shiftwidth when indenting with '<' and '>'
+set textwidth=80
 set smarttab
+set shiftround	" use multiple of shiftwidth when indenting with '<' and '>'
+set expandtab
 
 " Show matching braces
 set showmatch 
@@ -396,7 +514,7 @@ imap <C-PageUp> :tabprevious<CR>
 "imap <C-PageDown> <esc>:bn<CR>
 "imap <C-PageUp> <esc>:bp<CR>
 
-"http://concisionandconcinnity.blogspot.com/2009/07/vim-part-ii-matching-pairs.html
+"[concisionandconcinnity.blogspot.com](http://concisionandconcinnity.blogspot.com/2009/07/vim-part-ii-matching-pairs.html)
 " The above URL also has good stuff for autoclosing matching pairs, like (). 
 "One of the nicer minor features of TextMate is its treatment of highlighted text. 
 "If you have something highlighted and type a, it replaces the text, like other editors. 
@@ -427,7 +545,6 @@ autocmd! bufwritepost .vimrc source ~/.vimrc
 " 1000 lines of history
 " save the buffer list
 set viminfo='20000,f1,<500,:1000,@1000,/1000,%
-"set viminfo='1000,f1,<500,:100,@100,/100,%
 
 " HTML output options
 " Use more modern css
@@ -438,7 +555,7 @@ set wrap
 set sidescroll=3
 
 " Some wordwrapp foo from
-" http://kmandla.wordpress.com/2009/07/27/proper-word-wrapping-in-vim/
+" [kmandla](http://kmandla.wordpress.com/2009/07/27/proper-word-wrapping-in-vim/)
 set formatoptions+=l
 set lbr
 
@@ -464,54 +581,46 @@ au FileType php set nocursorline
 
 
 " color schemes I have liked.
-"colo elflord " a low color dark theme. Great for the real console.
-"colo evening " dark theme, low color console friendly
-"colo xoria256 " a nice dark theme for 256 color terms
-"colo wombat256 " the classic wombat theme for 256 color terms
-"colo pyte " A white theme
-"colo mySlate 
-"colo peaksea " A light theme
-"colo molokai " A dark pastelly theme, a little bisexual but very pleasing.
-"colo neutron " A very nice creamy light theme.
+" * colo elflord " a low color dark theme. Great for the real console.
+" * colo evening " dark theme, low color console friendly
+" * colo xoria256 " a nice dark theme for 256 color terms
+" * colo wombat256 " the classic wombat theme for 256 color terms
+" * colo pyte " A white theme
+" * colo mySlate 
+" * colo peaksea " A light theme
+" * colo molokai " A dark pastelly theme, a little bisexual but very pleasing.
+" * colo neutron " A very nice creamy light theme.
+" * colo vylight  " A light theme
+" * colo jellybeans " A dark color full theme
 
 " Explicitly say we want 256 colors when we find 256
 " in the TERM environmental variable.
 " When this is set it can mess up using vim on a real console.
 "  Definitely in Fedora >= 11. So we try to be smart about
-" it and only set it if we think it's wanted.
+" it and only set it if we think it's wanted.  
 "
 " We default to a theme that works everywere.
 " Then we see if we can upgrade to a better theme
 " based on the environment.
-colo evening 
-" evening is a nice dark theme, usually available by a default install.
+colo evening " evening is a nice dark theme, usually available with a default install.
 
 if has( "gui_running" )
-	" I like a white based them in GVim
+	" I like a white based theme in GVim
 	set cursorline
 	hi clear CursorLine 
-	"colo vylight 
-	"colo wombat256 
 	let g:lucius_style = "light"
 	colo lucius 
 elseif $TERM =~ '256' || $COLORTERM =~ 'gnome-terminal'
 	" Use a console friendly theme and turn off cursorline
-	" I  prefer a dark theme at the console..
+	" I prefer a dark theme at the console..
 	set t_Co=256
 	set cursorline
 	hi clear CursorLine 
-	"colo jellybeans 
 	
 	if $TERM_META =~ 'white'
-		"colo github 
 		let g:lucius_style = "light"
 		colo lucius 
 	else
-		"colo molokai 
-		"colo wombat256 
-		"colo jellybeans 
-		"colo 256-grayvim
-		"colo mywombat256 
 		let g:lucius_style = "dark"
 		colo lucius 
 	endif
@@ -520,13 +629,13 @@ endif
 " set linenumbers on by default
 set number 
 
-" drupal rules
+" Drupal rules
 " If you edit a lot of php-drupal you should
-" use these next few lines. If not, comment them
+" use these next few lines. If not, leave them commented
 " out and I doubt you'll miss them.
-augroup drupal_module
-	autocmd BufRead *.module,*.inc set filetype=php
-augroup END
+   " augroup drupal_module
+   " 	autocmd BufRead *.module,*.inc set filetype=php
+   " augroup END
 
 " autowrite: "on" saves a lot of trouble
 " set autowrite
@@ -546,16 +655,12 @@ map #sp :w<CR>:!ispell %<CR>:e %<CR>
 au FileType text,markdown,rst setlocal spell spelllang=en_us
 au FileType text,markdown,rst let b:NiceMenuContextRegex='[a-zA-Z0-9]' 
 
-"set spell spelllang=en_us
 
-" Make right mouse button work in gvim
-set mousemodel=popup
+set mousemodel=popup " Make right mouse button work in gvim
 
-" Allow toggling of paste/nopaste via F2
-set pastetoggle=<F2>
+set pastetoggle=<F2> " Allow toggling of paste/nopaste via F2
 
-" Don't acutally close buffers, just hide them.
-set hidden
+set hidden " Don't acutally close buffers, just hide them.
 
 " dictionary: english words first
 " add any text based dictionaries to the list.
@@ -564,47 +669,9 @@ set hidden
 " on a word, fun stuff.
 set dictionary+=/usr/share/dict/words,/usr/dict/words,/usr/dict/extra.words
 
-" http://vim.wikia.com/wiki/Improved_Hex_editing
+" [Improved_Hex_editing](http://vim.wikia.com/wiki/Improved_Hex_editing)
 " ex command for toggling hex mode - define mapping if desired
 command! -bar Hexmode call ToggleHex()
-
-" helper function to toggle hex mode
-function! ToggleHex()
-  " hex mode should be considered a read-only operation
-  " save values for modified and read-only for restoration later,
-  " and clear the read-only flag for now
-  let l:modified=&mod
-  let l:oldreadonly=&readonly
-  let &readonly=0
-  let l:oldmodifiable=&modifiable
-  let &modifiable=1
-  if !exists("b:editHex") || !b:editHex
-    " save old options
-    let b:oldft=&ft
-    let b:oldbin=&bin
-    " set new options
-    setlocal binary " make sure it overrides any textwidth, etc.
-    let &ft="xxd"
-    " set status
-    let b:editHex=1
-    " switch to hex editor
-    %!xxd
-  else
-    " restore old options
-    let &ft=b:oldft
-    if !b:oldbin
-      setlocal nobinary
-    endif
-    " set status
-    let b:editHex=0
-    " return to normal editing
-    %!xxd -r
-  endif
-  " restore values for modified and read only state
-  let &mod=l:modified
-  let &readonly=l:oldreadonly
-  let &modifiable=l:oldmodifiable
-endfunction
 
 " A more verbose pastetoggle
 function! TogglePaste()
@@ -616,17 +683,11 @@ function! TogglePaste()
 		echo "Paste is OFF!"
 	endif
 endfunction
+
 " Allow toggling of paste/nopaste via F2
 "set pastetoggle=<F2>
 nmap <F2> <ESC>:call TogglePaste()<CR>
 imap <F2> <ESC>:call TogglePaste()<CR>i
-
-"http://plasticboy.com/markdown-vim-mode/
-"Markdown format options, which I don't use 
-" but I'll include them here for your experimentation
-"augroup mkd
-	"autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:>
-"augroup END
 
 " I like to put system library tags in a different tag file that
 " is only generated once in a while.
@@ -660,61 +721,10 @@ imap <silent> <c-l> <esc>:LustyBufferExplorer<CR>
 
 
 
-""" TagList """"""""
-" Set taglist plugin options
-" Display function name in status bar:
-let g:ctags_statusline=1
-" Automatically start script
-let generate_tags=1
-
-" Displays taglist results in a vertical window:
-let Tlist_Use_Horiz_Window=0
-" Shorter commands to toggle Taglist display
-"nnoremap TT :TlistToggle<CR>
-nnoremap TT :TlistOpen<CR>
-map <F4> :TlistToggle<CR>
-
-let Tlist_Use_Right_Window     = 0
-let Tlist_Exit_OnlyWindow      = 1
-let Tlist_Enable_Fold_Column   = 0
-let Tlist_Compact_Format       = 1
-let Tlist_File_Fold_Auto_Close = 1
-let Tlist_Auto_Highlight_Tag   = 1
-
-"Tlist_WinWidth~
-"The default width of the vertically split taglist window is 30. This can be
-"changed by modifying the 'Tlist_WinWidth' variable:
-let Tlist_WinWidth = 60
-
-" Close Tlist when jumping to tag
-let Tlist_Close_On_Select = 1
-"Tlist_Display_Prototype~
-"By default, only the tag name will be displayed in the taglist window. If you
-"like to see tag prototypes instead of names, set the 'Tlist_Display_Prototype'
-"variable to 1. By default, this variable is set to zero and only tag names
-"will be displayed.
-let Tlist_Display_Prototype = 1
-""" End TagList
 
 """ netrw
 " Tree Style listing
 let g:netrw_liststyle = 3
-
-" Lusty Explorer
-" nmap <C-d> <ESC>:LustyFilesystemExplorerFromHere<CR>
-" imap <C-d> <ESC>:LustyFilesystemExplorerFromHere<CR>
-nmap <C-d> <ESC>:LustyFilesystemExplorer<CR>
-imap <C-d> <ESC>:LustyFilesystemExplorer<CR>
-
-
-
-""" JSLint.vim plugin -- indespensable!
-" Turn off error highlighting. I like having just the
-" quickfix window.
-let g:JSLintHighlightErrorLine = 0
-let g:JSLintIgnoreImpliedGlobals = 1
-au FileType javascript nmap <F5> <ESC>:JSLint<CR>
-au FileType javascript imap <F5> <ESC>:JSLint<CR>
 
 " run the current buffer as a python script 
 " or run it through PyFlakes command.
@@ -748,53 +758,110 @@ au FileType sh,bash imap <F5> <ESC>:w<CR>:BashRun<CR>
 
 au FileType go setlocal errorformat=%f:%l:\ %m
 
-" json_reformat is at:
-" URL: http://lloyd.github.com/yajl/
+" Syntax checking entire python file  
+" Usage: :make (check file)  
+" :clist (view list of errors)  
+" :cn, :cp (move around list of errors)  
+autocmd BufRead *.py set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
+autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
+
+" The php syntax file and showing the cursorline don't play well together.
+" If you find editing PHP files with cursorline enabled unbearably slow
+" Use the following to disable the cursorline for PHP files
+" 
+"
+" <pre>au FileType php set nocursorline </pre>
+
+
+" <a name="pluginsettings" />
+"
+" ## Plugin Settings 
+"
+" #### Pep8
+" Map Pep8 to F8
+let g:pep8_map='<F8>'
+"
+" #### tComment
+"
+" I like to use CTRL-C to toggle comments 
+exec 'noremap <C-C> :TComment<cr>'
+exec 'noremap <C-N> :TCommentBlock<cr>'
+"
+"
+" #### [Lusty Explorer](http://www.vim.org/scripts/script.php?script_id=1890)
+   " nmap <C-d> <ESC>:LustyFilesystemExplorerFromHere<CR>
+   " imap <C-d> <ESC>:LustyFilesystemExplorerFromHere<CR>
+nmap <C-d> <ESC>:LustyFilesystemExplorer<CR>
+imap <C-d> <ESC>:LustyFilesystemExplorer<CR>
+"
+"
+" #### [SnipMate](https://github.com/garbas/vim-snipmate)
+let g:snips_author = 'Jeff Buttars'
+"
+" [json_reformat](http://lloyd.github.com/yajl/)
+"
 autocmd FileType json set equalprg=json_reformat
 autocmd FileType xml  set equalprg=xmllint\ --format\ -
-
-"Enable autotag.vim
-"source ~/.vim/plugin/autotag.vim
-
-" load the tag closer
-"au FileType html,xhtml let b:closetag_html_style=1
-"au FileType html,xml,xhtml,xsl,htmlcheetah source ~/.vim/scripts/closetag.vim
 
 " doubleTap
 "let g:loaded_doubleTap = 1
 let g:DoubleTapInsertTimer = 0.8
 
 " Set NiceMenu Delay
-let g:loaded_nice_menu = 1
-let g:NiceMenuDelay = '.6'
-let g:NiceMenuMin = 1
+" let g:loaded_nice_menu = 1
+" let g:NiceMenuDelay = '.6'
+" let g:NiceMenuMin = 1
 
-" Syntax checking entire file
-" Usage: :make (check file)
-" :clist (view list of errors)
-" :cn, :cp (move around list of errors)
-"autocmd BufRead *.py set makeprg=python\ -c\ \"import\ py_compile,sys;\
-"sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
-"autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\
-"%l%.%#,%Z%[%^\ ]%\\@=%m
+"
+" #### [Sparkup](https://github.com/rstacruz/sparkup) options
+" I don't like default mapping, I actually use
+" the <c-e> default map for navigation
+" let g:sparkupExecuteMapping = '<c-t>'
+" let g:sparkupNextMapping = '<c-h>'
 
-let g:maxLineLength=100
-
-" BellyButton settings
+" #### [ZenCoding](https://github.com/mattn/zencoding-vim)
+" I still like sparkup, but I'm going to give Zen a shot.
+" Change the mapping to my liking
+let g:user_zen_leader_key = '<c-t>'
+"
+"
+" #### BellyButton settings
 let g:BellyButton_javascript_jslint_options = {'white':'false', 'vars':'true','bitwise':'false',
 			\'predef':"['Backbone', '_', 'console','window', 'Ext', 'jQuery', '$', 'cp', 'alert', 'confirm', 'document']"}
+"
+"
+" #### [TagList](https://github.com/vim-scripts/taglist.vim)
+" Set taglist plugin options
+let Tlist_Use_Right_Window     = 0
+let Tlist_Exit_OnlyWindow      = 1
+let Tlist_Enable_Fold_Column   = 0
+let Tlist_Compact_Format       = 1
+let Tlist_File_Fold_Auto_Close = 1
+let Tlist_Auto_Highlight_Tag   = 1
+let g:ctags_statusline=1 " Display function name in status bar:
+let generate_tags=1      " Automatically start script
+let Tlist_Use_Horiz_Window=0 " Displays taglist results in a vertical window:
 
+" Shorter commands to toggle Taglist display
+nnoremap TT :TlistOpen<CR>
+map <F4> :TlistToggle<CR>
 
-" Sparkup options
-" I don't like default mapping, I actually use
-" the <c-e> default for navigation
-let g:sparkupExecuteMapping = '<c-t>'
-let g:sparkupNextMapping = '<c-h>'
-
-let g:snips_author = 'Jeff Buttars'
-
- "End Plugins and external addons
+" The default width of the vertically split taglist window is 30. This can be
+" changed by modifying the 'Tlist_WinWidth' variable:  
+let Tlist_WinWidth = 60
+let Tlist_Close_On_Select = 1 " Close Tlist when jumping to tag
+"By default, only the tag name will be displayed in the taglist window. If you
+"like to see tag prototypes instead of names, set the 'Tlist_Display_Prototype'
+"variable to 1. By default, this variable is set to zero and only tag names
+"will be displayed.
+let Tlist_Display_Prototype = 1
+"
+"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+" <a name="misc" />
+"
+" ## Misc.
 
 " ####Misc People and places that I've gotten stuff from  
 "
@@ -809,23 +876,21 @@ let g:snips_author = 'Jeff Buttars'
 " * [Scripting the Vim editor, Part 4: Dictionaries](http://www.ibm.com/developerworks/linux/library/l-vim-script-4/index.html)
 " * [Scripting the Vim editor, Part 5: Event-driven scripting and automation](http://www.ibm.com/developerworks/linux/library/l-vim-script-5/index.html)
 " * [Some good python settings suggestions](http://www.cmdln.org/2008/10/18/vim-customization-for-python/)
-" * [Good information on line wrapping](http://blog.ezyang.com/2010/03/vim-textwidth/)
+" * [Good information on line wrapping](http://blog.ezyang.com/2010/03/vim-textwidth/)  
 "
-" The php syntax file and showing the cursorline don't play well together.
-" If you find editing PHP files with cursorline enabled unbearably slow
-" Use the following to disable the cursorline for PHP files
-" 
-"
-" <pre>au FileType php set nocursorline </pre>
-"
-"
+" The g:maxLineLength variable is used by the MyStatusLine() function
+" I define in hacks.vim  
+let g:maxLineLength=80
 "
 " I put my small Vim hacks into a seperate file called hacks.vim
 " There are things, often functions/commands, I don't want in my 
 " .vimrc but I also don't want to write a plugin for.
 " I source it last thing
 runtime hacks.vim 
+" * [runtime][]
 
+" [evim]: http://vimdoc.sourceforge.net/htmldoc/starting.html#evim
+" 
 " [nocompatible]: http://vimdoc.sourceforge.net/htmldoc/options.html#'nocompatible'
 " [backspace]: http://vimdoc.sourceforge.net/htmldoc/options.html#'backspace'
 " [nobackup]: http://vimdoc.sourceforge.net/htmldoc/options.html#'nobackup'
@@ -842,7 +907,23 @@ runtime hacks.vim
 " [syntax]: http://vimdoc.sourceforge.net/htmldoc/options.html#'syntax'
 " [hlsearch]: http://vimdoc.sourceforge.net/htmldoc/options.html#'hlsearch'
 " [listchars]: http://vimdoc.sourceforge.net/htmldoc/options.html#'listchars'
+" [ttyfast]: http://vimdoc.sourceforge.net/htmldoc/options.html#'ttyfast'
+" [incsearch]: http://vimdoc.sourceforge.net/htmldoc/options.html#'incsearch'
+" [autoindent]: http://vimdoc.sourceforge.net/htmldoc/options.html#'autoindent'
+" [autoread]: http://vimdoc.sourceforge.net/htmldoc/options.html#'autoread'
+" [completeopt]: http://vimdoc.sourceforge.net/htmldoc/options.html#'completeopt'
+" [complete]: http://vimdoc.sourceforge.net/htmldoc/options.html#'complete'
+" [number]: http://vimdoc.sourceforge.net/htmldoc/options.html#'number'
+" [relativenumber]: http://vimdoc.sourceforge.net/htmldoc/options.html#'relativenumber'
+" 
+" [pumvisible]: http://vimdoc.sourceforge.net/htmldoc/eval.html#pumvisible()
 "
+" [map]: http://vimdoc.sourceforge.net/htmldoc/map.html#:map
 " [inoremap]: http://vimdoc.sourceforge.net/htmldoc/map.html#:inoremap
 " [imap]: http://vimdoc.sourceforge.net/htmldoc/map.html#:imap
 " [nmap]: http://vimdoc.sourceforge.net/htmldoc/map.html#:nmap
+"
+" [autocommands]: http://vimdoc.sourceforge.net/htmldoc/autocmd.html#autocommand
+"
+" [runtime]: http://vimdoc.sourceforge.net/htmldoc/repeat.html#:runtime
+" [finish]: http://vimdoc.sourceforge.net/htmldoc/repeat.html#:finish
