@@ -1,118 +1,111 @@
-#!/usr/bin/env python
-
+""" 
+from http://www.evanfosmark.com/2009/02/sexy-lexing-with-python/
+""" 
 import re
-import logging
+ 
+ 
+class UnknownTokenError(Exception):
+    """ This exception is for use to be thrown when an unknown token is
+        encountered in the token stream. It hols the line number and the
+        offending token.
+    """
+    def __init__(self, token, lineno):
+        self.token = token
+        self.lineno = lineno
+ 
+    def __str__(self):
+        return "Line #%s, Found token: '%s'" % (self.lineno, self.token)
+ 
+ 
+class _InputScanner(object):
+    """ This class manages the scanning of a specific input. An instance of it is
+        returned when scan() is called. It is built to be great for iteration. This is
+        mainly to be used by the Lexer and ideally not directly.
+    """
+ 
+    def __init__(self, lexer, input):
+        """ Put the lexer into this instance so the callbacks can reference it 
+            if needed.
+        """
+        self._position = 0
+        self.lexer = lexer
+        self.input = input
+ 
+    def __iter__(self):
+        """ All of the code for iteration is controlled by the class itself.
+            This and next() (or __next__() in Python 3.0) are so syntax
+            like `for token in Lexer(...):` is valid and works.
+        """
+        return self
+ 
+    def next(self):
+        """ Used for iteration. It returns token after token until there
+            are no more tokens. (change this to __next__(self) if using Py3.0)
+        """
+        if not self.done_scanning():
+            return self.scan_next()
+        raise StopIteration
+ 
+    def done_scanning(self):
+        """ A simple boolean function that returns true if scanning is
+            complete and false if it isn't.
+        """
+        return self._position >= len(self.input)
+ 
+    def scan_next(self):
+        """ Retreive the next token from the input. If the
+            flag `omit_whitespace` is set to True, then it will
+            skip over the whitespace characters present.
+        """
+        if self.done_scanning():
+            return None
+        if self.lexer.omit_whitespace:
+            match = self.lexer.ws_regexc.match(self.input, self._position)
+            if match:
+                self._position = match.end()
+        match = self.lexer.regexc.match(self.input, self._position)
+        if match is None:
+            lineno = self.input[:self._position].count("\n") + 1
+            raise UnknownTokenError(self.input[self._position], lineno)
+        self._position = match.end()
+        value = match.group(match.lastgroup)
+        if match.lastgroup in self.lexer._callbacks:
+            value = self.lexer._callbacks[match.lastgroup](self, value)
+        return match.lastgroup, value
+ 
+ 
+class Lexer(object):
+    """ A lexical scanner. It takes in an input and a set of rules based
+        on reqular expressions. It then scans the input and returns the
+        tokens one-by-one. It is meant to be used through iterating.
+    """
+ 
+    def __init__(self, rules, case_sensitive=True, omit_whitespace=True):
+        """ Set up the lexical scanner. Build and compile the regular expression
+            and prepare the whitespace searcher.
+        """
+        self._callbacks = {}
+        self.omit_whitespace = omit_whitespace
+        self.case_sensitive = case_sensitive
+        parts = []
+        for name, rule in rules:
+            if not isinstance(rule, str):
+                rule, callback = rule
+                self._callbacks[name] = callback
+            print("lexer adding rule : '%s'" % (rule,))
+            parts.append("(?P<%s>%s)" % (name, rule))
+        if self.case_sensitive:
+            flags = re.M
+        else:
+            flags = re.M|re.I
+        print("lexer regexc str : '%s'" % ("|".join(parts),))
+        self.regexc = re.compile("|".join(parts), flags)
+        self.ws_regexc = re.compile("\s*", re.MULTILINE)
+        print("lexer regexc %s" % (self.regexc,))
+ 
+    def scan(self, input):
+        """ Return a scanner built for matching through the `input` field. 
+            The scanner that it returns is built well for iterating.
+        """
+        return _InputScanner(self, input)
 
-from pygments import  highlight
-from pygments.lexers import VimLexer
-from pygments.formatters import HtmlFormatter
-from pygments.styles import get_style_by_name
-
-# Allow tabs
-iscomment = re.compile('^[ ]?"')
-isspacey = re.compile('^\s*$')
-
-# States
-NON = 0
-COMMENT = 1
-NONCOMMENT = 2
-state_map = {
-		NON:"NON",
-		COMMENT:"COMMENT",
-		NONCOMMENT:"NONCOMMENT",
-}
-
-div_style = ("-webkit-border-radius: 5px; -moz-border-radius: 5px;" 
-			 " border-radius: 5px ;padding: .25em .5em .25em .5em;" 
-			 " margin:.5em 1em .5em .25em ;"
-			 )
-
-def pygmentize(code, style='default'):
-	hf = HtmlFormatter(style=style, noclasses=True,
-					encoding='ascii', cssstyles=div_style)
-	return highlight(code, VimLexer(), hf)
-#pygmentize()
-
-def lex(input):
-
-	state = NON
-	nstate = None 
-	blocks = []
-	block = {NON:[]}
-
-	line = input.readline()
-	while line:
-
-
-		if iscomment.match(line):
-			nstate = COMMENT
-		else:
-			nstate = NONCOMMENT
-
-		if state != nstate:
-			blocks.append(block)
-			state = nstate
-			block = {state:[]}
-
-		block[state].append(line)
-		line = input.readline()
-
-	blocks.append(block)
-
-	return blocks
-#lex()
-
-def print_blocks(blocks, annotate=True):
-
-	res = ""
-	for block in blocks:
-		k,v = block.items()[0]
-		if annotate:
-			res = "%s\n%s++++++++++++++++++++++++++++\n%s" % (
-					res, state_map[k], "".join(v)) 
-		else:
-			res = "%s%s" % (res, "".join(v)) 
-
-	return res
-#print_blocks()
-
-def blocks_to_markdown(blocks, style='vim'):
-
-	def strip_vcomment(str):
-		#logging.debug("strip_vcomment %s" % (str,))
-		res = ""
-
-		# check for hard rule
-		if str[0:10] == '""""""""""':
-			return '__________\n\n'
-
-		# Trim the comment and first space if it's easy
-		if str[0:2] == '" ':
-			res = str[2:]
-		elif str[0:1] == '"':
-			res = str[1:]
-		else:
-			# If the begining of the line is not predictable, 
-			# do a dumb search and crop
-			res = ("%s" % (str.partition('"')[2],))
-
-		return res
-	#strip_vcomment()
-
-	res = [] 
-	for block in blocks:
-		k,v = block.items()[0]
-		if k == NONCOMMENT:
-			cont = "".join(v)
-			if cont == '\n' or isspacey.match(cont):
-				continue
-			logging.debug("cont : '%s'" % cont)
-				
-			res.append("\n\n\n<div class=\"vimdown_vim\">\n%s</div>\n\n\n" % (pygmentize(cont, style)))
-		if k == COMMENT:
-			res.extend(map(strip_vcomment, v))
-		if k == NON:
-			continue
-			
-	return "".join(res)
-#blocks_to_markdown()
