@@ -5,6 +5,11 @@ import re
 import logging
 from optparse import OptionParser
 
+try:
+    from vimdown.lexer import Lexer
+except ImportError :
+    from lexer import Lexer
+
 #logging.basicConfig(level=logging.DEBUG,
 #                    format='%(asctime)s %(levelname)s %(message)s')
 logging.basicConfig(level=logging.INFO,
@@ -16,7 +21,7 @@ class Parser(object):
     COMMENT = 'COMMENT'
     CODE = 'CODE'
 
-    def __init__(self, fl, m2code=False, pyg=False):
+    def __init__(self, fl, m2code=False, ghubf=False, pyg=False):
 
         logging.debug("Parser(fl:%s, m2code:%s, pyg:%s)" % (
             fl, m2code, pyg))
@@ -46,15 +51,26 @@ class Parser(object):
 
         res = []
         if state == Parser.CODE:
-            cont = "    ".join(block)
-            if self.isspacey.match(cont):
-                # We look for and ignore empty code blocks
+
+            # A super dirty and crapy way to remove
+            # leading a trailing empty lines.
+            while block and self.isspacey.match(block[0][0]):
+                block.pop(0)
+            while block and self.isspacey.match(block[-1:][0]):
+                block.pop()
+
+            # We look for and ignore empty code blocks
+            if not block:
                 return ""
 
-            if self.m2code:
-                cb = "\n    :::vim\n    %s\n" % (cont)
+            if self.ghubf:
+                cont = "".join(block)
+                cb = "\n```vim\n%s```\n" % (cont)
             else:
-                cb = "\n    %s\n" % (cont)
+                cont = "    ".join(block)
+                cb = "\n    %s" % (cont)
+                if self.m2code:
+                    cb = "\n    :::vim%s" % (cb)
             logging.debug("code block : '%s'" % cb)
             res.append(cb)
 
@@ -186,6 +202,12 @@ def main():
                             "markdown will be"
                             " the markdown2 extended syntax."
                             ))
+    opt_parser.add_option("-g", "--ghubfence", dest='ghubfence',
+                          action='store_true', default=False,
+                        help=("If set, the code blocks in the generated"
+                            " markdown will be"
+                            " GitHub code fence syntax."
+                        ))
     opt_parser.add_option("-p", "--pygmentize", dest='pygmentize',
                       action='store_true', default=False,
                       help=("If markdown2 is present then vimdown will"

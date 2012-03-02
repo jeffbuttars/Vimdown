@@ -304,10 +304,7 @@ set autoread
 " if we have sudo privileges, " when we're not currently useing vim as root
 cmap w!! %!sudo tee > /dev/null %
 
-" Auto close the preview window after a short time of inactivity
-autocmd CursorHold * if pumvisible() == 0|pclose|endif
-autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-
+"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
 "
@@ -628,11 +625,9 @@ elseif $TERM =~ '256' || $COLORTERM =~ 'gnome-terminal'
 	if $TERM_META =~ 'white'
         set background=light
 		let g:lucius_style = "light"
-		colo lucius 
 	else
         set background=dark
 		let g:lucius_style = "dark"
-		colo lucius 
 	endif
 
     colo lucius 
@@ -893,7 +888,7 @@ let Tlist_Display_Prototype = 1
 " I define in hacks.vim  
 let g:maxLineLength=80
 "
-" I put my small Vim hacks into a seperate file called [hacks.vim](https://github.com/jeffbuttars/Viming-With-Buttars/blob/master/hacks.vim file)
+" I put my small Vim hacks into a seperate file called [hacks.vim](https://github.com/jeffbuttars/Viming-With-Buttars/blob/master/hacks.vim) file
 " There are things, often functions/commands, I don't want in my 
 " .vimrc but I also don't want to write a plugin for.
 " I source it last thing
