@@ -22,7 +22,7 @@ function cleanup()
 	cd $TOP_DIR
 	echo "cleaning up. Uninstalling $PROJ_NAME"
 	pip uninstall -y "$PROJ_NAME"
-	bin/sdist -r
+	# bin/sdist -r
 	cd -
 } #cleanup()
 
