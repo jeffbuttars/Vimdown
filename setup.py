@@ -10,6 +10,6 @@ setup(name='vimdown',
 	  requires=["markdown2",],
 	  provides=["vimdown"],
 	  scripts=["vimdown/vimdown"],
-      py_modules=["vimdown.lexer"],
+      py_modules=["vimdown.lexer", "vimdown.parser"],
 	  license="BSD",
 	)
