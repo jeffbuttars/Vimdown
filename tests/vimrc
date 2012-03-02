@@ -55,6 +55,8 @@
 "
 " Call infect to get the bundle handling started.
 call pathogen#infect()
+   " infect our locally tracked pkgs
+call pathogen#infect('~/.vim/pkgs')
 "
 " Brief help on Bundle commands  
 " :BundleList          - list configured bundles
@@ -77,14 +79,17 @@ Bundle 'gmarik/vundle'
 
 " git-hub specific bundles:
 Bundle 'vim-scripts/LustyExplorer'
-Bundle 'garbas/vim-snipmate'
+   " Bundle 'garbas/vim-snipmate'
+" Bundle 'UltiSnips-2.1'
 Bundle 'vim-scripts/tComment'
 Bundle 'rygwdn/vim-conque'
    " Bundle 'kogakure/vim-sparkup'
 Bundle 'ZenCoding.vim'
+Bundle 'https://github.com/nvie/vim-flake8'
+Bundle 'https://github.com/ehamberg/vim-cute-python'
+
 "
 " Other bundles
-Bundle 'pep8'
 Bundle 'a.vim'
 Bundle 'vcscommand.vim'
 Bundle 'python.vim'
@@ -97,17 +102,24 @@ Bundle 'ScrollColors'
 Bundle 'LargeFile'
 Bundle 'tlib'
 Bundle 'Python-Syntax'
+Bundle 'nginx.vim'
 
 Bundle 'colorsupport.vim'
 " Colorschemes
 "
-" Lucius is a great 256 color theme with both light and dark 
-" schemes
+" [Lucius](https://github.com/vim-scripts/Lucius) is a great 256
+" color theme with both light and dark 
+" schemes.  
+" [Hemisu](http://noahfrederick.com/vim-color-scheme-hemisu/)
+" looks nice, going to try it out for a while
 Bundle 'Lucius'
 Bundle 'noahfrederick/Hemisu'
-Bundle 'eclm_wombat.vim'
-Bundle 'wombat256.vim'
-Bundle 'Wombat'
+" The following are schemes I like, but I'm not using them right now.
+    " Bundle 'eclm_wombat.vim'
+    " Bundle 'wombat256.vim'
+    " Bundle 'Wombat'
+    " Bundle 'jellybeans.vim'
+    " Bundle 'github-theme'
 "
 " <a name="vimoptions" />
 "
@@ -396,26 +408,16 @@ nnoremap k gk
    " nnoremap <C-h> <c-w>h
    " nnoremap <C-k> <c-w>k
    " nnoremap <C-l> <c-w>l
-"  
+  
 
-""" Snipmate 
-" Don't trigger snipmate when using completion
-" This option currently requires the buttars hacked version
-" of snipMate :( available from vimingwithbuttar at google code.
-let g:SnipeMateAllowOmniTab = 1
-
-" We're extra friendly for django 
-autocmd FileType python set ft=python.django 		" For SnipMate
+" We're extra friendly for Django
+" and for SnipMate/UltiSnips, I want to use HTML
+" snippets with my markdown wo we chain the filetypes
+   " autocmd FileType python set ft=python.django 		" For SnipMate
 autocmd BufRead *.djml set ft=html.htmldjango 	" For SnipMate
 
-autocmd FileType mkd set ft=mkd.html 	" For SnipMate, I want to use HTML
-										" snippets with my markdown
-autocmd BufRead *.go set ft=go 	" For SnipMate
 
-" Setup pysmell
-" source ~/.vim/plugin/pysmell.vim
-" let g:pysmell_debug = 1
-" autocmd FileType python set omnifunc=pysmell#Complete
+let g:UltiSnipsListSnippets = "<c-q>"
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -608,22 +610,33 @@ if has( "gui_running" )
 	" I like a white based theme in GVim
 	set cursorline
 	hi clear CursorLine 
+
+    " If using lucius
 	let g:lucius_style = "light"
-	colo lucius 
+    " If using hemisu
+    set background=light
+
+	" colo lucius 
+    colo hemisu
 elseif $TERM =~ '256' || $COLORTERM =~ 'gnome-terminal'
-	" Use a console friendly theme and turn off cursorline
-	" I prefer a dark theme at the console..
+	" Use a console friendly theme and force Vim to
+    " use 256 colors if we think the console can handle it.
 	set t_Co=256
 	set cursorline
 	hi clear CursorLine 
 	
 	if $TERM_META =~ 'white'
+        set background=light
 		let g:lucius_style = "light"
 		colo lucius 
 	else
+        set background=dark
 		let g:lucius_style = "dark"
 		colo lucius 
 	endif
+
+    colo lucius 
+    " colo hemisu
 endif
 
 " set linenumbers on by default
@@ -777,9 +790,6 @@ autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^
 "
 " ## Plugin Settings 
 "
-" #### Pep8
-" Map Pep8 to F8
-let g:pep8_map='<F8>'
 "
 " #### tComment
 "
@@ -796,7 +806,8 @@ imap <C-d> <ESC>:LustyFilesystemExplorer<CR>
 "
 "
 " #### [SnipMate](https://github.com/garbas/vim-snipmate)
-let g:snips_author = 'Jeff Buttars'
+" **Currently Unused**
+" let g:snips_author = 'Jeff Buttars'
 "
 " [json_reformat](http://lloyd.github.com/yajl/)
 "
@@ -882,7 +893,7 @@ let Tlist_Display_Prototype = 1
 " I define in hacks.vim  
 let g:maxLineLength=80
 "
-" I put my small Vim hacks into a seperate file called hacks.vim
+" I put my small Vim hacks into a seperate file called [hacks.vim](https://github.com/jeffbuttars/Viming-With-Buttars/blob/master/hacks.vim file)
 " There are things, often functions/commands, I don't want in my 
 " .vimrc but I also don't want to write a plugin for.
 " I source it last thing

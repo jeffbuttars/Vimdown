@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-
 import sys
 import re
 import logging
@@ -13,20 +12,14 @@ logging.basicConfig(level=logging.INFO,
 
 
 class Parser(object):
-    # States
-    NON = 0
-    COMMENT = 1
-    NONCOMMENT = 2
-    state_map = {
-            NON: "NON",
-            COMMENT: "COMMENT",
-            NONCOMMENT: "NONCOMMENT",
-            }
 
-    def __init__(self, fl, m2code=False, ghubf=False, pyg=False):
+    COMMENT = 'COMMENT'
+    CODE = 'CODE'
+
+    def __init__(self, fl, m2code=False, pyg=False):
 
         logging.debug("Parser(fl:%s, m2code:%s, pyg:%s)" % (
-                fl, m2code, pyg))
+            fl, m2code, pyg))
         self.fd = open(fl)
 
         self.ghubf = ghubf
@@ -38,112 +31,140 @@ class Parser(object):
             self.m2code = False
             self.pyg = False
 
-        self.iscomment = re.compile('^ ?"')
         self.isspacey = re.compile('^\s*$')
+
+        self.lexer = Lexer(vim_rules,
+                           case_sensitive=True,
+                           omit_whitespace=False,
+                           )
     #__init__()
 
-    def parse(self):
-        state = Parser.NON
-        nstate = None
-        blocks = []
-        block = {Parser.NON: []}
-
-        line = self.fd.readline()
-        while line:
-            if self.iscomment.match(line):
-                nstate = Parser.COMMENT
-            else:
-                nstate = Parser.NONCOMMENT
-
-            if state != nstate:
-                blocks.append(block)
-                state = nstate
-                block = {state: []}
-
-            block[state].append(line)
-            line = self.fd.readline()
-
-        blocks.append(block)
-        return blocks
-    #parse()
-
-    def blocks_to_markdown(self, blocks):
-
-        # remove the Vim comment character
-        def strip_vcomment(str):
-            #logging.debug("strip_vcomment %s" % (str,))
-            res = ""
-
-            # check for hard rule
-            if str[0:10] == '""""""""""':
-                return '__________\n\n'
-
-            # Trim the comment and first space if it's easy
-            if str[0:2] == '" ':
-                res = str[2:]
-            elif str[0:1] == '"':
-                res = str[1:]
-            else:
-                # If the begining of the line is not predictable,
-                # do a dumb search and crop
-                res = ("%s" % (str.partition('"')[2],))
-
-            return res
-        #strip_vcomment()
+    def block_to_markdown(self, state, block):
+        logging.debug("block_to_markdown %s:%s" % (state, block))
+        if not (state and block):
+            return ""
 
         res = []
-        for block in blocks:
-            k, v = block.items()[0]
-            if k == Parser.NONCOMMENT:
-
-                # A super dirty and crapy way to remove
-                # leading a trailing empty lines.
-                while v and self.isspacey.match(v[0][0]):
-                    v.pop(0)
-                while v and self.isspacey.match(v[-1:][0]):
-                    v.pop()
-
+        if state == Parser.CODE:
+            cont = "    ".join(block)
+            if self.isspacey.match(cont):
                 # We look for and ignore empty code blocks
-                if not v:
-                    continue
+                return ""
 
-                if self.ghubf:
-                    cont = "".join(v)
-                    cb = "\n```vim\n%s```\n" % (cont)
-                elif self.m2code:
-                    cont = "    ".join(v)
-                    cb = "\n    :::vim\n    %s" % (cont)
-                else:
-                    cont = "    ".join(v)
-                    cb = "\n    %s" % (cont)
-                logging.debug("code block : '%s'" % cb)
-                res.append(cb)
+            if self.m2code:
+                cb = "\n    :::vim\n    %s\n" % (cont)
+            else:
+                cb = "\n    %s\n" % (cont)
+            logging.debug("code block : '%s'" % cb)
+            res.append(cb)
 
-            if k == Parser.COMMENT:
-                res.extend(map(strip_vcomment, v))
-            if k == Parser.NON:
-                continue
+        if state == Parser.COMMENT:
+            res.extend(block)
 
         return "".join(res)
-    #blocks_to_markdown()
+    #block_to_markdown()
+
+    def parse(self):
+        """
+            A Very simple parser. Simply groups contiguous types of tokens
+            together.
+        """
+
+        state = ""
+        nstate = None
+        block = []
+        mkd_res = ""
+
+        lineno = 1
+        while 1:
+            line = self.fd.readline()
+            logging.debug("scanning lineno %s:'%s'" % (lineno, line,))
+
+            if not line:
+                break
+            lineno += 1
+
+            for token in self.lexer.scan(line):
+                logging.debug(token)
+
+                nstate = token[0]
+                tok = token[1]
+
+                if state != nstate:
+                    mkd_res += self.block_to_markdown(state, block)
+                    state = nstate
+                    block = []
+
+                block.append(tok)
+
+                mkd_res += self.block_to_markdown(state, block)
+
+        return mkd_res
+    #parse()
 
     def gen_markdown(self):
-        blocks = self.parse()
-        return self.blocks_to_markdown(blocks)
+        return self.parse()
     #gen_markdown()
 
     def gen_html(self):
         import markdown2
-        blocks = self.parse()
-        mkd = self.blocks_to_markdown(blocks)
+        mkd = self.parse()
         if self.pyg:
             logging.debug("Parser.gen_html() codehilite\n mkd:%s" % (mkd,))
             return markdown2.markdown(mkd, extras={'code-color': None})
         else:
             logging.debug("Parser.gen_html()\n mkd:%s" % (mkd,))
-        return markdown2.markdown(mkd)
+            return markdown2.markdown(mkd)
     #gen_html()
 #Parser
+
+
+def strip_nl(scanner, token):
+    """Strips the newline off the end of a token
+
+    :scanner: @todo
+    :token: @todo
+    :returns: token
+    """
+    # print("strip_nl %s" % (token,))
+    # return ""
+
+    return token.rstrip("\n")
+#strip_nl()
+
+
+def strip_vim_comment(scanner, token):
+    """@todo: Docstring for strip_vim_comment
+
+    :arg1: @todo
+    :returns: @todo
+    """
+
+    # logging.debug("strip_vcomment %s" % (str,))
+    res = ""
+
+    # check for hard rule
+    if token[0:10] == '""""""""""':
+        return '__________\n\n'
+
+    # Trim the comment and first space if it's easy
+    if token[0:2] == '" ':
+        res = token[2:]
+    elif token[0:1] == '"':
+        res = token[1:]
+    else:
+        # If the begining of the line is not predictable,
+        # do a dumb search and crop
+        res = ("%s" % (token.partition('"')[2],))
+
+    return res
+    # return Parser.strip_nl(scanner, res)
+#strip_vim_comment()
+
+vim_rules = [
+    (Parser.CODE, '^(?!\s?").*\n$'),
+    (Parser.COMMENT, ('^\s?".*\n$', strip_vim_comment)),
+]
 
 
 def main():
@@ -152,36 +173,28 @@ def main():
 
     opt_parser = OptionParser(usage=usage)
     opt_parser.add_option("-o", "--outfile", dest='outfile', default=False,
-                          help=("Write the output to the given filename"
-                        ))
-    opt_parser.add_option("-t", "--html", dest='html',
-                          action='store_true', default=False,
-                          help=("If markdown2 is present then vimdown will"
-                                " will process the markdown using"
-                                " markdown2 and"
-                                " and output the resulting HTML"
-                        ))
+                      help=("Write the output to the given filename"))
+    opt_parser.add_option("-t", "--html", dest='html', action='store_true',
+                      default=False,
+                      help=("If markdown2 is present then vimdown will"
+                            " will process the markdown using markdown2 and"
+                            " and output the resulting HTML"
+                            ))
     opt_parser.add_option("-c", "--codeblock", dest='codeblock',
-                          action='store_true', default=False,
-                        help=("If set, the code blocks in the generated"
-                            " markdown will be"
+                      action='store_true', default=False,
+                      help=("If set, the code blocks in the generated "
+                            "markdown will be"
                             " the markdown2 extended syntax."
-                        ))
-    opt_parser.add_option("-g", "--ghubfence", dest='ghubfence',
-                          action='store_true', default=False,
-                        help=("If set, the code blocks in the generated"
-                            " markdown will be"
-                            " GitHub code fence syntax."
-                        ))
+                            ))
     opt_parser.add_option("-p", "--pygmentize", dest='pygmentize',
-                          action='store_true', default=False,
-                            help=("If markdown2 is present then vimdown will"
-                                " will output html using markdown2's pygments"
-                                " code coloring. If this option is present the"
-                                " --html and --codeblock options"
-                                " are implied. In fact, this is a short"
-                                " cut for '-c -t'"
-                        ))
+                      action='store_true', default=False,
+                      help=("If markdown2 is present then vimdown will"
+                            " will output html using markdown2's pygments"
+                            " code coloring. If this option is present the "
+                            "--html and --codeblock"
+                            " options are implied. In fact, this is a short "
+                            "cut for '-c -t'"
+                            ))
 
     (options, args) = opt_parser.parse_args()
     logging.debug("options:%s" % options)
@@ -217,8 +230,7 @@ def main():
                 res = parser.gen_markdown()
 
             outfile.write(res)
-
-    except Exception as e:
+    except Exception:
         opt_parser.print_help()
         raise
 #main()
@@ -226,4 +238,4 @@ def main():
 if __name__ == '__main__':
     main()
 
-# vim: set ft=python:
+# vim:set ft=python:
