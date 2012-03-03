@@ -1,18 +1,23 @@
 #!/usr/bin/env python
 
 import sys
+import os
 import logging
 from optparse import OptionParser
-
-try:
-    from vimdown.parser import Parser
-except ImportError:
-    from parser import Parser
 
 logging.basicConfig(level=logging.DEBUG,
                    format='%(asctime)s %(levelname)s %(message)s')
 # logging.basicConfig(level=logging.INFO,
 #                     format='%(asctime)s %(levelname)s %(message)s')
+
+
+# If we're running this script in the src directory, not as an installation
+# we need augment the path to allow the vimdown.parser import to work
+THIS_DIR_ROOT = os.path.dirname(os.path.realpath(__file__))
+if os.path.exists(os.path.join(THIS_DIR_ROOT, 'parser.py')):
+    sys.path.append(os.path.join(THIS_DIR_ROOT, '../'))
+
+from vimdown.parser import Parser
 
 
 def main():
@@ -59,31 +64,43 @@ def main():
         sys.exit(9)
 
     try:
-        outfile = options.outfile
-        if not outfile:
-            outfile = sys.stdout
-        else:
-            outfile = open(outfile, 'w')
-
         infiles = []
         if args:
             infiles += args
         else:
             infiles.append(sys.stdin)
 
-        logging.debug("outfile : %s, infiles : %s" % (outfile, infiles))
+        logging.debug("infiles : %s" % (infiles,))
 
+        res = ""
         for fl in infiles:
+            # Check for the existence of the input file before we proceed
+            if not os.path.exists(fl):
+                logging.warning("Input file '%s' does not exist!" % (fl))
+                continue
+
             parser = Parser(fl, m2code=options.codeblock,
                             ghubf=options.ghubfence,
                             pyg=options.pygmentize)
-            res = ""
             if options.html or options.pygmentize:
                 res = parser.gen_html().encode('utf-8')
             else:
                 res = parser.gen_markdown()
 
-            outfile.write(res)
+        outfile = options.outfile
+        logging.debug("outfile : %s" % (outfile,))
+
+        # Check for actual output before we open the output file.
+        if not res:
+            raise Exception(("No markdown created. "
+                             "Nottoo writing to output file %s") % (outfile,))
+
+        if not outfile:
+            outfile = sys.stdout
+        else:
+            outfile = open(outfile, 'w')
+
+        outfile.write(res)
     except Exception:
         opt_parser.print_help()
         raise
