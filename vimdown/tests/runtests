@@ -21,7 +21,7 @@ function cleanup()
 {
 	cd $TOP_DIR
 	echo "cleaning up. Uninstalling $PROJ_NAME"
-	pip uninstall -y "$PROJ_NAME"
+	# pip uninstall -y "$PROJ_NAME"
 	# bin/sdist -r
 	cd -
 } #cleanup()
@@ -94,15 +94,15 @@ function runvimdown()
 
 cd $TOP_DIR
 
-echo "remove any installed vimdown"
-pip uninstall -y vimdown
-echo "remove the distribution"
-bin/sdist -r
+# echo "remove any installed vimdown"
+# pip uninstall -y vimdown
+# echo "remove the distribution"
+# bin/sdist -r
 echo "create the distribution"
 bin/sdist
 
 echo "install PROJ_NAME with pip"
-pip install "dist/$PROJ_NAME-$PROJ_VER.tar.gz"
+pip install -U "dist/$PROJ_NAME-$PROJ_VER.tar.gz"
 
 cd $TOP_DIR/tests
 echo "creating style files"

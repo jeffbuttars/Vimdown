@@ -33,7 +33,7 @@ class Parser(object):
     #__init__()
 
     def block_to_markdown(self, state, block):
-        logging.debug("block_to_markdown %s:%s" % (state, block))
+        logging.debug("\nblock_to_markdown %s:%s" % (state, block))
         if not (state and block):
             return ""
 
@@ -41,13 +41,13 @@ class Parser(object):
         if state == Parser.CODE:
 
             # A super dirty and crapy way to remove
-            # leading a trailing empty lines.
-            while block and self.isspacey.match(block[0][0]):
+            # leading and trailing empty lines.
+            while block and self.isspacey.match(block[0]):
                 block.pop(0)
             while block and self.isspacey.match(block[-1:][0]):
                 block.pop()
 
-            # We look for and ignore empty code blocks
+            # We ignore empty code blocks
             if not block:
                 return ""
 
@@ -72,6 +72,10 @@ class Parser(object):
         """
             A Very simple parser. Simply groups contiguous types of tokens
             together.
+
+        TODO: Get rid of the inner for loop. Need to be able to feed the lexer
+        the file object or an iterable wrapper around it so we can simplifiy
+        the line reading into the scanner/lexer.
         """
 
         state = ""
@@ -82,7 +86,7 @@ class Parser(object):
         lineno = 1
         while 1:
             line = self.fd.readline()
-            logging.debug("scanning lineno %s:'%s'" % (lineno, line,))
+            logging.debug("\nscanning lineno %s:'%s'" % (lineno, line,))
 
             if not line:
                 break
@@ -95,20 +99,19 @@ class Parser(object):
                 tok = token[1]
 
                 if state != nstate:
-                    mkd_res += self.block_to_markdown(state, block)
+                    # logging.debug("\n new state %s" % (nstate))
                     state = nstate
+                    mkd_res += self.block_to_markdown(state, block)
                     block = []
 
                 block.append(tok)
 
-                mkd_res += self.block_to_markdown(state, block)
-
+            # logging.debug("\n parse bottom" )
+        mkd_res += self.block_to_markdown(state, block)
         return mkd_res
     #parse()
 
-    def gen_markdown(self):
-        return self.parse()
-    #gen_markdown()
+    gen_markdown = parse
 
     def gen_html(self):
         import markdown2
