@@ -196,3 +196,8 @@ endif
 " code render with hilighting on GitHub.
 " * 1.1.1 Vimdown now removes leading and trailing empty lines from code
 " blocks.
+" * 1.2.0 (In progress) New lexer and parser. The new lexer is based on the 
+" lexer from [http://www.evanfosmark.com/2009/02/sexy-lexing-with-python/](http://www.evanfosmark.com/2009/02/sexy-lexing-with-python/)
+" . Broke the lexer and parser into their own modules. Added better logging
+" control. If vimdown is run from the source directory DEBUG logging is
+" automatically enabled.

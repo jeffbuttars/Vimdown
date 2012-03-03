@@ -20,9 +20,7 @@ __________
 
 The easiest way to install is to use pip
 
-```vim
-pip install vimdown
-```
+    pip install vimdown
 Or you can [chose an install download from
 GitHub](https://github.com/jeffbuttars/Vimdown/downloads)
 
@@ -177,29 +175,23 @@ This will be considered a code block:
 rendered as:
 
 
-```vim
-  " [comment](http://google.com)
-  " # comment
-  " comment
-```
+      " [comment](http://google.com)
+      " # comment
+      " comment
 
 The following examples are how it will render 
 code blocks.  
 
-```vim
-if variable < 10
-    let g:variable = 0
-endif
-```
+    if variable < 10
+        let g:variable = 0
+    endif
 A code block with comments
 
-```vim
-if filereadable( tstr )
-    " make sure our big ass bsd tags file
-    " is used in subdirs as well.
-    set tags+=tstr " comment at end of line
-endif
-```
+    if filereadable( tstr )
+        " make sure our big ass bsd tags file
+        " is used in subdirs as well.
+        set tags+=tstr " comment at end of line
+    endif
 <a name="changes" /></a>
 ## Changes
 
@@ -207,3 +199,8 @@ endif
 code render with hilighting on GitHub.
 * 1.1.1 Vimdown now removes leading and trailing empty lines from code
 blocks.
+* 1.2.0 (In progress) New lexer and parser. The new lexer is based on the 
+lexer from [http://www.evanfosmark.com/2009/02/sexy-lexing-with-python/](http://www.evanfosmark.com/2009/02/sexy-lexing-with-python/)
+. Broke the lexer and parser into their own modules. Added better logging
+control. If vimdown is run from the source directory DEBUG logging is
+automatically enabled.
