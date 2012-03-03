@@ -3,6 +3,8 @@ import logging
 
 from lexer import Lexer
 
+logger = logging.getLogger('vimdown.parser')
+
 
 class Parser(object):
 
@@ -11,7 +13,7 @@ class Parser(object):
 
     def __init__(self, fl, m2code=False, ghubf=False, pyg=False):
 
-        logging.debug("Parser(fl:%s, m2code:%s, pyg:%s)" % (
+        logger.debug("Parser(fl:%s, m2code:%s, pyg:%s)" % (
             fl, m2code, pyg))
         self.fd = open(fl)
 
@@ -33,7 +35,7 @@ class Parser(object):
     #__init__()
 
     def block_to_markdown(self, state, block):
-        logging.debug("\nblock_to_markdown %s:%s" % (state, block))
+        logger.debug("\nblock_to_markdown %s:%s" % (state, block))
         if not (state and block):
             return ""
 
@@ -59,7 +61,7 @@ class Parser(object):
                 cb = "\n    %s" % (cont)
                 if self.m2code:
                     cb = "\n    :::vim%s" % (cb)
-            logging.debug("code block : '%s'" % cb)
+            logger.debug("code block : '%s'" % cb)
             res.append(cb)
 
         if state == Parser.COMMENT:
@@ -86,27 +88,27 @@ class Parser(object):
         lineno = 1
         while 1:
             line = self.fd.readline()
-            logging.debug("\nscanning lineno %s:'%s'" % (lineno, line,))
+            logger.debug("\nscanning lineno %s:'%s'" % (lineno, line,))
 
             if not line:
                 break
             lineno += 1
 
             for token in self.lexer.scan(line):
-                logging.debug(token)
+                logger.debug(token)
 
                 nstate = token[0]
                 tok = token[1]
 
                 if state != nstate:
-                    # logging.debug("\n new state %s" % (nstate))
-                    state = nstate
+                    # logger.debug("\n new state %s" % (nstate))
                     mkd_res += self.block_to_markdown(state, block)
                     block = []
+                    state = nstate
 
                 block.append(tok)
 
-            # logging.debug("\n parse bottom" )
+            # logger.debug("\n parse bottom" )
         mkd_res += self.block_to_markdown(state, block)
         return mkd_res
     #parse()
@@ -117,10 +119,10 @@ class Parser(object):
         import markdown2
         mkd = self.parse()
         if self.pyg:
-            logging.debug("Parser.gen_html() codehilite\n mkd:%s" % (mkd,))
+            logger.debug("Parser.gen_html() codehilite\n mkd:%s" % (mkd,))
             return markdown2.markdown(mkd, extras={'code-color': None})
         else:
-            logging.debug("Parser.gen_html()\n mkd:%s" % (mkd,))
+            logger.debug("Parser.gen_html()\n mkd:%s" % (mkd,))
             return markdown2.markdown(mkd)
     #gen_html()
 #Parser
@@ -147,7 +149,7 @@ def strip_vim_comment(scanner, token):
     :returns: @todo
     """
 
-    # logging.debug("strip_vcomment %s" % (str,))
+    # logger.debug("strip_vcomment %s" % (str,))
     res = ""
 
     # check for hard rule
@@ -164,6 +166,7 @@ def strip_vim_comment(scanner, token):
         # do a dumb search and crop
         res = ("%s" % (token.partition('"')[2],))
 
+    # logger.debug("strip_vim_comment() res : '%s'" % (res,))
     return res
     # return Parser.strip_nl(scanner, res)
 #strip_vim_comment()

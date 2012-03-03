@@ -5,17 +5,24 @@ import os
 import logging
 from optparse import OptionParser
 
-logging.basicConfig(level=logging.DEBUG,
-                   format='%(asctime)s %(levelname)s %(message)s')
-# logging.basicConfig(level=logging.INFO,
-#                     format='%(asctime)s %(levelname)s %(message)s')
+# Set up the vimdown logger
+logger = logging.getLogger('vimdown')
+# Use a console handler
+logger_ch = logging.StreamHandler()
+logger.setLevel('INFO')
+
+log_formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+logger_ch.setFormatter(log_formatter)
+logger.addHandler(logger_ch)
 
 
 # If we're running this script in the src directory, not as an installation
-# we need augment the path to allow the vimdown.parser import to work
+# we need augment the path to allow the vimdown.parser import to work.
+# Also, enable DEBUG logging in this scenario
 THIS_DIR_ROOT = os.path.dirname(os.path.realpath(__file__))
 if os.path.exists(os.path.join(THIS_DIR_ROOT, 'parser.py')):
     sys.path.append(os.path.join(THIS_DIR_ROOT, '../'))
+    logger.setLevel('DEBUG')
 
 from vimdown.parser import Parser
 
@@ -56,8 +63,8 @@ def main():
                             ))
 
     (options, args) = opt_parser.parse_args()
-    logging.debug("options:%s" % options)
-    logging.debug("args:%s" % args)
+    logger.debug("options:%s" % options)
+    logger.debug("args:%s" % args)
 
     if len(args) < 1:
         opt_parser.print_help()
@@ -70,13 +77,13 @@ def main():
         else:
             infiles.append(sys.stdin)
 
-        logging.debug("infiles : %s" % (infiles,))
+        logger.debug("infiles : %s" % (infiles,))
 
         res = ""
         for fl in infiles:
             # Check for the existence of the input file before we proceed
             if not os.path.exists(fl):
-                logging.warning("Input file '%s' does not exist!" % (fl))
+                logger.warning("Input file '%s' does not exist!" % (fl))
                 continue
 
             parser = Parser(fl, m2code=options.codeblock,
@@ -88,7 +95,7 @@ def main():
                 res = parser.gen_markdown()
 
         outfile = options.outfile
-        logging.debug("outfile : %s" % (outfile,))
+        logger.debug("outfile : %s" % (outfile,))
 
         # Check for actual output before we open the output file.
         if not res:

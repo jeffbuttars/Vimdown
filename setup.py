@@ -43,15 +43,15 @@ cmdclasses['test'] = TestCommand
 
 setup(cmdclass = cmdclasses,
     name='vimdown',
-    version='1.1.1',
+    version='1.2.0',
     description="Convert Vim files to Markdown",
     author="Jeff Buttars",
     author_email="jeffbuttars@gmail.com",
     url="http://github.com/jeffbuttars/vimdown",
     download_url="https://github.com/downloads/jeffbuttars/Vimdown/vimdown-1.1.1.tar.gz",
-    requires=["markdown2",],
+    requires=["markdown2","unittest2"],
     provides=["vimdown"],
     scripts=["vimdown/vimdown"],
-    py_modules=["vimdown.lexer", "vimdown.parser"],
+    py_modules=["vimdown.lexer", "vimdown.parser", "vimdown.tests.run_tests"],
     license="BSD",
 )

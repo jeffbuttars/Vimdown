@@ -2,6 +2,11 @@
 from http://www.evanfosmark.com/2009/02/sexy-lexing-with-python/
 """ 
 import re
+import logging
+
+import logging
+
+logger = logging.getLogger('vimdown.parser')
  
  
 class UnknownTokenError(Exception):
@@ -92,16 +97,16 @@ class Lexer(object):
             if not isinstance(rule, str):
                 rule, callback = rule
                 self._callbacks[name] = callback
-            print("lexer adding rule : '%s'" % (rule,))
+            logging.debug("lexer adding rule : '%s'" % (rule,))
             parts.append("(?P<%s>%s)" % (name, rule))
         if self.case_sensitive:
             flags = re.M
         else:
             flags = re.M|re.I
-        print("lexer regexc str : '%s'" % ("|".join(parts),))
+        logging.debug("lexer regexc str : '%s'" % ("|".join(parts),))
         self.regexc = re.compile("|".join(parts), flags)
         self.ws_regexc = re.compile("\s*", re.MULTILINE)
-        print("lexer regexc %s" % (self.regexc,))
+        logging.debug("lexer regexc %s" % (self.regexc,))
  
     def scan(self, input):
         """ Return a scanner built for matching through the `input` field. 
