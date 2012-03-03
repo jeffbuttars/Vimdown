@@ -1,5 +1,5 @@
 from distutils.core import setup, Command
-from unittest2 import * TextTestRunner, TestLoader
+from unittest2 import TextTestRunner, TestLoader
 import vimdown.tests
 
 cmdclasses = dict()
