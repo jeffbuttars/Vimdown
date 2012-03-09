@@ -5,21 +5,27 @@ from lexer import Lexer
 
 logger = logging.getLogger('vimdown.parser')
 
+_parser_instance = None
+
 
 class Parser(object):
 
     COMMENT = 'COMMENT'
     CODE = 'CODE'
 
-    def __init__(self, fl, m2code=False, ghubf=False, pyg=False):
+    def __init__(self, fl, m2code=False, ghubf=False,
+                 pyg=False, nofolds=False, foldmarker='{{{,}}}'):
 
-        logger.debug("Parser(fl:%s, m2code:%s, pyg:%s)" % (
-            fl, m2code, pyg))
+        logger.debug(("Parser(fl:%s, m2code:%s, pyg:%s, "
+                      "nofolds:%s, foldmarker:%s)")
+                     % (fl, m2code, pyg, nofolds, foldmarker))
         self.fd = open(fl)
 
         self.ghubf = ghubf
         self.m2code = m2code or pyg
         self.pyg = pyg
+        self.nofolds = nofolds
+        self.foldmarker = foldmarker
 
         # GitHub code fences take precedence
         if self.ghubf:
@@ -32,6 +38,9 @@ class Parser(object):
                            case_sensitive=True,
                            omit_whitespace=False,
                            )
+
+        global _parser_instance
+        _parser_instance = self
     #__init__()
 
     def block_to_markdown(self, state, block):
@@ -166,10 +175,23 @@ def strip_vim_comment(scanner, token):
         # do a dumb search and crop
         res = ("%s" % (token.partition('"')[2],))
 
+    if _parser_instance.nofolds:
+        # Strip any fold markers
+        markers = _parser_instance.foldmarker.split(',')
+        fold_start_marker = markers[0]
+        fold_end_marker = markers[1]
+
+        fold_start_re = '%s\d*' % (fold_start_marker,)
+        res = re.sub(fold_start_re, '', res, count=1)
+
+        fold_end_re = '%s\d*' % (fold_end_marker,)
+        res = re.sub(fold_end_re, '', res, count=1)
+
     # logger.debug("strip_vim_comment() res : '%s'" % (res,))
     return res
     # return Parser.strip_nl(scanner, res)
 #strip_vim_comment()
+
 
 vim_rules = [
     (Parser.CODE, '^(?!\s?").*\n$'),

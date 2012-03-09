@@ -61,6 +61,17 @@ def main():
                             " options are implied. In fact, this is a short "
                             "cut for '-c -t'"
                             ))
+    opt_parser.add_option("-n", "--nofolds", dest='nofolds',
+                      action='store_true', default=False,
+                      help=("This will cause vim fold markers to be "
+                            " removed before any markdown is created."
+                            ))
+    opt_parser.add_option("", "--foldmarker", dest='foldmarker',
+                      default='{{{,}}}',
+                      help=("The foldmarker to strip out. "
+                            " Sepcify the markers with the same format used"
+                            " by the vim foldmarker setting."
+                            ))
 
     (options, args) = opt_parser.parse_args()
     logger.debug("options:%s" % options)
@@ -88,7 +99,9 @@ def main():
 
             parser = Parser(fl, m2code=options.codeblock,
                             ghubf=options.ghubfence,
-                            pyg=options.pygmentize)
+                            pyg=options.pygmentize,
+                            nofolds=options.nofolds,
+                            foldmarker=options.foldmarker)
             if options.html or options.pygmentize:
                 res = parser.gen_html().encode('utf-8')
             else:
