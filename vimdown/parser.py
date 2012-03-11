@@ -175,7 +175,7 @@ def strip_vim_comment(scanner, token):
         # do a dumb search and crop
         res = ("%s" % (token.partition('"')[2],))
 
-    if _parser_instance.nofolds:
+    if _parser_instance and _parser_instance.nofolds:
         # Strip any fold markers
         markers = _parser_instance.foldmarker.split(',')
         fold_start_marker = markers[0]
@@ -194,6 +194,7 @@ def strip_vim_comment(scanner, token):
 
 
 vim_rules = [
-    (Parser.CODE, '^(?!\s?").*\n$'),
-    (Parser.COMMENT, ('^\s?".*\n$', strip_vim_comment)),
+    (Parser.CODE, '^(?!\s?").*\n?'),
+    (Parser.COMMENT, ('^\s?".*\n?', strip_vim_comment)),
+
 ]

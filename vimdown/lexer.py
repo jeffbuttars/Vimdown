@@ -21,6 +21,20 @@ class UnknownTokenError(Exception):
     def __str__(self):
         return "Line #%s, Found token: '%s'" % (self.lineno, self.token)
  
+
+# class _FileScanner(_InputScanner):
+# 
+#     def __init__(self, lexer, fname):
+#         """ Put the lexer into this instance so the callbacks can reference it 
+#             if needed.
+#         """
+#         self._position = 0
+#         self.lexer = lexer
+#         self.input = input
+#         self.fname = fname
+#         self.fd = open(fname, 'r')
+        
+        
  
 class _InputScanner(object):
     """ This class manages the scanning of a specific input. An instance of it is
@@ -68,9 +82,13 @@ class _InputScanner(object):
             match = self.lexer.ws_regexc.match(self.input, self._position)
             if match:
                 self._position = match.end()
+
+        logging.debug("position: %s, Checking match on : '%s'",
+                      self._position, self.input[self._position:] )
         match = self.lexer.regexc.match(self.input, self._position)
         if match is None:
             lineno = self.input[:self._position].count("\n") + 1
+            logging.debug("no match on : '%s'", self.input[self._position])
             raise UnknownTokenError(self.input[self._position], lineno)
         self._position = match.end()
         value = match.group(match.lastgroup)
@@ -97,7 +115,7 @@ class Lexer(object):
             if not isinstance(rule, str):
                 rule, callback = rule
                 self._callbacks[name] = callback
-            logging.debug("lexer adding rule : '%s'" % (rule,))
+                logging.debug("lexer adding rule : %s:'%s'" % (name, rule,))
             parts.append("(?P<%s>%s)" % (name, rule))
         if self.case_sensitive:
             flags = re.M
@@ -113,4 +131,10 @@ class Lexer(object):
             The scanner that it returns is built well for iterating.
         """
         return _InputScanner(self, input)
+
+    # def scan_file(self, fname):
+    #     """ Return a scanner built for matching through the `input` field. 
+    #         The scanner that it returns is built well for iterating.
+    #     """
+    #     return _FileScanner(self, fname)
 
