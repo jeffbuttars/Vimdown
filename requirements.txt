@@ -1,4 +1,4 @@
 Pygments==1.4
-markdown2==1.0.1.19
+markdown2==2.4.0
 wsgiref==0.1.2
 unittest2==0.5.1
